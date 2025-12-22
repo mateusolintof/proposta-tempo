@@ -1,15 +1,31 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState } from "react";
 import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  PieChart,
+  Pie,
+  Cell,
+} from "recharts";
+import {
+  LayoutDashboard,
+  Inbox,
+  GitBranch,
   Users,
-  Phone,
+  Building2,
+  Zap,
   Calendar,
-  CheckCircle,
+  FileText,
+  ChevronDown,
   Clock,
-  MessageSquare,
-  Tag,
-  Filter,
+  Settings,
+  Sparkles,
 } from "lucide-react";
 import ModalWrapper from "./ModalWrapper";
 
@@ -18,47 +34,49 @@ interface CRMPreviewModalProps {
   onClose: () => void;
 }
 
-const pipelineStages = [
-  { id: "new", label: "Novo Lead", count: 45, color: "#00E5FF" },
-  { id: "qualifying", label: "Em Qualificacao", count: 28, color: "#FFD700" },
-  { id: "qualified", label: "Qualificado", count: 67, color: "#00FF94" },
-  { id: "scheduled", label: "Agendado", count: 52, color: "#00E5FF" },
-  { id: "confirmed", label: "Confirmado", count: 41, color: "#00FF94" },
-  { id: "done", label: "Realizada", count: 38, color: "#00FF94" },
+// Chart data
+const volumeData = [
+  { day: "Seg", leads: 180, agendamentos: 95 },
+  { day: "Ter", leads: 220, agendamentos: 120 },
+  { day: "Qua", leads: 280, agendamentos: 150 },
+  { day: "Qui", leads: 260, agendamentos: 140 },
+  { day: "Sex", leads: 240, agendamentos: 130 },
+  { day: "Sab", leads: 160, agendamentos: 80 },
 ];
 
-const sampleLeads = [
+const origemData = [
+  { name: "WhatsApp", value: 42, color: "#1a4a5e" },
+  { name: "Instagram", value: 26, color: "#3b82a0" },
+  { name: "Google", value: 20, color: "#5ba3c0" },
+  { name: "Indicação", value: 12, color: "#8ec5d9" },
+];
+
+const menuItems = [
+  { icon: LayoutDashboard, label: "Dashboard", active: true },
+  { icon: Inbox, label: "Inbox", active: false },
   {
-    name: "Joao Silva",
-    phone: "(63) 99999-9999",
-    status: "Agendado",
-    type: "Particular",
-    temp: "quente",
-    lastContact: "Hoje, 14:32",
-  },
-  {
-    name: "Maria Santos",
-    phone: "(63) 98888-8888",
-    status: "Qualificado",
-    type: "Unimed",
-    temp: "morno",
-    lastContact: "Ontem, 10:15",
-  },
-  {
-    name: "Carlos Oliveira",
-    phone: "(63) 97777-7777",
-    status: "Novo Lead",
-    type: "Bradesco",
-    temp: "frio",
-    lastContact: "Hoje, 09:00",
+    icon: GitBranch,
+    label: "Pipeline",
+    active: false,
+    expanded: true,
+    children: ["Atendimento IA", "Atendimento humano", "Follow-up"],
   },
 ];
 
-const tempColors = {
-  quente: "#FF6B6B",
-  morno: "#FFD700",
-  frio: "#00E5FF",
-};
+const managementItems = [
+  { icon: Users, label: "Contacts", active: false },
+  { icon: Building2, label: "Companies", active: false },
+  { icon: Zap, label: "Activities", active: false },
+  { icon: Calendar, label: "Calendar", active: false },
+  { icon: FileText, label: "Reports", active: false },
+];
+
+const kpis = [
+  { label: "CONVERSAS ATIVAS", value: "284", subtitle: "Inbox unificado" },
+  { label: "AGENDAMENTOS ATIVOS", value: "126", subtitle: "Próximos 7 dias" },
+  { label: "DEALS EM NEGOCIAÇÃO", value: "412", subtitle: "Pipelines" },
+  { label: "RECEITA EM PIPELINE", value: "R$ 1,9M", subtitle: "Prox. 30 dias" },
+];
 
 export default function CRMPreviewModal({
   isOpen,
@@ -68,201 +86,267 @@ export default function CRMPreviewModal({
     <ModalWrapper
       isOpen={isOpen}
       onClose={onClose}
-      title="CRM Comercial"
-      subtitle="Visualizacao completa do funil de vendas"
+      title="CRM Integrado"
+      subtitle=""
     >
-      <div className="space-y-8">
-        {/* Pipeline Visual */}
-        <div>
-          <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-            <Users className="w-5 h-5 text-[#00E5FF]" />
-            Pipeline de Vendas
-          </h3>
-          <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
-            {pipelineStages.map((stage, index) => (
-              <motion.div
-                key={stage.id}
-                className="bg-white/5 border border-white/10 rounded-xl p-3 text-center"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-              >
-                <p
-                  className="text-2xl md:text-3xl font-bold"
-                  style={{ color: stage.color }}
+      <div className="h-full flex flex-col -mx-8 -mt-2">
+        {/* Header with subtitle and filters */}
+        <div className="px-8 pb-4 border-b border-gray-200 bg-white">
+          <div className="flex items-start justify-between">
+            <div>
+              <p className="text-[10px] font-semibold tracking-widest text-gray-400 uppercase">
+                CRM Comercial
+              </p>
+              <h2 className="text-xl font-semibold text-gray-900 mt-1">
+                Central única de atendimento e vendas
+              </h2>
+              <p className="text-sm text-gray-500 mt-0.5">
+                Pipelines múltiplos, inbox unificado e analytics em tempo real
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <button className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-50">
+                <Clock className="w-4 h-4" />
+                Últimos 30 dias
+              </button>
+              <button className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-50">
+                <Settings className="w-4 h-4" />
+                Segmento: ortopedia
+              </button>
+              <button className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-[#1a3a4a] bg-[#e8f4f8] border border-[#c5e4ed] rounded-full">
+                <Sparkles className="w-4 h-4" />
+                IA ativa e treinada
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Main content with sidebar */}
+        <div className="flex-1 flex overflow-hidden">
+          {/* Sidebar */}
+          <div className="w-56 bg-[#1a2a3a] flex-shrink-0 overflow-y-auto">
+            {/* Logo/Brand */}
+            <div className="px-4 py-4 flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-[#2a4a5a] flex items-center justify-center text-white text-xs font-bold">
+                AI
+              </div>
+              <div>
+                <p className="text-white text-sm font-medium">CRM Comercial</p>
+                <p className="text-gray-400 text-xs">Menu principal</p>
+              </div>
+            </div>
+
+            {/* Main Menu */}
+            <div className="px-3 mt-2">
+              <p className="text-[10px] font-semibold tracking-widest text-gray-500 uppercase px-3 mb-2">
+                Main
+              </p>
+              {menuItems.map((item) => (
+                <div key={item.label}>
+                  <div
+                    className={`flex items-center gap-3 px-3 py-2 rounded-lg cursor-default ${
+                      item.active
+                        ? "bg-[#2a4a5a] text-white"
+                        : "text-gray-400 hover:text-gray-300"
+                    }`}
+                  >
+                    <item.icon className="w-4 h-4" />
+                    <span className="text-sm flex-1">{item.label}</span>
+                    {item.children && (
+                      <ChevronDown
+                        className={`w-4 h-4 transition-transform ${
+                          item.expanded ? "rotate-180" : ""
+                        }`}
+                      />
+                    )}
+                  </div>
+                  {item.children && item.expanded && (
+                    <div className="ml-7 mt-1 space-y-1">
+                      {item.children.map((child) => (
+                        <p
+                          key={child}
+                          className="text-sm text-gray-500 py-1.5 cursor-default"
+                        >
+                          {child}
+                        </p>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {/* Management Menu */}
+            <div className="px-3 mt-6">
+              <p className="text-[10px] font-semibold tracking-widest text-gray-500 uppercase px-3 mb-2">
+                Management
+              </p>
+              {managementItems.map((item) => (
+                <div
+                  key={item.label}
+                  className="flex items-center gap-3 px-3 py-2 rounded-lg text-gray-400 cursor-default hover:text-gray-300"
                 >
-                  {stage.count}
-                </p>
-                <p className="text-white/50 text-[10px] md:text-xs mt-1 leading-tight">
-                  {stage.label}
-                </p>
-              </motion.div>
-            ))}
+                  <item.icon className="w-4 h-4" />
+                  <span className="text-sm">{item.label}</span>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Filters */}
-        <div className="flex flex-wrap gap-2">
-          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-lg px-3 py-2">
-            <Filter className="w-4 h-4 text-white/50" />
-            <span className="text-white/70 text-sm">Todos os Status</span>
-          </div>
-          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-lg px-3 py-2">
-            <Tag className="w-4 h-4 text-white/50" />
-            <span className="text-white/70 text-sm">Particular</span>
-          </div>
-          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-lg px-3 py-2">
-            <Tag className="w-4 h-4 text-white/50" />
-            <span className="text-white/70 text-sm">Convenio</span>
-          </div>
-          <div className="flex items-center gap-2 bg-[#FF6B6B]/20 border border-[#FF6B6B]/30 rounded-lg px-3 py-2">
-            <Clock className="w-4 h-4 text-[#FF6B6B]" />
-            <span className="text-[#FF6B6B] text-sm">Alta Urgencia</span>
-          </div>
-        </div>
-
-        {/* Lead Cards */}
-        <div>
-          <h3 className="text-lg font-semibold text-white mb-4">
-            Leads Recentes
-          </h3>
-          <div className="space-y-3">
-            {sampleLeads.map((lead, index) => (
-              <motion.div
-                key={index}
-                className="bg-white/5 border border-white/10 rounded-xl p-4 hover:border-[#00E5FF]/30 transition-colors"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.2 + index * 0.1 }}
-              >
-                <div className="flex items-center justify-between gap-4 flex-wrap">
-                  <div className="flex items-center gap-4">
-                    {/* Temperature indicator */}
-                    <div
-                      className="w-2 h-12 rounded-full"
-                      style={{
-                        backgroundColor:
-                          tempColors[lead.temp as keyof typeof tempColors],
-                      }}
-                    />
-                    <div>
-                      <p className="text-white font-medium">{lead.name}</p>
-                      <div className="flex items-center gap-2 mt-1">
-                        <Phone className="w-3 h-3 text-white/40" />
-                        <span className="text-white/50 text-sm">
-                          {lead.phone}
-                        </span>
-                      </div>
+          {/* Content Area */}
+          <div className="flex-1 bg-gray-50 overflow-y-auto p-6">
+            {/* KPI Cards */}
+            <div className="grid grid-cols-4 gap-4 mb-6">
+              {kpis.map((kpi) => (
+                <div
+                  key={kpi.label}
+                  className="bg-white rounded-xl p-4 border border-gray-100"
+                >
+                  <div className="flex items-start justify-between">
+                    <p className="text-[10px] font-semibold tracking-wider text-gray-400 uppercase">
+                      {kpi.label}
+                    </p>
+                    <div className="w-5 h-5 rounded-full border border-gray-200 flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full bg-green-400" />
                     </div>
                   </div>
-
-                  <div className="flex items-center gap-3 flex-wrap">
-                    {/* Status badge */}
-                    <span className="px-3 py-1 bg-[#00E5FF]/20 text-[#00E5FF] text-xs rounded-full">
-                      {lead.status}
-                    </span>
-                    {/* Type badge */}
-                    <span className="px-3 py-1 bg-white/10 text-white/70 text-xs rounded-full">
-                      {lead.type}
-                    </span>
-                    {/* Last contact */}
-                    <span className="text-white/40 text-xs">
-                      {lead.lastContact}
-                    </span>
-                  </div>
+                  <p className="text-2xl font-bold text-gray-900 mt-2">
+                    {kpi.value}
+                  </p>
+                  <p className="text-xs text-gray-400 mt-1">{kpi.subtitle}</p>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
+              ))}
+            </div>
 
-        {/* Lead Detail Preview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-            <h4 className="text-white font-semibold mb-4 flex items-center gap-2">
-              <Users className="w-4 h-4 text-[#00E5FF]" />
-              Ficha do Lead
-            </h4>
-            <div className="space-y-3 text-sm">
-              <div className="flex justify-between">
-                <span className="text-white/50">Nome:</span>
-                <span className="text-white">Joao Silva</span>
+            {/* Charts Row */}
+            <div className="grid grid-cols-5 gap-4">
+              {/* Area Chart */}
+              <div className="col-span-3 bg-white rounded-xl p-5 border border-gray-100">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-base font-semibold text-gray-900">
+                    Volume de leads e agendamentos
+                  </h3>
+                  <span className="text-xs text-gray-400">Última semana</span>
+                </div>
+                <div className="h-[220px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={volumeData}>
+                      <defs>
+                        <linearGradient
+                          id="colorLeads"
+                          x1="0"
+                          y1="0"
+                          x2="0"
+                          y2="1"
+                        >
+                          <stop
+                            offset="5%"
+                            stopColor="#3b82a0"
+                            stopOpacity={0.3}
+                          />
+                          <stop
+                            offset="95%"
+                            stopColor="#3b82a0"
+                            stopOpacity={0}
+                          />
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        stroke="#e5e7eb"
+                        vertical={false}
+                      />
+                      <XAxis
+                        dataKey="day"
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{ fill: "#9ca3af", fontSize: 12 }}
+                      />
+                      <YAxis
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{ fill: "#9ca3af", fontSize: 12 }}
+                        domain={[0, 320]}
+                        ticks={[0, 80, 160, 240, 320]}
+                      />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: "#1a2a3a",
+                          border: "none",
+                          borderRadius: "8px",
+                          color: "#fff",
+                        }}
+                      />
+                      <Area
+                        type="monotone"
+                        dataKey="leads"
+                        stroke="#3b82a0"
+                        strokeWidth={2}
+                        fill="url(#colorLeads)"
+                      />
+                      <Area
+                        type="monotone"
+                        dataKey="agendamentos"
+                        stroke="#1a4a5e"
+                        strokeWidth={2}
+                        fill="transparent"
+                      />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
               </div>
-              <div className="flex justify-between">
-                <span className="text-white/50">Idade:</span>
-                <span className="text-white">45 anos</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-white/50">Queixa:</span>
-                <span className="text-white">Dor no joelho</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-white/50">Urgencia:</span>
-                <span className="text-[#FFD700]">Media</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-white/50">Interesse:</span>
-                <span className="text-white">Artroscopia</span>
-              </div>
-              <div className="pt-3 border-t border-white/10">
-                <p className="text-white/50 text-xs mb-2">Tags:</p>
-                <div className="flex flex-wrap gap-1">
-                  <span className="px-2 py-0.5 bg-[#00FF94]/20 text-[#00FF94] text-xs rounded">
-                    #PrimeiraConsulta
-                  </span>
-                  <span className="px-2 py-0.5 bg-[#00E5FF]/20 text-[#00E5FF] text-xs rounded">
-                    #Particular
-                  </span>
-                  <span className="px-2 py-0.5 bg-white/10 text-white/70 text-xs rounded">
-                    #Artrose
-                  </span>
+
+              {/* Donut Chart */}
+              <div className="col-span-2 bg-white rounded-xl p-5 border border-gray-100">
+                <h3 className="text-base font-semibold text-gray-900 mb-4">
+                  Origem dos leads
+                </h3>
+                <div className="h-[180px] flex items-center justify-center">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={origemData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={50}
+                        outerRadius={80}
+                        paddingAngle={2}
+                        dataKey="value"
+                      >
+                        {origemData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: "#1a2a3a",
+                          border: "none",
+                          borderRadius: "8px",
+                          color: "#fff",
+                        }}
+                        formatter={(value: number) => [`${value}%`, ""]}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+                {/* Legend */}
+                <div className="flex flex-wrap gap-2 justify-center mt-2">
+                  {origemData.map((item) => (
+                    <span
+                      key={item.name}
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-gray-50 rounded-full text-xs text-gray-600"
+                    >
+                      <span
+                        className="w-2 h-2 rounded-full"
+                        style={{ backgroundColor: item.color }}
+                      />
+                      {item.name} {item.value}%
+                    </span>
+                  ))}
                 </div>
               </div>
             </div>
           </div>
-
-          <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-            <h4 className="text-white font-semibold mb-4 flex items-center gap-2">
-              <MessageSquare className="w-4 h-4 text-[#00FF94]" />
-              Historico de Conversa
-            </h4>
-            <div className="space-y-3 text-sm max-h-[200px] overflow-y-auto">
-              <div className="bg-[#00FF94]/10 rounded-lg p-2 ml-4">
-                <p className="text-white/80">
-                  Ola! Gostaria de agendar uma consulta com o Dr. Mauricio.
-                </p>
-                <p className="text-white/40 text-xs mt-1">14:30</p>
-              </div>
-              <div className="bg-[#00E5FF]/10 rounded-lg p-2 mr-4">
-                <p className="text-white/80">
-                  Ola! Sou o assistente virtual do Dr. Mauricio. Sera particular
-                  ou convenio?
-                </p>
-                <p className="text-white/40 text-xs mt-1">14:30 - Bot</p>
-              </div>
-              <div className="bg-[#00FF94]/10 rounded-lg p-2 ml-4">
-                <p className="text-white/80">Particular</p>
-                <p className="text-white/40 text-xs mt-1">14:31</p>
-              </div>
-              <div className="bg-[#00E5FF]/10 rounded-lg p-2 mr-4">
-                <p className="text-white/80">
-                  Perfeito! Temos horarios disponiveis na segunda as 14h, quarta
-                  as 10h ou sexta as 16h. Qual prefere?
-                </p>
-                <p className="text-white/40 text-xs mt-1">14:31 - Bot</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* CTA */}
-        <div className="text-center pt-4 border-t border-white/10">
-          <p className="text-white/50 text-sm">
-            CRM completo incluido no{" "}
-            <span className="text-[#00FF94] font-semibold">
-              Ecossistema Full
-            </span>
-          </p>
         </div>
       </div>
     </ModalWrapper>

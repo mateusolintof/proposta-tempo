@@ -1,15 +1,24 @@
 "use client";
 
-import { motion } from "framer-motion";
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  BarChart,
+  Bar,
+} from "recharts";
 import {
   LayoutDashboard,
-  TrendingUp,
+  Bot,
   Users,
-  Calendar,
+  UserCheck,
+  Lightbulb,
   Clock,
   AlertTriangle,
-  Bot,
-  Star,
 } from "lucide-react";
 import ModalWrapper from "./ModalWrapper";
 
@@ -18,84 +27,39 @@ interface DashboardPreviewModalProps {
   onClose: () => void;
 }
 
-const kpis = [
-  {
-    label: "Leads Hoje",
-    value: "152",
-    change: "+12",
-    icon: <Users className="w-5 h-5" />,
-    color: "#00E5FF",
-  },
-  {
-    label: "Qualificados",
-    value: "89",
-    change: "58%",
-    icon: <TrendingUp className="w-5 h-5" />,
-    color: "#00FF94",
-  },
-  {
-    label: "Agendados",
-    value: "34",
-    change: "+5",
-    icon: <Calendar className="w-5 h-5" />,
-    color: "#00E5FF",
-  },
-  {
-    label: "T. Resposta",
-    value: "< 2min",
-    change: "Excelente",
-    icon: <Clock className="w-5 h-5" />,
-    color: "#00FF94",
-  },
-  {
-    label: "No-Show",
-    value: "8%",
-    change: "-40%",
-    icon: <AlertTriangle className="w-5 h-5" />,
-    color: "#FF6B6B",
-  },
-  {
-    label: "Receita Proj.",
-    value: "R$ 13.6k",
-    change: "Mes: 408k",
-    icon: <TrendingUp className="w-5 h-5" />,
-    color: "#FFD700",
-  },
+// Chart data
+const leadsData = [
+  { day: "Seg", leads: 120, agendamentos: 45 },
+  { day: "Ter", leads: 145, agendamentos: 62 },
+  { day: "Qua", leads: 180, agendamentos: 85 },
+  { day: "Qui", leads: 165, agendamentos: 78 },
+  { day: "Sex", leads: 155, agendamentos: 70 },
+  { day: "Sab", leads: 90, agendamentos: 35 },
 ];
 
 const funnelData = [
-  { label: "Leads Totais", value: 4500, percent: 100 },
-  { label: "Qualificados", value: 2700, percent: 60 },
-  { label: "Agendados", value: 2160, percent: 48 },
-  { label: "Confirmados", value: 1944, percent: 43 },
-  { label: "Consultas Realizadas", value: 1750, percent: 39 },
+  { stage: "Leads", value: 4500, percent: 100, color: "#1a3a4a" },
+  { stage: "Qualificados", value: 2500, percent: 55.6, color: "#2a5a6a" },
+  { stage: "Agendados", value: 1700, percent: 37.8, color: "#3b7a8a" },
+  { stage: "Confirmados", value: 1500, percent: 33.1, color: "#4c9aaa" },
+  { stage: "Realizados", value: 1300, percent: 28.9, color: "#5dbaca" },
 ];
 
-const agentPerformance = [
-  {
-    name: "Agente SDR",
-    leads: 4500,
-    rate: "60%",
-    time: "4min 32s",
-    satisfaction: "4.7/5",
-    color: "#00FF94",
-  },
-  {
-    name: "Agente FAQ",
-    leads: 1850,
-    rate: "22%",
-    time: "98%",
-    satisfaction: "4.8/5",
-    color: "#00E5FF",
-  },
-  {
-    name: "Agente No-Show",
-    leads: 2160,
-    rate: "94%",
-    time: "10%",
-    satisfaction: "187",
-    color: "#FF6B6B",
-  },
+const menuItems = [
+  { icon: LayoutDashboard, label: "Visão geral", active: true },
+  { icon: Bot, label: "Gestão IA", active: false },
+  { icon: Users, label: "Atendimento vendedores", active: false },
+  { icon: UserCheck, label: "Clientes", active: false },
+  { icon: Lightbulb, label: "Insights + reports", active: false },
+];
+
+const kpis = [
+  { label: "LEADS/DIA", value: "150", subtitle: "Média 7 dias" },
+  { label: "QUALIFICADOS", value: "55%", subtitle: "Por intenção" },
+  { label: "AGENDAMENTOS", value: "38%", subtitle: "Lead → agenda" },
+  { label: "NO-SHOW", value: "14%", subtitle: "Últimos 30 dias", warning: true },
+  { label: "RECEITA (PIPELINE)", value: "R$ 1,2M", subtitle: "Prox. 30 dias" },
+  { label: "PIPELINE", value: "R$ 2,1M", subtitle: "Em negociação" },
 ];
 
 export default function DashboardPreviewModal({
@@ -106,217 +70,279 @@ export default function DashboardPreviewModal({
     <ModalWrapper
       isOpen={isOpen}
       onClose={onClose}
-      title="Dashboard Executivo"
-      subtitle="KPIs em tempo real para tomada de decisao"
+      title="Painel Executivo"
+      subtitle=""
     >
-      <div className="space-y-8">
-        {/* KPIs Grid */}
-        <div>
-          <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-            <LayoutDashboard className="w-5 h-5 text-[#00E5FF]" />
-            Visao Geral - Hoje
-          </h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-            {kpis.map((kpi, index) => (
-              <motion.div
-                key={kpi.label}
-                className="bg-white/5 border border-white/10 rounded-xl p-4"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-              >
+      <div className="h-full flex flex-col -mx-8 -mt-2">
+        {/* Header with subtitle and filters */}
+        <div className="px-8 pb-4 border-b border-gray-200 bg-white">
+          <div className="flex items-start justify-between">
+            <div>
+              <p className="text-[10px] font-semibold tracking-widest text-gray-400 uppercase">
+                Dashboard Executivo
+              </p>
+              <h2 className="text-xl font-semibold text-gray-900 mt-1">
+                Visão completa do atendimento comercial
+              </h2>
+              <p className="text-sm text-gray-500 mt-0.5">
+                KPIs, funis e insights com suporte de IA
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <button className="inline-flex items-center gap-2 px-4 py-1.5 text-sm text-gray-500 bg-white border border-gray-200 rounded-full hover:bg-gray-50">
+                Últimos 7 dias
+              </button>
+              <button className="inline-flex items-center gap-2 px-4 py-1.5 text-sm text-white bg-[#1a3a4a] rounded-full">
+                Últimos 30 dias
+              </button>
+              <button className="inline-flex items-center gap-2 px-4 py-1.5 text-sm text-gray-500 bg-white border border-gray-200 rounded-full hover:bg-gray-50">
+                Últimos 90 dias
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Main content with sidebar */}
+        <div className="flex-1 flex overflow-hidden">
+          {/* Sidebar */}
+          <div className="w-56 bg-[#1a2a3a] flex-shrink-0 overflow-y-auto">
+            {/* Logo/Brand */}
+            <div className="px-4 py-4 flex items-center gap-3">
+              <div className="w-8 h-8 rounded-lg bg-[#2a4a5a] flex items-center justify-center text-white text-xs font-bold">
+                AI
+              </div>
+              <div>
+                <p className="text-white text-sm font-medium">Dashboard</p>
+                <p className="text-gray-400 text-xs">Menu principal</p>
+              </div>
+            </div>
+
+            {/* Main Menu */}
+            <div className="px-3 mt-2">
+              <p className="text-[10px] font-semibold tracking-widest text-gray-500 uppercase px-3 mb-2">
+                Main
+              </p>
+              {menuItems.map((item) => (
                 <div
-                  className="w-8 h-8 rounded-lg flex items-center justify-center mb-2"
-                  style={{ backgroundColor: `${kpi.color}20` }}
-                >
-                  <div style={{ color: kpi.color }}>{kpi.icon}</div>
-                </div>
-                <p
-                  className="text-2xl font-bold"
-                  style={{ color: kpi.color }}
-                >
-                  {kpi.value}
-                </p>
-                <p className="text-white/50 text-xs">{kpi.label}</p>
-                <p className="text-white/30 text-xs mt-1">{kpi.change}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* Funnel + Performance Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Funnel */}
-          <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-            <h4 className="text-white font-semibold mb-4 flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-[#00FF94]" />
-              Funil de Conversao - Mes Atual
-            </h4>
-            <div className="space-y-3">
-              {funnelData.map((item, index) => (
-                <motion.div
                   key={item.label}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.2 + index * 0.05 }}
+                  className={`flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-default mb-1 ${
+                    item.active
+                      ? "bg-[#2a4a5a] text-white"
+                      : "text-gray-400 hover:text-gray-300"
+                  }`}
                 >
-                  <div className="flex justify-between text-sm mb-1">
-                    <span className="text-white/70">{item.label}</span>
-                    <span className="text-white">
-                      {item.value.toLocaleString()} ({item.percent}%)
-                    </span>
-                  </div>
-                  <div className="h-2 bg-white/10 rounded-full overflow-hidden">
-                    <motion.div
-                      className="h-full rounded-full"
-                      style={{
-                        background: `linear-gradient(90deg, #00E5FF, #00FF94)`,
-                      }}
-                      initial={{ width: 0 }}
-                      animate={{ width: `${item.percent}%` }}
-                      transition={{ delay: 0.3 + index * 0.1, duration: 0.5 }}
-                    />
-                  </div>
-                </motion.div>
+                  <item.icon className="w-4 h-4" />
+                  <span className="text-sm">{item.label}</span>
+                </div>
               ))}
             </div>
-            <div className="mt-4 pt-4 border-t border-white/10">
-              <p className="text-white/50 text-sm">
-                Taxa de Conversao Final:{" "}
-                <span className="text-[#00FF94] font-semibold">39%</span>
-              </p>
-              <p className="text-white/30 text-xs">
-                vs 15% antes da automacao = +160% melhoria
-              </p>
+
+            {/* Demo notice */}
+            <div className="px-3 mt-8">
+              <div className="bg-[#2a4a5a]/50 rounded-lg p-3">
+                <p className="text-gray-400 text-xs">
+                  Dados anonimizados para demo comercial.
+                </p>
+              </div>
             </div>
           </div>
 
-          {/* Agent Performance */}
-          <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-            <h4 className="text-white font-semibold mb-4 flex items-center gap-2">
-              <Bot className="w-4 h-4 text-[#00E5FF]" />
-              Performance dos Agentes IA
-            </h4>
-            <div className="space-y-4">
-              {agentPerformance.map((agent, index) => (
-                <motion.div
-                  key={agent.name}
-                  className="bg-white/5 rounded-lg p-3"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.3 + index * 0.1 }}
+          {/* Content Area */}
+          <div className="flex-1 bg-gray-50 overflow-y-auto p-6">
+            {/* KPI Cards - 2 rows of 3 */}
+            <div className="grid grid-cols-3 gap-4 mb-6">
+              {kpis.slice(0, 3).map((kpi) => (
+                <div
+                  key={kpi.label}
+                  className="bg-white rounded-xl p-4 border border-gray-100"
                 >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-white font-medium text-sm">
-                      {agent.name}
-                    </span>
-                    <div className="flex items-center gap-1">
-                      <Star
-                        className="w-3 h-3"
-                        style={{ color: agent.color }}
+                  <div className="flex items-start justify-between">
+                    <p className="text-[10px] font-semibold tracking-wider text-gray-400 uppercase">
+                      {kpi.label}
+                    </p>
+                    <div className="w-5 h-5 rounded-full border border-gray-200 flex items-center justify-center">
+                      <div className="w-2 h-2 rounded-full bg-green-400" />
+                    </div>
+                  </div>
+                  <p className="text-2xl font-bold text-gray-900 mt-2">
+                    {kpi.value}
+                  </p>
+                  <p className="text-xs text-gray-400 mt-1">{kpi.subtitle}</p>
+                </div>
+              ))}
+            </div>
+            <div className="grid grid-cols-3 gap-4 mb-6">
+              {kpis.slice(3).map((kpi) => (
+                <div
+                  key={kpi.label}
+                  className="bg-white rounded-xl p-4 border border-gray-100"
+                >
+                  <div className="flex items-start justify-between">
+                    <p className="text-[10px] font-semibold tracking-wider text-gray-400 uppercase">
+                      {kpi.label}
+                    </p>
+                    <div className="w-5 h-5 rounded-full border border-gray-200 flex items-center justify-center">
+                      <div
+                        className={`w-2 h-2 rounded-full ${
+                          kpi.warning ? "bg-amber-400" : "bg-green-400"
+                        }`}
                       />
-                      <span
-                        className="text-xs"
-                        style={{ color: agent.color }}
-                      >
-                        {agent.satisfaction}
-                      </span>
                     </div>
                   </div>
-                  <div className="grid grid-cols-3 gap-2 text-xs">
-                    <div>
-                      <p className="text-white/40">Leads</p>
-                      <p className="text-white">
-                        {agent.leads.toLocaleString()}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-white/40">Taxa</p>
-                      <p style={{ color: agent.color }}>{agent.rate}</p>
-                    </div>
-                    <div>
-                      <p className="text-white/40">Tempo/Resp</p>
-                      <p className="text-white">{agent.time}</p>
-                    </div>
-                  </div>
-                </motion.div>
+                  <p
+                    className={`text-2xl font-bold mt-2 ${
+                      kpi.warning ? "text-amber-600" : "text-gray-900"
+                    }`}
+                  >
+                    {kpi.value}
+                  </p>
+                  <p className="text-xs text-gray-400 mt-1">{kpi.subtitle}</p>
+                </div>
               ))}
             </div>
-          </div>
-        </div>
 
-        {/* Bottlenecks */}
-        <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-          <h4 className="text-white font-semibold mb-4 flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4 text-[#FFD700]" />
-            Gargalos Identificados
-          </h4>
-          <div className="space-y-3">
-            <motion.div
-              className="flex items-start gap-3 bg-[#FFD700]/10 border border-[#FFD700]/20 rounded-lg p-3"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-            >
-              <AlertTriangle className="w-4 h-4 text-[#FFD700] mt-0.5" />
-              <div>
-                <p className="text-white/80 text-sm">
-                  40% dos leads nao sao qualificados
-                </p>
-                <p className="text-white/50 text-xs mt-1">
-                  Motivo: Problema nao relacionado a especialidade
-                </p>
-                <p className="text-[#00E5FF] text-xs mt-1">
-                  Acao: Ajustar copy da landing page
-                </p>
+            {/* Charts Row */}
+            <div className="grid grid-cols-5 gap-4">
+              {/* Area Chart */}
+              <div className="col-span-3 bg-white rounded-xl p-5 border border-gray-100">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-base font-semibold text-gray-900">
+                    Leads e agendamentos
+                  </h3>
+                  <span className="text-xs text-gray-400">Últimos 30 dias</span>
+                </div>
+                <div className="h-[200px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={leadsData}>
+                      <defs>
+                        <linearGradient
+                          id="colorLeadsDash"
+                          x1="0"
+                          y1="0"
+                          x2="0"
+                          y2="1"
+                        >
+                          <stop
+                            offset="5%"
+                            stopColor="#3b82a0"
+                            stopOpacity={0.3}
+                          />
+                          <stop
+                            offset="95%"
+                            stopColor="#3b82a0"
+                            stopOpacity={0}
+                          />
+                        </linearGradient>
+                        <linearGradient
+                          id="colorAgendDash"
+                          x1="0"
+                          y1="0"
+                          x2="0"
+                          y2="1"
+                        >
+                          <stop
+                            offset="5%"
+                            stopColor="#1a4a5e"
+                            stopOpacity={0.3}
+                          />
+                          <stop
+                            offset="95%"
+                            stopColor="#1a4a5e"
+                            stopOpacity={0}
+                          />
+                        </linearGradient>
+                      </defs>
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        stroke="#e5e7eb"
+                        vertical={false}
+                      />
+                      <XAxis
+                        dataKey="day"
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{ fill: "#9ca3af", fontSize: 12 }}
+                      />
+                      <YAxis
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{ fill: "#9ca3af", fontSize: 12 }}
+                        domain={[0, 200]}
+                        ticks={[0, 50, 100, 150, 200]}
+                      />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: "#1a2a3a",
+                          border: "none",
+                          borderRadius: "8px",
+                          color: "#fff",
+                        }}
+                      />
+                      <Area
+                        type="monotone"
+                        dataKey="leads"
+                        stroke="#3b82a0"
+                        strokeWidth={2}
+                        fill="url(#colorLeadsDash)"
+                      />
+                      <Area
+                        type="monotone"
+                        dataKey="agendamentos"
+                        stroke="#1a4a5e"
+                        strokeWidth={2}
+                        fill="url(#colorAgendDash)"
+                      />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
               </div>
-            </motion.div>
-            <motion.div
-              className="flex items-start gap-3 bg-[#FFD700]/10 border border-[#FFD700]/20 rounded-lg p-3"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-            >
-              <AlertTriangle className="w-4 h-4 text-[#FFD700] mt-0.5" />
-              <div>
-                <p className="text-white/80 text-sm">
-                  20% dos qualificados nao agendam
-                </p>
-                <p className="text-white/50 text-xs mt-1">
-                  Motivo: Nao encontra horario adequado
-                </p>
-                <p className="text-[#00E5FF] text-xs mt-1">
-                  Acao: Avaliar ampliacao de horarios
-                </p>
-              </div>
-            </motion.div>
-            <motion.div
-              className="flex items-start gap-3 bg-[#00FF94]/10 border border-[#00FF94]/20 rounded-lg p-3"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
-            >
-              <TrendingUp className="w-4 h-4 text-[#00FF94] mt-0.5" />
-              <div>
-                <p className="text-white/80 text-sm">
-                  No-show caiu de 25% para 10%
-                </p>
-                <p className="text-[#00FF94] text-xs mt-1">
-                  Confirmacoes automaticas funcionando!
-                </p>
-              </div>
-            </motion.div>
-          </div>
-        </div>
 
-        {/* CTA */}
-        <div className="text-center pt-4 border-t border-white/10">
-          <p className="text-white/50 text-sm">
-            Dashboard completo incluido no{" "}
-            <span className="text-[#00FF94] font-semibold">
-              Ecossistema Full
-            </span>
-          </p>
+              {/* Funnel Chart */}
+              <div className="col-span-2 bg-white rounded-xl p-5 border border-gray-100">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center">
+                    <span className="text-gray-500 text-xs">⟲</span>
+                  </div>
+                  <h3 className="text-base font-semibold text-gray-900">
+                    Funil de vendas
+                  </h3>
+                </div>
+                <div className="space-y-2">
+                  {funnelData.map((item, index) => (
+                    <div key={item.stage} className="flex items-center gap-3">
+                      <div
+                        className="h-6 rounded-r-full transition-all"
+                        style={{
+                          width: `${item.percent}%`,
+                          backgroundColor: item.color,
+                          minWidth: "60px",
+                        }}
+                      />
+                      <div className="flex items-center gap-2 text-xs whitespace-nowrap">
+                        <span className="text-gray-500">●</span>
+                        <span className="text-gray-700 font-medium">
+                          {item.stage}
+                        </span>
+                        <span className="text-gray-400">
+                          {(item.value / 1000).toFixed(1)} mil
+                        </span>
+                        <span className="text-gray-400">{item.percent}%</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Insight Box */}
+                <div className="mt-4 p-3 bg-cyan-50 border border-cyan-100 rounded-lg">
+                  <p className="text-xs text-cyan-800">
+                    <span className="font-semibold">Oportunidade:</span> reforçar
+                    follow-up nos primeiros 20 minutos para reduzir queda entre
+                    "Qualificados" e "Agendados".
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </ModalWrapper>
