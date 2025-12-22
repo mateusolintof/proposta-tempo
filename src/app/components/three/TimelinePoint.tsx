@@ -4,7 +4,7 @@ import { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Text, Html } from '@react-three/drei';
 import * as THREE from 'three';
-import { TimelinePoint as TimelinePointData } from '../data/timelineData';
+import { TimelinePoint as TimelinePointData } from '@/app/data/timelineData';
 
 interface TimelinePointProps {
   data: TimelinePointData;

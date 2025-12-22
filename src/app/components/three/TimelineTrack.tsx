@@ -3,7 +3,7 @@
 import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { TIMELINE_DATA } from '../data/timelineData';
+import { TIMELINE_DATA } from '@/app/data/timelineData';
 
 interface TimelineTrackProps {
   currentPoint: number;

@@ -19,7 +19,7 @@ import { TimelinePoint } from './TimelinePoint';
 import { PointCard } from './PointCard';
 import { Navigation } from './Navigation';
 import { Environment } from './Environment';
-import { TIMELINE_DATA } from '../data/timelineData';
+import { TIMELINE_DATA } from '@/app/data/timelineData';
 
 const POINT_SPACING = 8;
 
