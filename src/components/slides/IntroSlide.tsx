@@ -29,9 +29,9 @@ export default function IntroSlide() {
           transition={{ delay: 0.2, duration: 0.8 }}
         >
           <img
-            src="/branding/logo-badge-white.svg"
+            src="/branding/logo-principal-white.svg"
             alt="Convert A.I"
-            className="h-12 md:h-14"
+            className="h-20 md:h-24"
           />
         </motion.div>
 
