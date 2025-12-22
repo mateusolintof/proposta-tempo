@@ -1,9 +1,12 @@
 'use client';
 
-import { useRef } from 'react';
-import { useFrame } from '@react-three/fiber';
+import { useState } from 'react';
 import { Text } from '@react-three/drei';
-import * as THREE from 'three';
+
+// Professional color palette
+const GOLD = '#c9a227';
+const DARK = '#1a1a2e';
+const GRAY = '#666666';
 
 interface NavigationProps {
   currentSlide: number;
@@ -18,113 +21,139 @@ export function Navigation({
   onNavigate,
   isIntro,
 }: NavigationProps) {
-  const leftArrowRef = useRef<THREE.Group>(null);
-  const rightArrowRef = useRef<THREE.Group>(null);
-
-  useFrame((state) => {
-    const time = state.clock.elapsedTime;
-
-    if (leftArrowRef.current) {
-      leftArrowRef.current.position.x = -4 + Math.sin(time * 3) * 0.1;
-    }
-    if (rightArrowRef.current) {
-      rightArrowRef.current.position.x = 4 - Math.sin(time * 3) * 0.1;
-    }
-  });
+  const [leftHovered, setLeftHovered] = useState(false);
+  const [rightHovered, setRightHovered] = useState(false);
 
   if (isIntro) return null;
 
   return (
     <group position={[0, -2.5, 5]}>
-      {/* Left arrow */}
+      {/* Left arrow - only show if not first slide */}
       {currentSlide > 0 && (
         <group
-          ref={leftArrowRef}
-          position={[-4, 0, 0]}
+          position={[-3.5, 0, 0]}
           onClick={() => onNavigate('prev')}
-          onPointerOver={(e) => {
+          onPointerOver={() => {
+            setLeftHovered(true);
             document.body.style.cursor = 'pointer';
-            e.stopPropagation();
           }}
           onPointerOut={() => {
+            setLeftHovered(false);
             document.body.style.cursor = 'default';
           }}
         >
+          {/* Arrow button background */}
           <mesh>
-            <circleGeometry args={[0.3, 32]} />
-            <meshStandardMaterial
-              color="#1a1a2e"
+            <planeGeometry args={[0.5, 0.5]} />
+            <meshBasicMaterial
+              color={DARK}
               transparent
-              opacity={0.8}
+              opacity={leftHovered ? 0.9 : 0.6}
             />
           </mesh>
+          {/* Border */}
+          <mesh position={[0, 0, 0.01]}>
+            <planeGeometry args={[0.52, 0.52]} />
+            <meshBasicMaterial
+              color={GOLD}
+              transparent
+              opacity={leftHovered ? 0.6 : 0.2}
+            />
+          </mesh>
+          <mesh position={[0, 0, 0.02]}>
+            <planeGeometry args={[0.48, 0.48]} />
+            <meshBasicMaterial color={DARK} />
+          </mesh>
+          {/* Arrow symbol */}
           <Text
-            position={[0, 0, 0.1]}
-            fontSize={0.25}
-            color="#c9a227"
+            position={[0, 0, 0.03]}
+            fontSize={0.2}
+            color={leftHovered ? '#ffffff' : GOLD}
             anchorX="center"
             anchorY="middle"
           >
-            ←
+            ‹
           </Text>
         </group>
       )}
 
-      {/* Progress indicator */}
+      {/* Progress dots - minimalist */}
       <group position={[0, 0, 0]}>
-        {Array.from({ length: totalSlides }).map((_, i) => (
-          <mesh key={i} position={[(i - (totalSlides - 1) / 2) * 0.4, 0, 0]}>
-            <circleGeometry args={[i === currentSlide ? 0.08 : 0.05, 16]} />
-            <meshBasicMaterial
-              color={i === currentSlide ? '#c9a227' : '#444444'}
-            />
-          </mesh>
-        ))}
+        {Array.from({ length: totalSlides }).map((_, i) => {
+          const isActive = i === currentSlide;
+          const isPast = i < currentSlide;
+          return (
+            <mesh key={i} position={[(i - (totalSlides - 1) / 2) * 0.25, 0, 0]}>
+              <circleGeometry args={[isActive ? 0.04 : 0.025, 16]} />
+              <meshBasicMaterial
+                color={isActive ? GOLD : isPast ? GOLD : GRAY}
+                transparent
+                opacity={isActive ? 1 : isPast ? 0.6 : 0.3}
+              />
+            </mesh>
+          );
+        })}
       </group>
 
-      {/* Right arrow */}
+      {/* Right arrow - only show if not last slide */}
       {currentSlide < totalSlides - 1 && (
         <group
-          ref={rightArrowRef}
-          position={[4, 0, 0]}
+          position={[3.5, 0, 0]}
           onClick={() => onNavigate('next')}
-          onPointerOver={(e) => {
+          onPointerOver={() => {
+            setRightHovered(true);
             document.body.style.cursor = 'pointer';
-            e.stopPropagation();
           }}
           onPointerOut={() => {
+            setRightHovered(false);
             document.body.style.cursor = 'default';
           }}
         >
+          {/* Arrow button background */}
           <mesh>
-            <circleGeometry args={[0.3, 32]} />
-            <meshStandardMaterial
-              color="#1a1a2e"
+            <planeGeometry args={[0.5, 0.5]} />
+            <meshBasicMaterial
+              color={DARK}
               transparent
-              opacity={0.8}
+              opacity={rightHovered ? 0.9 : 0.6}
             />
           </mesh>
+          {/* Border */}
+          <mesh position={[0, 0, 0.01]}>
+            <planeGeometry args={[0.52, 0.52]} />
+            <meshBasicMaterial
+              color={GOLD}
+              transparent
+              opacity={rightHovered ? 0.6 : 0.2}
+            />
+          </mesh>
+          <mesh position={[0, 0, 0.02]}>
+            <planeGeometry args={[0.48, 0.48]} />
+            <meshBasicMaterial color={DARK} />
+          </mesh>
+          {/* Arrow symbol */}
           <Text
-            position={[0, 0, 0.1]}
-            fontSize={0.25}
-            color="#c9a227"
+            position={[0, 0, 0.03]}
+            fontSize={0.2}
+            color={rightHovered ? '#ffffff' : GOLD}
             anchorX="center"
             anchorY="middle"
           >
-            →
+            ›
           </Text>
         </group>
       )}
 
-      {/* Slide counter */}
+      {/* Slide counter - subtle */}
       <Text
-        position={[0, -0.5, 0]}
-        fontSize={0.1}
-        color="#666666"
+        position={[0, -0.4, 0]}
+        fontSize={0.08}
+        color={GRAY}
         anchorX="center"
         anchorY="middle"
+        letterSpacing={0.1}
       >
-        {`${currentSlide + 1} / ${totalSlides}`}
+        {`${String(currentSlide + 1).padStart(2, '0')} / ${String(totalSlides).padStart(2, '0')}`}
       </Text>
     </group>
   );

@@ -7,8 +7,6 @@ export interface TimelinePoint {
   subtitle: string;
   keyPoints: string[];
   metrics?: { label: string; value: string }[];
-  color: string;
-  icon: string;
 }
 
 export const TIMELINE_DATA: TimelinePoint[] = [
@@ -26,8 +24,6 @@ export const TIMELINE_DATA: TimelinePoint[] = [
       { label: 'Sem cobertura', value: '61%' },
       { label: 'Leads perdidos/mês', value: '~500' },
     ],
-    color: '#e74c3c',
-    icon: '🔍',
   },
   {
     id: 2,
@@ -42,8 +38,6 @@ export const TIMELINE_DATA: TimelinePoint[] = [
     metrics: [
       { label: 'Abandono', value: '50-70%' },
     ],
-    color: '#e67e22',
-    icon: '⚠️',
   },
   {
     id: 3,
@@ -58,8 +52,6 @@ export const TIMELINE_DATA: TimelinePoint[] = [
     metrics: [
       { label: 'Oportunidades perdidas', value: 'R$ milhares' },
     ],
-    color: '#c0392b',
-    icon: '📉',
   },
   {
     id: 4,
@@ -76,8 +68,6 @@ export const TIMELINE_DATA: TimelinePoint[] = [
       { label: 'Agentes IA', value: '4' },
       { label: 'Disponibilidade', value: '24/7' },
     ],
-    color: '#c9a227',
-    icon: '🤖',
   },
   {
     id: 5,
@@ -94,8 +84,6 @@ export const TIMELINE_DATA: TimelinePoint[] = [
       { label: 'Conversão', value: '+40%' },
       { label: 'Resposta', value: 'Imediata' },
     ],
-    color: '#3498db',
-    icon: '📊',
   },
   {
     id: 6,
@@ -112,8 +100,6 @@ export const TIMELINE_DATA: TimelinePoint[] = [
       { label: 'No-show', value: '-60%' },
       { label: 'Conversão', value: '+40%' },
     ],
-    color: '#27ae60',
-    icon: '📈',
   },
   {
     id: 7,
@@ -130,8 +116,6 @@ export const TIMELINE_DATA: TimelinePoint[] = [
       { label: 'Treinamento', value: '4h' },
       { label: 'Suporte', value: '30 dias' },
     ],
-    color: '#9b59b6',
-    icon: '📦',
   },
   {
     id: 8,
@@ -148,8 +132,6 @@ export const TIMELINE_DATA: TimelinePoint[] = [
       { label: 'Desconto setup', value: '37%' },
       { label: 'Economia/mês', value: 'R$ 1.500' },
     ],
-    color: '#c9a227',
-    icon: '💰',
   },
   {
     id: 9,
@@ -165,8 +147,6 @@ export const TIMELINE_DATA: TimelinePoint[] = [
     metrics: [
       { label: 'Fases', value: '4' },
     ],
-    color: '#1abc9c',
-    icon: '🚀',
   },
 ];
 

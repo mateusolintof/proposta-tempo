@@ -6,9 +6,7 @@ import { PerspectiveCamera } from '@react-three/drei';
 import {
   EffectComposer,
   Bloom,
-  ChromaticAberration,
   Vignette,
-  Noise,
 } from '@react-three/postprocessing';
 import { BlendFunction } from 'postprocessing';
 import * as THREE from 'three';
@@ -21,12 +19,13 @@ import { Navigation } from './Navigation';
 import { Environment } from './Environment';
 import { TIMELINE_DATA } from '@/app/data/timelineData';
 
-const POINT_SPACING = 8;
+// Z-axis spacing between sections (depth navigation)
+const SECTION_DEPTH = 10;
 
 export function Scene() {
   const cameraRef = useRef<THREE.PerspectiveCamera>(null);
-  const targetPosition = useRef(new THREE.Vector3(0, 0, 8));
-  const currentPosition = useRef(new THREE.Vector3(0, 0, 8));
+  const targetPosition = useRef(new THREE.Vector3(0, 0, 12));
+  const currentPosition = useRef(new THREE.Vector3(0, 0, 12));
 
   const [isIntro, setIsIntro] = useState(true);
   const [currentPoint, setCurrentPoint] = useState(0);
@@ -36,10 +35,11 @@ export function Scene() {
   const handleEnterPresentation = useCallback(() => {
     setIsIntro(false);
     setCurrentPoint(0);
-    targetPosition.current.set(0, 0.5, 6);
+    // Move camera to first section (closer to z=0)
+    targetPosition.current.set(0, 0, 8);
   }, []);
 
-  // Handle point navigation
+  // Handle point navigation - moves along Z axis (depth)
   const handleNavigate = useCallback(
     (direction: 'prev' | 'next') => {
       const newPoint =
@@ -49,16 +49,18 @@ export function Scene() {
 
       setCurrentPoint(newPoint);
       setShowCard(false);
-      targetPosition.current.set(newPoint * POINT_SPACING, 0.5, 6);
+      // Camera moves deeper into the scene (negative Z)
+      targetPosition.current.set(0, 0, 8 - newPoint * SECTION_DEPTH);
     },
     [currentPoint]
   );
 
-  // Handle point click
+  // Handle point click - zoom in closer
   const handlePointClick = useCallback((index: number) => {
     setCurrentPoint(index);
     setShowCard(true);
-    targetPosition.current.set(index * POINT_SPACING, 0.5, 5);
+    // Zoom closer to the section
+    targetPosition.current.set(0, 0, 5 - index * SECTION_DEPTH);
   }, []);
 
   // Keyboard navigation
@@ -84,20 +86,20 @@ export function Scene() {
         case 'Enter':
           setShowCard(!showCard);
           if (!showCard) {
-            targetPosition.current.set(currentPoint * POINT_SPACING, 0.5, 5);
+            targetPosition.current.set(0, 0, 5 - currentPoint * SECTION_DEPTH);
           } else {
-            targetPosition.current.set(currentPoint * POINT_SPACING, 0.5, 6);
+            targetPosition.current.set(0, 0, 8 - currentPoint * SECTION_DEPTH);
           }
           break;
         case 'Escape':
           if (showCard) {
             setShowCard(false);
-            targetPosition.current.set(currentPoint * POINT_SPACING, 0.5, 6);
+            targetPosition.current.set(0, 0, 8 - currentPoint * SECTION_DEPTH);
           } else {
             setIsIntro(true);
             setCurrentPoint(0);
             setShowCard(false);
-            targetPosition.current.set(0, 0, 8);
+            targetPosition.current.set(0, 0, 12);
           }
           break;
       }
@@ -107,16 +109,17 @@ export function Scene() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isIntro, currentPoint, showCard, handleNavigate, handleEnterPresentation]);
 
-  // Smooth camera movement
+  // Smooth camera movement with high damping
   useFrame(() => {
-    currentPosition.current.lerp(targetPosition.current, 0.05);
+    currentPosition.current.lerp(targetPosition.current, 0.03);
 
     if (cameraRef.current) {
       cameraRef.current.position.copy(currentPosition.current);
+      // Look slightly ahead (into the scene)
       cameraRef.current.lookAt(
         currentPosition.current.x,
-        currentPosition.current.y - 0.5,
-        currentPosition.current.z - 10
+        currentPosition.current.y,
+        currentPosition.current.z - 20
       );
     }
   });
@@ -126,7 +129,7 @@ export function Scene() {
       <PerspectiveCamera
         ref={cameraRef}
         makeDefault
-        position={[0, 0, 8]}
+        position={[0, 0, 12]}
         fov={50}
       />
 
@@ -140,15 +143,15 @@ export function Scene() {
       {/* Timeline */}
       {!isIntro && (
         <group>
-          {/* Timeline Track */}
-          <TimelineTrack currentPoint={currentPoint} spacing={POINT_SPACING} />
+          {/* Timeline Track - vertical line along Z axis */}
+          <TimelineTrack currentPoint={currentPoint} spacing={SECTION_DEPTH} />
 
-          {/* Timeline Points */}
+          {/* Timeline Points - positioned along Z axis */}
           {TIMELINE_DATA.map((point, index) => (
             <TimelinePoint
               key={point.id}
               data={point}
-              position={[index * POINT_SPACING, 0.5, 0]}
+              position={[0, 0, -index * SECTION_DEPTH]}
               isActive={currentPoint === index}
               onClick={() => handlePointClick(index)}
             />
@@ -158,7 +161,7 @@ export function Scene() {
           <PointCard
             data={TIMELINE_DATA[currentPoint]}
             isVisible={showCard}
-            position={[currentPoint * POINT_SPACING, 0.5, 2]}
+            position={[0, 0, 2 - currentPoint * SECTION_DEPTH]}
           />
         </group>
       )}
@@ -171,26 +174,18 @@ export function Scene() {
         isIntro={isIntro}
       />
 
-      {/* Post-processing effects */}
+      {/* Minimal post-processing effects */}
       <EffectComposer>
         <Bloom
-          intensity={0.4}
-          luminanceThreshold={0.6}
+          intensity={0.2}
+          luminanceThreshold={0.8}
           luminanceSmoothing={0.9}
           height={300}
         />
-        <ChromaticAberration
-          blendFunction={BlendFunction.NORMAL}
-          offset={new THREE.Vector2(0.0003, 0.0003)}
-        />
         <Vignette
-          offset={0.3}
-          darkness={0.5}
+          offset={0.4}
+          darkness={0.4}
           blendFunction={BlendFunction.NORMAL}
-        />
-        <Noise
-          blendFunction={BlendFunction.OVERLAY}
-          opacity={0.015}
         />
       </EffectComposer>
     </>

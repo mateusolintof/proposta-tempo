@@ -2,9 +2,15 @@
 
 import { useRef, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Text, Html } from '@react-three/drei';
+import { Text } from '@react-three/drei';
 import * as THREE from 'three';
 import { TimelinePoint as TimelinePointData } from '@/app/data/timelineData';
+
+// Professional color palette
+const GOLD = '#c9a227';
+const WHITE = '#ffffff';
+const GRAY = '#666666';
+const DARK = '#0a0a0f';
 
 interface TimelinePointProps {
   data: TimelinePointData;
@@ -15,32 +21,31 @@ interface TimelinePointProps {
 
 export function TimelinePoint({ data, position, isActive, onClick }: TimelinePointProps) {
   const groupRef = useRef<THREE.Group>(null);
-  const iconRef = useRef<THREE.Mesh>(null);
+  const borderRef = useRef<THREE.Mesh>(null);
   const [hovered, setHovered] = useState(false);
 
   useFrame((state) => {
     const time = state.clock.elapsedTime;
 
-    if (groupRef.current) {
-      // Float animation
-      if (isActive) {
-        groupRef.current.position.y = position[1] + Math.sin(time * 2) * 0.1;
-      }
+    if (groupRef.current && isActive) {
+      // Very subtle scale breathing
+      const scale = 1 + Math.sin(time * 1.5) * 0.01;
+      groupRef.current.scale.set(scale, scale, scale);
     }
 
-    if (iconRef.current && isActive) {
-      iconRef.current.rotation.y = time * 0.5;
+    // Subtle border glow pulse for active
+    if (borderRef.current && isActive) {
+      const opacity = 0.4 + Math.sin(time * 2) * 0.1;
+      (borderRef.current.material as THREE.MeshBasicMaterial).opacity = opacity;
     }
   });
 
-  const scale = isActive ? 1.2 : hovered ? 1.1 : 1;
-  const opacity = isActive ? 1 : 0.6;
+  const opacity = isActive ? 1 : hovered ? 0.8 : 0.5;
 
   return (
     <group
       ref={groupRef}
       position={position}
-      scale={[scale, scale, scale]}
       onClick={onClick}
       onPointerOver={() => {
         setHovered(true);
@@ -51,122 +56,106 @@ export function TimelinePoint({ data, position, isActive, onClick }: TimelinePoi
         document.body.style.cursor = 'default';
       }}
     >
-      {/* Background card */}
-      <mesh position={[0, 0, -0.1]}>
-        <planeGeometry args={[3, 2.5]} />
-        <meshStandardMaterial
-          color="#0a0a0f"
-          transparent
-          opacity={opacity * 0.9}
-        />
+      {/* Card background */}
+      <mesh position={[0, 0, -0.05]}>
+        <planeGeometry args={[4, 2.5]} />
+        <meshBasicMaterial color={DARK} transparent opacity={0.9} />
       </mesh>
 
-      {/* Border glow */}
-      <mesh position={[0, 0, -0.15]}>
-        <planeGeometry args={[3.1, 2.6]} />
+      {/* Subtle border glow */}
+      <mesh ref={borderRef} position={[0, 0, -0.06]}>
+        <planeGeometry args={[4.05, 2.55]} />
         <meshBasicMaterial
-          color={data.color}
+          color={GOLD}
           transparent
-          opacity={isActive ? 0.4 : 0.15}
+          opacity={isActive ? 0.4 : 0.1}
         />
       </mesh>
 
-      {/* Icon sphere */}
-      <mesh ref={iconRef} position={[0, 0.6, 0.1]}>
-        <sphereGeometry args={[0.25, 32, 32]} />
-        <meshStandardMaterial
-          color={data.color}
-          emissive={data.color}
-          emissiveIntensity={isActive ? 0.5 : 0.2}
-          metalness={0.8}
-          roughness={0.2}
-        />
+      {/* Top accent line */}
+      <mesh position={[0, 1.2, 0]}>
+        <planeGeometry args={[3.8, 0.002]} />
+        <meshBasicMaterial color={GOLD} transparent opacity={opacity * 0.6} />
       </mesh>
 
-      {/* Icon emoji */}
+      {/* Section number */}
       <Text
-        position={[0, 0.6, 0.4]}
-        fontSize={0.35}
-        anchorX="center"
+        position={[-1.7, 0.9, 0.01]}
+        fontSize={0.12}
+        color={GOLD}
+        anchorX="left"
         anchorY="middle"
+        letterSpacing={0.05}
       >
-        {data.icon}
+        {String(data.id).padStart(2, '0')}
       </Text>
 
       {/* Title */}
       <Text
-        position={[0, 0, 0.1]}
-        fontSize={0.18}
-        color="#ffffff"
+        position={[0, 0.4, 0.01]}
+        fontSize={0.22}
+        color={WHITE}
         anchorX="center"
         anchorY="middle"
-        maxWidth={2.5}
+        maxWidth={3.5}
         textAlign="center"
-        fontWeight="bold"
+        letterSpacing={0.02}
       >
         {data.title}
       </Text>
 
       {/* Subtitle */}
       <Text
-        position={[0, -0.35, 0.1]}
+        position={[0, 0, 0.01]}
         fontSize={0.1}
-        color="#888888"
+        color={GRAY}
         anchorX="center"
         anchorY="middle"
-        maxWidth={2.5}
+        maxWidth={3.5}
         textAlign="center"
       >
         {data.subtitle}
       </Text>
 
-      {/* Metrics preview */}
+      {/* Metrics preview - only show when active */}
       {data.metrics && isActive && (
-        <group position={[0, -0.8, 0.1]}>
-          {data.metrics.slice(0, 2).map((metric, i) => (
-            <group key={i} position={[(i - 0.5) * 1.2, 0, 0]}>
-              <Text
-                position={[0, 0, 0]}
-                fontSize={0.15}
-                color={data.color}
-                anchorX="center"
-                anchorY="middle"
-                fontWeight="bold"
-              >
-                {metric.value}
-              </Text>
-              <Text
-                position={[0, -0.2, 0]}
-                fontSize={0.07}
-                color="#666666"
-                anchorX="center"
-                anchorY="middle"
-              >
-                {metric.label}
-              </Text>
-            </group>
-          ))}
+        <group position={[0, -0.7, 0.01]}>
+          {data.metrics.slice(0, 2).map((metric, i) => {
+            const xPos = data.metrics!.length === 1 ? 0 : (i - 0.5) * 1.5;
+            return (
+              <group key={i} position={[xPos, 0, 0]}>
+                <Text
+                  position={[0, 0, 0]}
+                  fontSize={0.2}
+                  color={GOLD}
+                  anchorX="center"
+                  anchorY="middle"
+                  letterSpacing={0.02}
+                >
+                  {metric.value}
+                </Text>
+                <Text
+                  position={[0, -0.25, 0]}
+                  fontSize={0.08}
+                  color={GRAY}
+                  anchorX="center"
+                  anchorY="middle"
+                >
+                  {metric.label}
+                </Text>
+              </group>
+            );
+          })}
         </group>
       )}
 
-      {/* Point number indicator */}
-      <Text
-        position={[-1.3, 1.1, 0.1]}
-        fontSize={0.12}
-        color={data.color}
-        anchorX="left"
-        anchorY="middle"
-      >
-        {String(data.id).padStart(2, '0')}
-      </Text>
-
-      {/* Light for active point */}
+      {/* Subtle point light for active section */}
       {isActive && (
         <pointLight
-          position={[0, 0, 1]}
-          intensity={0.5}
-          color={data.color}
-          distance={3}
+          position={[0, 0, 2]}
+          intensity={0.3}
+          color={GOLD}
+          distance={5}
         />
       )}
     </group>
