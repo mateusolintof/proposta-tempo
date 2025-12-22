@@ -10,107 +10,385 @@ import {
   Link2,
   Settings,
   Users,
+  Calendar,
+  ClipboardCheck,
+  FileText,
+  Target,
+  Clock,
+  Bell,
+  UserCheck,
+  Star,
+  ThumbsUp,
+  AlertTriangle,
+  BarChart3,
+  TrendingUp,
+  BookOpen,
+  HelpCircle,
+  Send,
+  RefreshCw,
 } from "lucide-react";
 import { AgentType } from "@/types/modal";
+
+interface Capability {
+  id: string;
+  title: string;
+  subtitle: string;
+  icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>;
+  items: string[];
+  position: { angle: number; distance: number };
+  connectionLabel: string;
+}
+
+interface AgentCapabilities {
+  centerTitle: string;
+  centerSubtitle: string;
+  capabilities: Capability[];
+}
+
+// Capacidades específicas para cada agente
+const capabilitiesByAgent: Record<AgentType, AgentCapabilities> = {
+  sdr: {
+    centerTitle: "Agente SDR",
+    centerSubtitle: "Qualificação 24h",
+    capabilities: [
+      {
+        id: "qualificacao",
+        title: "Qualificação",
+        subtitle: "Filtra leads elegíveis",
+        icon: Target,
+        items: [
+          "Valida perfil do paciente",
+          "Identifica interesse real",
+          "Atribui score automático",
+        ],
+        position: { angle: -60, distance: 175 },
+        connectionLabel: "QUALIFICA",
+      },
+      {
+        id: "convenio",
+        title: "Validação Convênio",
+        subtitle: "Verifica cobertura",
+        icon: ClipboardCheck,
+        items: [
+          "Confirma plano aceito",
+          "Verifica carência",
+          "Checa procedimentos",
+        ],
+        position: { angle: 0, distance: 175 },
+        connectionLabel: "VALIDA",
+      },
+      {
+        id: "agendamento",
+        title: "Agendamento",
+        subtitle: "Agenda em tempo real",
+        icon: Calendar,
+        items: [
+          "Mostra horários livres",
+          "Respeita preferências",
+          "Confirma automaticamente",
+        ],
+        position: { angle: 60, distance: 175 },
+        connectionLabel: "AGENDA",
+      },
+      {
+        id: "crm",
+        title: "Integração CRM",
+        subtitle: "Registra tudo",
+        icon: Database,
+        items: [
+          "Salva lead no sistema",
+          "Atualiza histórico",
+          "Alimenta pipeline",
+        ],
+        position: { angle: 120, distance: 175 },
+        connectionLabel: "REGISTRA",
+      },
+      {
+        id: "conversacao",
+        title: "Conversação Natural",
+        subtitle: "Atende via WhatsApp",
+        icon: MessageSquare,
+        items: [
+          "Entende áudios",
+          "Responde humanizado",
+          "Mantém contexto",
+        ],
+        position: { angle: 180, distance: 175 },
+        connectionLabel: "CONVERSA",
+      },
+      {
+        id: "escalacao",
+        title: "Handoff Inteligente",
+        subtitle: "Escala quando precisa",
+        icon: Users,
+        items: [
+          "Detecta casos complexos",
+          "Transfere com contexto",
+          "Notifica atendente",
+        ],
+        position: { angle: -120, distance: 175 },
+        connectionLabel: "ESCALA",
+      },
+    ],
+  },
+  faq: {
+    centerTitle: "Agente FAQ",
+    centerSubtitle: "Respostas 24h",
+    capabilities: [
+      {
+        id: "conhecimento",
+        title: "Base de Conhecimento",
+        subtitle: "Sabe tudo do negócio",
+        icon: BookOpen,
+        items: [
+          "Procedimentos detalhados",
+          "Preços e condições",
+          "Preparos de exames",
+        ],
+        position: { angle: -60, distance: 175 },
+        connectionLabel: "CONSULTA",
+      },
+      {
+        id: "interpretacao",
+        title: "Interpretação",
+        subtitle: "Entende a dúvida",
+        icon: Brain,
+        items: [
+          "Identifica intenção",
+          "Classifica pergunta",
+          "Contextualiza resposta",
+        ],
+        position: { angle: 0, distance: 175 },
+        connectionLabel: "INTERPRETA",
+      },
+      {
+        id: "resposta",
+        title: "Resposta Educativa",
+        subtitle: "Explica com clareza",
+        icon: HelpCircle,
+        items: [
+          "Linguagem acessível",
+          "Informação completa",
+          "Tom empático",
+        ],
+        position: { angle: 60, distance: 175 },
+        connectionLabel: "RESPONDE",
+      },
+      {
+        id: "conversao",
+        title: "Conversão",
+        subtitle: "Transforma em lead",
+        icon: TrendingUp,
+        items: [
+          "Oferece agendamento",
+          "Capta interesse",
+          "Encaminha para SDR",
+        ],
+        position: { angle: 120, distance: 175 },
+        connectionLabel: "CONVERTE",
+      },
+      {
+        id: "multicanal",
+        title: "Atendimento",
+        subtitle: "WhatsApp + Chat",
+        icon: MessageSquare,
+        items: [
+          "Respostas instantâneas",
+          "Múltiplas conversas",
+          "Histórico preservado",
+        ],
+        position: { angle: 180, distance: 175 },
+        connectionLabel: "ATENDE",
+      },
+      {
+        id: "escalacao",
+        title: "Escalação",
+        subtitle: "Quando necessário",
+        icon: Send,
+        items: [
+          "Casos complexos",
+          "Dúvidas específicas",
+          "Transfere contexto",
+        ],
+        position: { angle: -120, distance: 175 },
+        connectionLabel: "ESCALA",
+      },
+    ],
+  },
+  noshow: {
+    centerTitle: "Agente Anti No-Show",
+    centerSubtitle: "Confirmação Automática",
+    capabilities: [
+      {
+        id: "lembrete48",
+        title: "Lembrete D-2",
+        subtitle: "48h antes",
+        icon: Bell,
+        items: [
+          "Mensagem personalizada",
+          "Dados da consulta",
+          "Botões de ação",
+        ],
+        position: { angle: -60, distance: 175 },
+        connectionLabel: "LEMBRA",
+      },
+      {
+        id: "lembrete24",
+        title: "Lembrete D-1",
+        subtitle: "24h antes",
+        icon: Clock,
+        items: [
+          "Reforço de confirmação",
+          "Orientações de preparo",
+          "Endereço e horário",
+        ],
+        position: { angle: 0, distance: 175 },
+        connectionLabel: "CONFIRMA",
+      },
+      {
+        id: "confirmacao",
+        title: "Confirmação",
+        subtitle: "Captura resposta",
+        icon: UserCheck,
+        items: [
+          "Confirma presença",
+          "Processa reagendamento",
+          "Registra cancelamento",
+        ],
+        position: { angle: 60, distance: 175 },
+        connectionLabel: "PROCESSA",
+      },
+      {
+        id: "fila",
+        title: "Fila de Espera",
+        subtitle: "Preenche vagas",
+        icon: RefreshCw,
+        items: [
+          "Notifica interessados",
+          "Oferece horário",
+          "Agenda automático",
+        ],
+        position: { angle: 120, distance: 175 },
+        connectionLabel: "REOCUPA",
+      },
+      {
+        id: "followup",
+        title: "Follow-up",
+        subtitle: "Pós-consulta",
+        icon: MessageSquare,
+        items: [
+          "Verifica satisfação",
+          "Coleta feedback",
+          "Oferece retorno",
+        ],
+        position: { angle: 180, distance: 175 },
+        connectionLabel: "ACOMPANHA",
+      },
+      {
+        id: "metricas",
+        title: "Métricas",
+        subtitle: "Monitora taxa",
+        icon: BarChart3,
+        items: [
+          "Taxa de confirmação",
+          "Redução no-show",
+          "Vagas reocupadas",
+        ],
+        position: { angle: -120, distance: 175 },
+        connectionLabel: "MEDE",
+      },
+    ],
+  },
+  nps: {
+    centerTitle: "Agente NPS",
+    centerSubtitle: "Satisfação Contínua",
+    capabilities: [
+      {
+        id: "pesquisa",
+        title: "Pesquisa NPS",
+        subtitle: "Coleta feedback",
+        icon: Star,
+        items: [
+          "Pergunta após consulta",
+          "Escala 0-10",
+          "Comentário opcional",
+        ],
+        position: { angle: -60, distance: 175 },
+        connectionLabel: "PERGUNTA",
+      },
+      {
+        id: "classificacao",
+        title: "Classificação",
+        subtitle: "Segmenta respostas",
+        icon: Target,
+        items: [
+          "Promotores (9-10)",
+          "Neutros (7-8)",
+          "Detratores (0-6)",
+        ],
+        position: { angle: 0, distance: 175 },
+        connectionLabel: "CLASSIFICA",
+      },
+      {
+        id: "reviews",
+        title: "Google Reviews",
+        subtitle: "Promotores",
+        icon: ThumbsUp,
+        items: [
+          "Convida para avaliar",
+          "Link direto Google",
+          "Aumenta reputação",
+        ],
+        position: { angle: 60, distance: 175 },
+        connectionLabel: "DIRECIONA",
+      },
+      {
+        id: "alertas",
+        title: "Alertas",
+        subtitle: "Detratores",
+        icon: AlertTriangle,
+        items: [
+          "Notifica equipe",
+          "Prioriza contato",
+          "Recupera cliente",
+        ],
+        position: { angle: 120, distance: 175 },
+        connectionLabel: "ALERTA",
+      },
+      {
+        id: "insights",
+        title: "Insights",
+        subtitle: "Análise contínua",
+        icon: Brain,
+        items: [
+          "Tendências de satisfação",
+          "Pontos de melhoria",
+          "Comparativo temporal",
+        ],
+        position: { angle: 180, distance: 175 },
+        connectionLabel: "ANALISA",
+      },
+      {
+        id: "dashboard",
+        title: "Dashboard",
+        subtitle: "Visualização",
+        icon: BarChart3,
+        items: [
+          "Score NPS geral",
+          "Por período/médico",
+          "Evolução histórica",
+        ],
+        position: { angle: -120, distance: 175 },
+        connectionLabel: "EXIBE",
+      },
+    ],
+  },
+};
 
 interface RadialCapabilityDiagramProps {
   agentType: AgentType;
   agentColor: string;
 }
-
-const capabilities = [
-  {
-    id: "memoria",
-    title: "Memória",
-    subtitle: "Como lembra das conversas",
-    icon: Brain,
-    items: [
-      "Lembra a conversa atual completa",
-      "Guarda informações para o futuro",
-      "Entende \"aquele assunto de antes\"",
-    ],
-    position: { angle: -60, distance: 180 },
-    connectionLabel: "CONSULTA",
-  },
-  {
-    id: "conhecimento",
-    title: "Base de Conhecimento",
-    subtitle: "O que sabe sobre seu negócio",
-    icon: Database,
-    items: [
-      "Seus serviços e como funcionam",
-      "Perfil do cliente ideal",
-      "Respostas para objeções",
-    ],
-    position: { angle: 0, distance: 180 },
-    connectionLabel: "BUSCA INFO",
-  },
-  {
-    id: "habilidades",
-    title: "Habilidades",
-    subtitle: "O que consegue fazer",
-    icon: Zap,
-    items: [
-      "Calcular orçamentos e parcelas",
-      "Ler documentos e fotos",
-      "Agendar reuniões na agenda",
-    ],
-    position: { angle: 60, distance: 180 },
-    connectionLabel: "EXECUTA",
-  },
-  {
-    id: "cadastro",
-    title: "Cadastro",
-    subtitle: "Informações dos clientes",
-    icon: Users,
-    items: [
-      "Nome, empresa, contato",
-      "Histórico de conversas",
-      "Nível de interesse (frio/quente)",
-    ],
-    position: { angle: 120, distance: 180 },
-    connectionLabel: "SALVA DADOS",
-  },
-  {
-    id: "gestao",
-    title: "Gestão de Conversas",
-    subtitle: "Como entende o contexto",
-    icon: MessageSquare,
-    items: [
-      "Junta mensagens em sequência",
-      "Entende áudios de voz",
-      "Responde de forma natural",
-    ],
-    position: { angle: 180, distance: 180 },
-    connectionLabel: "PROCESSA",
-  },
-  {
-    id: "automacoes",
-    title: "Automações",
-    subtitle: "Tarefas que faz sozinho",
-    icon: Settings,
-    items: [
-      "Follow-up se cliente sumiu",
-      "Avisa você sobre leads quentes",
-      "Qualifica automaticamente",
-    ],
-    position: { angle: -120, distance: 180 },
-    connectionLabel: "DISPARA",
-  },
-  {
-    id: "conexoes",
-    title: "Conexões",
-    subtitle: "Com o que se integra",
-    icon: Link2,
-    items: [
-      "WhatsApp",
-      "Google Agenda",
-      "Seu CRM / Planilhas",
-    ],
-    position: { angle: -180, distance: 180 },
-    connectionLabel: "INTEGRA",
-  },
-];
 
 export default function RadialCapabilityDiagram({
   agentType,
@@ -118,6 +396,7 @@ export default function RadialCapabilityDiagram({
 }: RadialCapabilityDiagramProps) {
   const centerX = 400;
   const centerY = 280;
+  const agentConfig = capabilitiesByAgent[agentType];
 
   const getNodePosition = (angle: number, distance: number) => {
     const rad = (angle * Math.PI) / 180;
@@ -141,7 +420,7 @@ export default function RadialCapabilityDiagram({
       <div className="absolute top-4 left-0 right-0 text-center z-10">
         <div className="inline-flex items-center gap-2 text-gray-800">
           <Bot className="w-5 h-5" />
-          <span className="text-lg font-semibold">Como Funciona um Agente de IA</span>
+          <span className="text-base font-semibold">Capacidades do {agentConfig.centerTitle}</span>
         </div>
       </div>
 
@@ -153,7 +432,7 @@ export default function RadialCapabilityDiagram({
       >
         <defs>
           <marker
-            id="arrowhead"
+            id={`arrowhead-${agentType}`}
             markerWidth="10"
             markerHeight="7"
             refX="9"
@@ -165,7 +444,7 @@ export default function RadialCapabilityDiagram({
         </defs>
 
         {/* Connection lines */}
-        {capabilities.map((cap, index) => {
+        {agentConfig.capabilities.map((cap, index) => {
           const pos = getNodePosition(cap.position.angle, cap.position.distance);
           const labelPos = getLabelPosition(cap.position.angle, cap.position.distance);
 
@@ -191,7 +470,7 @@ export default function RadialCapabilityDiagram({
                   x={labelPos.x}
                   y={labelPos.y}
                   textAnchor="middle"
-                  className="fill-slate-400 text-[9px] font-medium tracking-wider"
+                  className="fill-slate-400 text-[10px] font-medium tracking-wider"
                 >
                   {cap.connectionLabel}
                 </text>
@@ -201,7 +480,7 @@ export default function RadialCapabilityDiagram({
         })}
       </svg>
 
-      {/* Center node - Agente IA */}
+      {/* Center node */}
       <motion.div
         className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20"
         initial={{ scale: 0, opacity: 0 }}
@@ -209,22 +488,20 @@ export default function RadialCapabilityDiagram({
         transition={{ duration: 0.5, type: "spring" }}
       >
         <div
-          className="w-32 h-32 rounded-full flex flex-col items-center justify-center text-white shadow-xl"
+          className="w-28 h-28 rounded-full flex flex-col items-center justify-center text-white shadow-xl"
           style={{ backgroundColor: agentColor }}
         >
-          <Bot className="w-8 h-8 mb-1" />
-          <span className="text-xs font-bold">Agente IA</span>
-          <span className="text-[10px] opacity-80">Assistente Inteligente</span>
-          <span className="text-[10px] opacity-80">24 horas</span>
+          <Bot className="w-7 h-7 mb-1" />
+          <span className="text-xs font-bold text-center leading-tight">{agentConfig.centerTitle}</span>
+          <span className="text-[10px] opacity-80">{agentConfig.centerSubtitle}</span>
         </div>
       </motion.div>
 
       {/* Capability nodes */}
-      {capabilities.map((cap, index) => {
+      {agentConfig.capabilities.map((cap, index) => {
         const pos = getNodePosition(cap.position.angle, cap.position.distance);
         const Icon = cap.icon;
 
-        // Adjust position for card placement
         const cardStyle: React.CSSProperties = {
           position: "absolute",
           left: `${(pos.x / 800) * 100}%`,
@@ -241,7 +518,7 @@ export default function RadialCapabilityDiagram({
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
           >
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-3 w-44 hover:shadow-md transition-shadow">
+            <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-3 w-40 hover:shadow-md transition-shadow">
               <div className="flex items-center gap-2 mb-2">
                 <div
                   className="w-7 h-7 rounded-lg flex items-center justify-center"
@@ -249,16 +526,16 @@ export default function RadialCapabilityDiagram({
                 >
                   <Icon className="w-4 h-4" style={{ color: agentColor }} />
                 </div>
-                <div>
-                  <h4 className="text-xs font-semibold text-gray-900">{cap.title}</h4>
-                  <p className="text-[10px] text-gray-500">{cap.subtitle}</p>
+                <div className="min-w-0">
+                  <h4 className="text-xs font-semibold text-gray-900 truncate">{cap.title}</h4>
+                  <p className="text-[10px] text-gray-500 truncate">{cap.subtitle}</p>
                 </div>
               </div>
-              <ul className="space-y-1">
+              <ul className="space-y-0.5">
                 {cap.items.map((item, i) => (
                   <li key={i} className="text-[10px] text-gray-600 flex items-start gap-1">
                     <span className="text-gray-400 mt-0.5">•</span>
-                    <span>{item}</span>
+                    <span className="leading-tight">{item}</span>
                   </li>
                 ))}
               </ul>
