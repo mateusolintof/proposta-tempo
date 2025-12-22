@@ -9,15 +9,16 @@ import {
   BrainCircuit,
 } from "lucide-react";
 import SlideShell from "@/components/ui/SlideShell";
+import type { ModalKind, AgentType } from "@/types/modal";
 
 const ORBIT_RADIUS = "clamp(100px, 14vw, 160px)";
 const AGENT_ANGLES = [0, 90, 180, 270];
 
-const agents = [
+const agents: { id: AgentType; name: string; desc: string; icon: React.ReactNode }[] = [
   {
     id: "sdr",
     name: "SDR & Agendamento",
-    desc: "Qualificação e integração ERP",
+    desc: "Qualificacao e integracao ERP",
     icon: <MessageSquare className="w-5 h-5" />,
   },
   {
@@ -29,24 +30,28 @@ const agents = [
   {
     id: "noshow",
     name: "Anti No-Show",
-    desc: "Confirmações e fila de espera",
+    desc: "Confirmacoes e fila de espera",
     icon: <CalendarCheck className="w-5 h-5" />,
   },
   {
     id: "nps",
     name: "Pesquisa & NPS",
-    desc: "Satisfação e Google Reviews",
+    desc: "Satisfacao e Google Reviews",
     icon: <Star className="w-5 h-5" />,
   },
 ];
 
 const features = [
-  { title: "Handoffs", desc: "Escala inteligente para humanos em casos críticos" },
+  { title: "Handoffs", desc: "Escala inteligente para humanos em casos criticos" },
   { title: "Ferramentas", desc: "Agenda, CRM, ERP e base de conhecimento integrados" },
-  { title: "Guardrails", desc: "LGPD, limites de risco e confirmação em casos sensíveis" },
+  { title: "Guardrails", desc: "LGPD, limites de risco e confirmacao em casos sensiveis" },
 ];
 
-export default function SolucaoSlide() {
+interface SolucaoSlideProps {
+  onOpenModal?: (modal: ModalKind) => void;
+}
+
+export default function SolucaoSlide({ onOpenModal }: SolucaoSlideProps) {
   return (
     <SlideShell
       eyebrow="Solução"
@@ -88,21 +93,26 @@ export default function SolucaoSlide() {
                 >
                   <div style={{ transform: `rotate(-${angle}deg)` }}>
                     <div className="animate-[spin_28s_linear_infinite_reverse]">
-                      <motion.div
-                        className="relative w-14 h-14 rounded-full bg-black/60 border border-white/20 hover:border-[#00FF94] transition-all flex items-center justify-center backdrop-blur-md group"
+                      <motion.button
+                        type="button"
+                        onClick={() => onOpenModal?.({ type: "agent", agent: agent.id })}
+                        className="relative w-14 h-14 rounded-full bg-black/60 border border-white/20 hover:border-[#00FF94] transition-all flex items-center justify-center backdrop-blur-md group cursor-pointer"
                         initial={{ opacity: 0, scale: 0 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.2 + index * 0.1 }}
-                        whileHover={{ scale: 1.1 }}
+                        whileHover={{ scale: 1.15, boxShadow: "0 0 20px rgba(0, 255, 148, 0.4)" }}
+                        whileTap={{ scale: 0.95 }}
                       >
+                        {/* Pulse ring */}
+                        <span className="absolute inset-0 rounded-full border border-[#00FF94]/30 animate-ping opacity-30" />
                         <div className="text-white/80 group-hover:text-[#00FF94] transition-colors">
                           {agent.icon}
                         </div>
-                        <span className="absolute -bottom-10 text-[10px] font-medium text-white/60 whitespace-nowrap text-center leading-tight">
+                        <span className="absolute -bottom-10 text-[10px] font-medium text-white/60 group-hover:text-white whitespace-nowrap text-center leading-tight transition-colors">
                           {agent.name}
                         </span>
-                      </motion.div>
+                      </motion.button>
                     </div>
                   </div>
                 </div>

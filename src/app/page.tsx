@@ -4,9 +4,17 @@ import { useRef, useEffect, useCallback, useState } from "react";
 import dynamic from "next/dynamic";
 import { motion, useScroll } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import type { ModalKind } from "@/types/modal";
 
 // 3D Background (dynamic import to avoid SSR issues)
 const Scene = dynamic(() => import("@/components/3d/Scene"), { ssr: false });
+
+// Modals (dynamic import for performance)
+const AgentModal = dynamic(() => import("@/components/modals/AgentModal"), { ssr: false });
+const CRMPreviewModal = dynamic(() => import("@/components/modals/CRMPreviewModal"), { ssr: false });
+const DashboardPreviewModal = dynamic(() => import("@/components/modals/DashboardPreviewModal"), { ssr: false });
+const ROICalculatorModal = dynamic(() => import("@/components/modals/ROICalculatorModal"), { ssr: false });
+const CostReductionModal = dynamic(() => import("@/components/modals/CostReductionModal"), { ssr: false });
 
 // Slides
 import IntroSlide from "@/components/slides/IntroSlide";
@@ -15,27 +23,38 @@ import DesafioSlide from "@/components/slides/DesafioSlide";
 import SolucaoSlide from "@/components/slides/SolucaoSlide";
 import FerramentasSlide from "@/components/slides/FerramentasSlide";
 import GanhosSlide from "@/components/slides/GanhosSlide";
+import ViabilidadeSlide from "@/components/slides/ViabilidadeSlide";
 import EntregaveisSlide from "@/components/slides/EntregaveisSlide";
 import InvestimentoSlide from "@/components/slides/InvestimentoSlide";
 import CronogramaSlide from "@/components/slides/CronogramaSlide";
-
-const slides = [
-  { id: "intro", label: "Início", element: <IntroSlide /> },
-  { id: "diagnostico", label: "Diagnóstico", element: <DiagnosticoSlide /> },
-  { id: "desafio", label: "Desafio", element: <DesafioSlide /> },
-  { id: "solucao", label: "Solução", element: <SolucaoSlide /> },
-  { id: "ferramentas", label: "Ferramentas", element: <FerramentasSlide /> },
-  { id: "ganhos", label: "Ganhos", element: <GanhosSlide /> },
-  { id: "entregaveis", label: "Entregáveis", element: <EntregaveisSlide /> },
-  { id: "investimento", label: "Investimento", element: <InvestimentoSlide /> },
-  { id: "cronograma", label: "Cronograma", element: <CronogramaSlide /> },
-];
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollXProgress } = useScroll({ container: containerRef });
   const [activeSlide, setActiveSlide] = useState(0);
   const [isIntroComplete, setIsIntroComplete] = useState(false);
+  const [modal, setModal] = useState<ModalKind>(null);
+
+  const handleOpenModal = useCallback((newModal: ModalKind) => {
+    setModal(newModal);
+  }, []);
+
+  const handleCloseModal = useCallback(() => {
+    setModal(null);
+  }, []);
+
+  const slides = [
+    { id: "intro", label: "Inicio", element: <IntroSlide /> },
+    { id: "diagnostico", label: "Diagnostico", element: <DiagnosticoSlide /> },
+    { id: "desafio", label: "Desafio", element: <DesafioSlide /> },
+    { id: "solucao", label: "Solucao", element: <SolucaoSlide onOpenModal={handleOpenModal} /> },
+    { id: "ferramentas", label: "Ferramentas", element: <FerramentasSlide onOpenModal={handleOpenModal} /> },
+    { id: "ganhos", label: "Ganhos", element: <GanhosSlide /> },
+    { id: "viabilidade", label: "Viabilidade", element: <ViabilidadeSlide onOpenModal={handleOpenModal} /> },
+    { id: "entregaveis", label: "Entregaveis", element: <EntregaveisSlide /> },
+    { id: "investimento", label: "Investimento", element: <InvestimentoSlide /> },
+    { id: "cronograma", label: "Cronograma", element: <CronogramaSlide /> },
+  ];
 
   const scrollToIndex = useCallback((index: number) => {
     if (!containerRef.current) return;
@@ -137,7 +156,7 @@ export default function Home() {
       <div className="absolute inset-0 z-[1] bg-[#02040A]/32 pointer-events-none" />
 
       {/* Navigation */}
-      <div className="fixed top-6 left-0 right-0 z-40 flex items-center justify-center pointer-events-none">
+      <div className="fixed bottom-8 left-0 right-0 z-40 flex items-center justify-center pointer-events-none">
         <div className="flex items-center gap-3 bg-black/40 border border-white/10 backdrop-blur px-3 py-2 rounded-full pointer-events-auto max-w-[90vw] overflow-x-auto scrollbar-hide">
           <button
             type="button"
@@ -197,25 +216,39 @@ export default function Home() {
 
       {/* Progress Bar */}
       <motion.div
-        className="fixed bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#00E5FF] to-[#00FF94] origin-left z-40"
+        className="fixed bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#00E5FF] to-[#00FF94] origin-left z-30"
         style={{ scaleX: scrollXProgress }}
       />
 
-      {/* Keyboard hints */}
-      <div className="fixed bottom-6 left-6 z-30 pointer-events-none">
-        <div className="flex items-center gap-4 text-white/40 text-xs">
-          <span className="flex items-center gap-1">
-            <kbd className="px-2 py-1 bg-white/10 rounded text-[10px]">←</kbd>
-            <kbd className="px-2 py-1 bg-white/10 rounded text-[10px]">→</kbd>
-            <span className="ml-1">Navegar</span>
-          </span>
-        </div>
+      {/* Agency branding - top right */}
+      <div className="fixed top-6 right-6 z-30 pointer-events-none flex items-center gap-3">
+        <img
+          src="/branding/logo2.png"
+          alt="Convert A.I"
+          className="h-5 opacity-50 invert"
+        />
       </div>
 
-      {/* Contact info */}
-      <div className="fixed bottom-6 right-6 z-30 pointer-events-none">
-        <p className="text-white/40 text-xs text-right">contato@alma.com.br</p>
-      </div>
+      {/* Modals */}
+      {modal?.type === "agent" && (
+        <AgentModal
+          agent={modal.agent}
+          isOpen={true}
+          onClose={handleCloseModal}
+        />
+      )}
+      {modal?.type === "crm" && (
+        <CRMPreviewModal isOpen={true} onClose={handleCloseModal} />
+      )}
+      {modal?.type === "dashboard" && (
+        <DashboardPreviewModal isOpen={true} onClose={handleCloseModal} />
+      )}
+      {modal?.type === "roi" && (
+        <ROICalculatorModal isOpen={true} onClose={handleCloseModal} />
+      )}
+      {modal?.type === "costs" && (
+        <CostReductionModal isOpen={true} onClose={handleCloseModal} />
+      )}
     </main>
   );
 }

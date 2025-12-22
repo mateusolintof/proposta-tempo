@@ -1,38 +1,58 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { LayoutDashboard, Users, History, Filter } from "lucide-react";
+import { LayoutDashboard, Users, History, Filter, Maximize2 } from "lucide-react";
 import SlideShell from "@/components/ui/SlideShell";
+import type { ModalKind } from "@/types/modal";
 
 const tools = [
   {
+    id: "crm",
     icon: <Users className="w-6 h-6" />,
     title: "CRM Integrado",
-    desc: "Visualização completa do funil de vendas com status de cada lead",
+    desc: "Visualizacao completa do funil de vendas com status de cada lead",
+    hasPreview: true,
   },
   {
+    id: "dashboard",
     icon: <LayoutDashboard className="w-6 h-6" />,
     title: "Dashboard Executivo",
-    desc: "KPIs em tempo real para tomada de decisão rápida",
+    desc: "KPIs em tempo real para tomada de decisao rapida",
+    hasPreview: true,
   },
   {
+    id: "history",
     icon: <History className="w-6 h-6" />,
-    title: "Histórico Completo",
-    desc: "Todas as conversas registradas e acessíveis para análise",
+    title: "Historico Completo",
+    desc: "Todas as conversas registradas e acessiveis para analise",
+    hasPreview: false,
   },
   {
+    id: "filters",
     icon: <Filter className="w-6 h-6" />,
-    title: "Filtros Avançados",
-    desc: "Segmentação por canal, equipe e período personalizado",
+    title: "Filtros Avancados",
+    desc: "Segmentacao por canal, equipe e periodo personalizado",
+    hasPreview: false,
   },
 ];
 
 const metrics = [
-  { label: "Aumento de Conversão", value: "+40%" },
+  { label: "Aumento de Conversao", value: "+40%" },
   { label: "Tempo de Resposta", value: "Imediato" },
 ];
 
-export default function FerramentasSlide() {
+interface FerramentasSlideProps {
+  onOpenModal?: (modal: ModalKind) => void;
+}
+
+export default function FerramentasSlide({ onOpenModal }: FerramentasSlideProps) {
+  const handleToolClick = (toolId: string) => {
+    if (toolId === "crm") {
+      onOpenModal?.({ type: "crm" });
+    } else if (toolId === "dashboard") {
+      onOpenModal?.({ type: "dashboard" });
+    }
+  };
   return (
     <SlideShell
       eyebrow="Ferramentas"
@@ -45,28 +65,46 @@ export default function FerramentasSlide() {
       {/* Tools Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
         {tools.map((tool, index) => (
-          <motion.div
-            key={tool.title}
-            className="bg-white/5 border border-white/10 rounded-xl p-6 hover:border-[#00E5FF]/30 transition-colors"
+          <motion.button
+            key={tool.id}
+            type="button"
+            onClick={() => tool.hasPreview && handleToolClick(tool.id)}
+            className={`bg-white/5 border border-white/10 rounded-xl p-6 text-left transition-all ${
+              tool.hasPreview
+                ? "hover:border-[#00E5FF]/50 hover:bg-white/10 cursor-pointer"
+                : "cursor-default"
+            }`}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: index * 0.1 }}
+            whileHover={tool.hasPreview ? { scale: 1.02 } : {}}
+            whileTap={tool.hasPreview ? { scale: 0.98 } : {}}
           >
             <div className="flex items-start gap-4">
               <div className="p-3 bg-[#00E5FF]/10 rounded-lg text-[#00E5FF]">
                 {tool.icon}
               </div>
-              <div>
-                <h3 className="text-lg font-semibold text-white">
-                  {tool.title}
-                </h3>
+              <div className="flex-1">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-lg font-semibold text-white">
+                    {tool.title}
+                  </h3>
+                  {tool.hasPreview && (
+                    <Maximize2 className="w-4 h-4 text-[#00E5FF] opacity-60" />
+                  )}
+                </div>
                 <p className="text-white/60 mt-1 text-sm leading-relaxed">
                   {tool.desc}
                 </p>
+                {tool.hasPreview && (
+                  <span className="inline-block mt-2 text-xs text-[#00E5FF]/70">
+                    Clique para ver preview
+                  </span>
+                )}
               </div>
             </div>
-          </motion.div>
+          </motion.button>
         ))}
       </div>
 

@@ -21,27 +21,19 @@ export default function IntroSlide() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, ease: "easeOut" }}
       >
-        {/* Logo */}
+        {/* Agency Logo */}
         <motion.div
-          className="mb-8 inline-flex items-center justify-center"
+          className="mb-12 inline-flex items-center justify-center"
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.8 }}
         >
-          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-[#00E5FF] to-[#00FF94] flex items-center justify-center shadow-[0_0_60px_rgba(0,229,255,0.3)]">
-            <span className="text-[#02040A] font-bold text-2xl">CM</span>
-          </div>
+          <img
+            src="/branding/logo2.png"
+            alt="Convert A.I"
+            className="h-12 md:h-14 invert"
+          />
         </motion.div>
-
-        {/* Eyebrow */}
-        <motion.span
-          className="inline-block mb-4 uppercase tracking-[0.3em] text-xs text-[#00E5FF]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-        >
-          Proposta Comercial
-        </motion.span>
 
         {/* Title */}
         <motion.h1

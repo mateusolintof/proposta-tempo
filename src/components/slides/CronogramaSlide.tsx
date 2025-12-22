@@ -93,6 +93,22 @@ export default function CronogramaSlide() {
           <Rocket className="w-4 h-4" />
         </div>
       </motion.div>
+
+      {/* Agency signature */}
+      <motion.div
+        className="mt-16 flex flex-col items-center gap-2"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.8 }}
+      >
+        <p className="text-white/30 text-xs uppercase tracking-widest">Desenvolvido por</p>
+        <img
+          src="/branding/logo1.png"
+          alt="Convert A.I - Atendimento Personalizado"
+          className="h-12 opacity-50 invert"
+        />
+      </motion.div>
     </SlideShell>
   );
 }
