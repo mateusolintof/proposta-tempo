@@ -28,6 +28,7 @@ import EntregaveisSlide from "@/components/slides/EntregaveisSlide";
 import InvestimentoSlide from "@/components/slides/InvestimentoSlide";
 import CronogramaSlide from "@/components/slides/CronogramaSlide";
 import ImpactoSlide from "@/components/slides/ImpactoSlide";
+import FAQSlide from "@/components/slides/FAQSlide";
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -55,6 +56,7 @@ export default function Home() {
     { id: "viabilidade", label: "Viabilidade", element: <ViabilidadeSlide onOpenModal={handleOpenModal} /> },
     { id: "entregaveis", label: "Entregaveis", element: <EntregaveisSlide /> },
     { id: "investimento", label: "Investimento", element: <InvestimentoSlide /> },
+    { id: "faq", label: "FAQ", element: <FAQSlide /> },
     { id: "cronograma", label: "Cronograma", element: <CronogramaSlide /> },
   ];
 
