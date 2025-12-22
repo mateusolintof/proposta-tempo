@@ -60,7 +60,7 @@ const faqItems: FAQItem[] = [
 ];
 
 export default function FAQSlide() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   const toggleItem = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
