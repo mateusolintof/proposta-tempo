@@ -6,8 +6,11 @@ import {
   CalendarCheck,
   TrendingUp,
   DollarSign,
+  ArrowRight,
+  BarChart3,
 } from "lucide-react";
 import SlideShell from "@/components/ui/SlideShell";
+import type { ModalKind } from "@/types/modal";
 
 const gains = [
   {
@@ -41,7 +44,11 @@ const mainMetrics = [
   { label: "Aumento Conversão", value: "+40%", color: "#00E5FF" },
 ];
 
-export default function GanhosSlide() {
+interface GanhosSlideProps {
+  onOpenModal?: (modal: ModalKind) => void;
+}
+
+export default function GanhosSlide({ onOpenModal }: GanhosSlideProps) {
   return (
     <SlideShell
       eyebrow="Resultados"
@@ -109,6 +116,39 @@ export default function GanhosSlide() {
           </motion.div>
         ))}
       </div>
+
+      {/* Action Buttons */}
+      <motion.div
+        className="mt-10 flex flex-wrap justify-center gap-4"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ delay: 0.5 }}
+      >
+        <motion.button
+          type="button"
+          onClick={() => onOpenModal?.({ type: "gains" })}
+          className="group flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-[#00FF94]/10 to-transparent border border-[#00FF94]/30 rounded-xl text-white hover:border-[#00FF94]/60 hover:bg-[#00FF94]/5 transition-all"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <TrendingUp className="w-5 h-5 text-[#00FF94]" />
+          <span className="font-medium">Detalhar Ganhos Operacionais</span>
+          <ArrowRight className="w-4 h-4 text-[#00FF94] group-hover:translate-x-1 transition-transform" />
+        </motion.button>
+
+        <motion.button
+          type="button"
+          onClick={() => onOpenModal?.({ type: "intelligence" })}
+          className="group flex items-center gap-3 px-6 py-3 bg-gradient-to-r from-[#00E5FF]/10 to-transparent border border-[#00E5FF]/30 rounded-xl text-white hover:border-[#00E5FF]/60 hover:bg-[#00E5FF]/5 transition-all"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+        >
+          <BarChart3 className="w-5 h-5 text-[#00E5FF]" />
+          <span className="font-medium">Ver Inteligencia de Dados</span>
+          <ArrowRight className="w-4 h-4 text-[#00E5FF] group-hover:translate-x-1 transition-transform" />
+        </motion.button>
+      </motion.div>
     </SlideShell>
   );
 }

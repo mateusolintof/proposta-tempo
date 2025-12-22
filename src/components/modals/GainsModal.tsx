@@ -1,0 +1,247 @@
+"use client";
+
+import type { ReactNode } from "react";
+import { CalendarCheck2, Gauge, TrendingUp } from "lucide-react";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  type ChartConfig,
+} from "@/components/ui/chart";
+import ModalWrapper from "./ModalWrapper";
+
+interface GainsModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const workloadData = [
+  { name: "Seg", ia: 68, humano: 34 },
+  { name: "Ter", ia: 72, humano: 40 },
+  { name: "Qua", ia: 78, humano: 46 },
+  { name: "Qui", ia: 75, humano: 42 },
+  { name: "Sex", ia: 66, humano: 38 },
+  { name: "Sab", ia: 54, humano: 22 },
+];
+
+const workloadChartConfig = {
+  ia: { label: "IA", color: "#00E5FF" },
+  humano: { label: "Humano", color: "#1a3a4a" },
+} satisfies ChartConfig;
+
+function Bullet({ children }: { children: ReactNode }) {
+  return (
+    <div className="flex gap-3 text-sm text-slate-700">
+      <span
+        className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#00E5FF]"
+        aria-hidden="true"
+      />
+      <div className="min-w-0">{children}</div>
+    </div>
+  );
+}
+
+export default function GainsModal({ isOpen, onClose }: GainsModalProps) {
+  return (
+    <ModalWrapper
+      isOpen={isOpen}
+      onClose={onClose}
+      title="Ganhos Operacionais"
+      subtitle="Impacto direto na operacao comercial"
+    >
+      <div className="space-y-6">
+        <div className="text-sm text-white/70">
+          Esta e uma visao do que muda na operacao quando o volume repetitivo e
+          absorvido pela IA, com governanca de pipeline e relatorios para
+          gestao.
+        </div>
+
+        <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
+          {/* Left Column - Benefit Cards */}
+          <div className="space-y-4">
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <div className="flex items-start gap-4">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#00E5FF]/20 text-[#00E5FF]">
+                  <TrendingUp className="h-5 w-5" />
+                </div>
+                <div className="min-w-0">
+                  <h4 className="text-base font-bold text-white">
+                    Receita capturada com cadencia
+                  </h4>
+                  <p className="mt-1 text-sm text-white/60">
+                    Leads entram fora do horario, voltam para o funil e seguem
+                    um proximo passo claro — sem depender de memoria ou
+                    planilhas.
+                  </p>
+                  <div className="mt-4 space-y-2">
+                    <Bullet>
+                      Resposta imediata 24/7 para nao &quot;esfriar&quot; o lead.
+                    </Bullet>
+                    <Bullet>
+                      Qualificacao e roteamento por convenio/particular.
+                    </Bullet>
+                    <Bullet>
+                      Follow-up automatico com prioridade por intencao.
+                    </Bullet>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <div className="flex items-start gap-4">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#00E5FF]/20 text-[#00E5FF]">
+                  <Gauge className="h-5 w-5" />
+                </div>
+                <div className="min-w-0">
+                  <h4 className="text-base font-bold text-white">
+                    Menos ruido, mais produtividade
+                  </h4>
+                  <p className="mt-1 text-sm text-white/60">
+                    A recepcao deixa de ser call center. O time humano atua onde
+                    faz diferenca: negociacao, casos complexos e atendimento
+                    presencial.
+                  </p>
+                  <div className="mt-4 space-y-2">
+                    <Bullet>
+                      Fila unica com contexto e historico da conversa.
+                    </Bullet>
+                    <Bullet>Distribuicao por responsavel e por canal.</Bullet>
+                    <Bullet>
+                      Checklist de proximos passos para reduzir retrabalho.
+                    </Bullet>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <div className="flex items-start gap-4">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#00E5FF]/20 text-[#00E5FF]">
+                  <CalendarCheck2 className="h-5 w-5" />
+                </div>
+                <div className="min-w-0">
+                  <h4 className="text-base font-bold text-white">
+                    Agenda mais previsivel
+                  </h4>
+                  <p className="mt-1 text-sm text-white/60">
+                    Confirmacao ativa, fila de espera e remarcacao guiada
+                    diminuem lacunas — e deixam claro onde estao as perdas do
+                    funil.
+                  </p>
+                  <div className="mt-4 space-y-2">
+                    <Bullet>
+                      Lembretes e confirmacao automatizados antes da consulta.
+                    </Bullet>
+                    <Bullet>
+                      Reagendamento imediato quando ha desistencia.
+                    </Bullet>
+                    <Bullet>
+                      Registro de motivos para melhoria continua.
+                    </Bullet>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column - Chart and Reports */}
+          <div className="space-y-4">
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <div className="flex items-start justify-between gap-4">
+                <div className="min-w-0">
+                  <div className="text-sm font-semibold text-white">
+                    Carga de atendimento (exemplo)
+                  </div>
+                  <div className="mt-1 text-xs text-white/50">
+                    IA absorve picos e fora do horario; humano foca no que
+                    converte.
+                  </div>
+                </div>
+                <div className="flex shrink-0 items-center gap-2 text-xs text-white/60">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1">
+                    <span
+                      className="h-2 w-2 rounded-full"
+                      style={{ backgroundColor: "#00E5FF" }}
+                    />
+                    IA
+                  </span>
+                  <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1">
+                    <span
+                      className="h-2 w-2 rounded-full"
+                      style={{ backgroundColor: "#1a3a4a" }}
+                    />
+                    Humano
+                  </span>
+                </div>
+              </div>
+              <div className="mt-4">
+                <ChartContainer
+                  config={workloadChartConfig}
+                  className="h-56 w-full"
+                >
+                  <BarChart
+                    data={workloadData}
+                    margin={{ left: 8, right: 8, top: 8, bottom: 0 }}
+                  >
+                    <CartesianGrid
+                      vertical={false}
+                      strokeDasharray="3 3"
+                      stroke="rgba(255, 255, 255, 0.1)"
+                    />
+                    <XAxis
+                      dataKey="name"
+                      tickLine={false}
+                      axisLine={false}
+                      tick={{ fill: "rgba(255, 255, 255, 0.6)", fontSize: 12 }}
+                    />
+                    <YAxis hide tickLine={false} axisLine={false} />
+                    <ChartTooltip content={<ChartTooltipContent />} />
+                    <Bar
+                      dataKey="ia"
+                      stackId="workload"
+                      fill="var(--color-ia)"
+                      radius={[10, 10, 0, 0]}
+                    />
+                    <Bar
+                      dataKey="humano"
+                      stackId="workload"
+                      fill="var(--color-humano)"
+                      radius={[0, 0, 10, 10]}
+                    />
+                  </BarChart>
+                </ChartContainer>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <div className="text-sm font-semibold text-white">
+                O que aparece em Reports
+              </div>
+              <div className="mt-3 space-y-2">
+                <Bullet>
+                  Tempo de primeira resposta por canal e por etapa (IA vs
+                  humano).
+                </Bullet>
+                <Bullet>
+                  Conversao por etapa, origem e responsavel — com historico.
+                </Bullet>
+                <Bullet>
+                  No-show, remarcacoes e fila de espera por periodo.
+                </Bullet>
+                <Bullet>
+                  Motivos de perda e recomendacoes acionaveis geradas por IA.
+                </Bullet>
+              </div>
+              <div className="mt-4 text-xs text-white/40">
+                Dados e metas sao ilustrativos nesta proposta. Ajustamos apos a
+                imersao e leitura dos dados reais.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ModalWrapper>
+  );
+}

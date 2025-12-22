@@ -15,6 +15,8 @@ const CRMPreviewModal = dynamic(() => import("@/components/modals/CRMPreviewModa
 const DashboardPreviewModal = dynamic(() => import("@/components/modals/DashboardPreviewModal"), { ssr: false });
 const ROICalculatorModal = dynamic(() => import("@/components/modals/ROICalculatorModal"), { ssr: false });
 const CostReductionModal = dynamic(() => import("@/components/modals/CostReductionModal"), { ssr: false });
+const GainsModal = dynamic(() => import("@/components/modals/GainsModal"), { ssr: false });
+const IntelligenceModal = dynamic(() => import("@/components/modals/IntelligenceModal"), { ssr: false });
 
 // Slides
 import IntroSlide from "@/components/slides/IntroSlide";
@@ -52,7 +54,7 @@ export default function Home() {
     { id: "impacto", label: "Impacto", element: <ImpactoSlide /> },
     { id: "solucao", label: "Solucao", element: <SolucaoSlide onOpenModal={handleOpenModal} /> },
     { id: "ferramentas", label: "Ferramentas", element: <FerramentasSlide onOpenModal={handleOpenModal} /> },
-    { id: "ganhos", label: "Ganhos", element: <GanhosSlide /> },
+    { id: "ganhos", label: "Ganhos", element: <GanhosSlide onOpenModal={handleOpenModal} /> },
     { id: "viabilidade", label: "Viabilidade", element: <ViabilidadeSlide onOpenModal={handleOpenModal} /> },
     { id: "entregaveis", label: "Entregaveis", element: <EntregaveisSlide /> },
     { id: "investimento", label: "Investimento", element: <InvestimentoSlide /> },
@@ -252,6 +254,12 @@ export default function Home() {
       )}
       {modal?.type === "costs" && (
         <CostReductionModal isOpen={true} onClose={handleCloseModal} />
+      )}
+      {modal?.type === "gains" && (
+        <GainsModal isOpen={true} onClose={handleCloseModal} />
+      )}
+      {modal?.type === "intelligence" && (
+        <IntelligenceModal isOpen={true} onClose={handleCloseModal} />
       )}
     </main>
   );

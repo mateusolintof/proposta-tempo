@@ -6,6 +6,8 @@ export type ModalKind =
   | { type: "dashboard" }
   | { type: "roi" }
   | { type: "costs" }
+  | { type: "gains" }
+  | { type: "intelligence" }
   | null;
 
 export interface AgentData {
