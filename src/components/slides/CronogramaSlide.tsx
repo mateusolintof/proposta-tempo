@@ -104,9 +104,9 @@ export default function CronogramaSlide() {
       >
         <p className="text-white/30 text-xs uppercase tracking-widest">Desenvolvido por</p>
         <img
-          src="/branding/logo1.png"
+          src="/branding/logo-principal-white.svg"
           alt="Convert A.I - Atendimento Personalizado"
-          className="h-12 opacity-50 invert"
+          className="h-12 opacity-60"
         />
       </motion.div>
     </SlideShell>

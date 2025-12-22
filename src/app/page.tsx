@@ -223,9 +223,9 @@ export default function Home() {
       {/* Agency branding - top right */}
       <div className="fixed top-6 right-6 z-30 pointer-events-none flex items-center gap-3">
         <img
-          src="/branding/logo2.png"
+          src="/branding/logo-badge-white.svg"
           alt="Convert A.I"
-          className="h-5 opacity-50 invert"
+          className="h-5 opacity-60"
         />
       </div>
 
