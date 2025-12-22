@@ -136,7 +136,7 @@ export function IntroGate({ onEnter, isActive }: IntroGateProps) {
           color="#c9a227"
           anchorX="center"
           anchorY="middle"
-          font="/fonts/inter-bold.woff"
+          fontWeight="bold"
         >
           CM REMÉDIOS
         </Text>
@@ -149,7 +149,6 @@ export function IntroGate({ onEnter, isActive }: IntroGateProps) {
           color="#ffffff"
           anchorX="center"
           anchorY="middle"
-          font="/fonts/inter-regular.woff"
         >
           Proposta de Transformação Digital
         </Text>
