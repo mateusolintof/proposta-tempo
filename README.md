@@ -1,24 +1,29 @@
-# CM Remédios — Proposta de Agentes IA
+# CM Remedios — Proposta de Agentes IA
 
-Apresentação interativa horizontal para proposta comercial da CM Remédios, com background 3D sutil e animações profissionais.
+Apresentacao interativa horizontal para proposta comercial da CM Remedios, com background 3D sutil, modais interativos e animacoes profissionais.
 
 ## Stack
 
-- **Next.js 16** (App Router) + **React 19.2**
-- **Tailwind CSS v4** com `@theme inline`
-- **Framer Motion** para animações
-- **React Three Fiber** + **@react-three/postprocessing** para background 3D
-- **Lucide** para ícones
-- **HeroUI** para componentes base
+| Tecnologia | Versao | Uso |
+|------------|--------|-----|
+| Next.js | 16.0.10 | App Router com Turbopack |
+| React | 19.2 | UI Library |
+| Tailwind CSS | v4 | Estilizacao com `@theme inline` |
+| Framer Motion | 12.x | Animacoes de slides e modais |
+| React Three Fiber | 9.x | Background 3D |
+| HeroUI | 2.8.7 | Componentes base |
+| Recharts | - | Graficos nos modais |
+| XYFlow React | 12.x | Diagramas de fluxo dos agentes |
+| Lucide | 0.545 | Icones |
 
-## Execução
+## Execucao
 
 ```bash
 # Requisitos: Node >= 20.9.0
 npm install
 npm run dev     # http://localhost:3001
-npm run build   # Build de produção
-npm start       # Servir produção
+npm run build   # Build de producao
+npm start       # Servir producao
 ```
 
 ## Estrutura do Projeto
@@ -26,40 +31,67 @@ npm start       # Servir produção
 ```
 src/
 ├── app/
-│   ├── layout.tsx       # Fontes, metadata, providers
-│   ├── page.tsx         # Apresentação horizontal principal
-│   ├── providers.tsx    # HeroUI providers
-│   ├── globals.css      # Tokens de tema e utilitários
+│   ├── layout.tsx          # Fontes, metadata, providers
+│   ├── page.tsx            # Container principal com scroll horizontal
+│   ├── providers.tsx       # HeroUI providers
+│   ├── globals.css         # Tokens de tema e utilitarios
 │   └── favicon.ico
 ├── components/
 │   ├── 3d/
-│   │   ├── Scene.tsx           # Canvas R3F com post-processing
-│   │   └── ElegantNetwork.tsx  # Partículas conectadas animadas
+│   │   ├── Scene.tsx              # Canvas R3F com post-processing
+│   │   └── ElegantNetwork.tsx     # Particulas conectadas animadas
 │   ├── slides/
-│   │   ├── IntroSlide.tsx
-│   │   ├── DiagnosticoSlide.tsx
-│   │   ├── DesafioSlide.tsx
-│   │   ├── SolucaoSlide.tsx
-│   │   ├── FerramentasSlide.tsx
-│   │   ├── GanhosSlide.tsx
-│   │   ├── EntregaveisSlide.tsx
-│   │   ├── InvestimentoSlide.tsx
-│   │   └── CronogramaSlide.tsx
+│   │   ├── IntroSlide.tsx         # Hero com logo e titulo
+│   │   ├── DiagnosticoSlide.tsx   # Metricas de cobertura
+│   │   ├── DesafioSlide.tsx       # Abandono e impacto
+│   │   ├── ImpactoSlide.tsx       # Custo da inacao
+│   │   ├── SolucaoSlide.tsx       # 4 agentes com arquitetura
+│   │   ├── FerramentasSlide.tsx   # CRM e Dashboard
+│   │   ├── GanhosSlide.tsx        # Resultados esperados
+│   │   ├── ViabilidadeSlide.tsx   # ROI e economia
+│   │   ├── EntregaveisSlide.tsx   # Setup e suporte
+│   │   ├── InvestimentoSlide.tsx  # Precos e pacotes
+│   │   ├── FAQSlide.tsx           # Perguntas frequentes
+│   │   └── CronogramaSlide.tsx    # 4 fases de implementacao
+│   ├── modals/
+│   │   ├── ModalWrapper.tsx       # Wrapper base para modais
+│   │   ├── AgentModal.tsx         # Detalhes dos agentes IA
+│   │   ├── CRMPreviewModal.tsx    # Preview interativo do CRM
+│   │   ├── DashboardPreviewModal.tsx  # Preview do Dashboard
+│   │   ├── ROICalculatorModal.tsx # Calculadora de ROI
+│   │   ├── CostReductionModal.tsx # Simulador de economia
+│   │   ├── GainsModal.tsx         # Ganhos operacionais
+│   │   ├── IntelligenceModal.tsx  # Inteligencia de dados
+│   │   ├── agents/
+│   │   │   ├── RadialCapabilityDiagram.tsx  # Diagrama radial de capacidades
+│   │   │   └── AgentFlowDiagram.tsx         # Fluxograma interativo
+│   │   ├── crm/
+│   │   │   ├── CRMDashboardView.tsx   # Visao geral CRM
+│   │   │   ├── CRMContactsView.tsx    # Lista de contatos
+│   │   │   ├── CRMPipelineView.tsx    # Pipeline de vendas
+│   │   │   └── CRMInboxView.tsx       # Caixa de mensagens
+│   │   └── dashboard/
+│   │       ├── DashVisaoGeralView.tsx # Visao geral
+│   │       ├── DashGestaoIAView.tsx   # Gestao de IA
+│   │       ├── DashClientesView.tsx   # Clientes
+│   │       └── DashInsightsView.tsx   # Insights
 │   └── ui/
-│       ├── SlideShell.tsx      # Wrapper padrão para slides
-│       ├── card.tsx
-│       └── chart.tsx
+│       ├── SlideShell.tsx         # Wrapper padrao para slides
+│       ├── card.tsx               # Card component
+│       └── chart.tsx              # Chart components (Recharts)
+├── types/
+│   └── modal.ts                   # Tipos TypeScript para modais
 └── lib/
-    └── utils.ts
+    └── utils.ts                   # Utilitarios (cn, etc)
 
 public/
 ├── branding/
 │   ├── cmremedios-logo.png
 │   ├── logo.svg
+│   ├── logo-badge-white.svg
 │   └── logo-placeholder.svg
-├── docs/
-│   └── arquitetura.md          # Documento de negócio detalhado
-└── prints/                      # Screenshots de avaliações
+└── docs/
+    └── arquitetura.md             # Documento de negocio detalhado
 ```
 
 ## Paleta de Cores
@@ -67,46 +99,97 @@ public/
 | Token | Hex | Uso |
 |-------|-----|-----|
 | Background | `#02040A` | Fundo principal |
-| Tech Cyan | `#00E5FF` | Destaques tecnológicos |
-| Success Green | `#00FF94` | Métricas positivas, CTAs |
+| Tech Cyan | `#00E5FF` | Destaques tecnologicos |
+| Success Green | `#00FF94` | Metricas positivas, CTAs |
 | White | `#FFFFFF` / `rgba` | Textos e bordas |
 
-## Slides (9 seções)
+## Slides (12 secoes)
 
-1. **Intro** — Logo, título hero, tagline
-2. **Diagnóstico** — Métricas de cobertura e pain points
-3. **Desafio** — 50-70% abandono, impacto na reputação
-4. **Solução** — 4 agentes IA com órbita animada CSS
-5. **Ferramentas** — CRM, Dashboard, histórico
-6. **Ganhos** — -60% no-show, +40% conversão
-7. **Entregáveis** — Setup + treinamento + suporte
-8. **Investimento** — R$25k setup + R$2.5k/mês
-9. **Cronograma** — 4 fases até Go-Live
+| # | Slide | Descricao | Modais |
+|---|-------|-----------|--------|
+| 1 | Intro | Logo, titulo hero, tagline | - |
+| 2 | Diagnostico | Metricas de cobertura e pain points | - |
+| 3 | Desafio | 50-70% abandono, impacto na reputacao | - |
+| 4 | Impacto | Custo da inacao, oportunidades perdidas | - |
+| 5 | Solucao | 4 agentes IA com arquitetura | AgentModal (4 tipos) |
+| 6 | Ferramentas | CRM, Dashboard, historico | CRMPreviewModal, DashboardPreviewModal |
+| 7 | Ganhos | -60% no-show, +40% conversao | GainsModal, IntelligenceModal |
+| 8 | Viabilidade | ROI projetado, payback | ROICalculatorModal, CostReductionModal |
+| 9 | Entregaveis | Setup + treinamento + suporte | - |
+| 10 | Investimento | R$25k setup + R$2.5k/mes | - |
+| 11 | FAQ | Perguntas frequentes (accordion) | - |
+| 12 | Cronograma | 4 fases ate Go-Live | - |
 
-## Navegação
+## Sistema de Modais
 
-- **Scroll horizontal** com snap
+### Tipos de Modal
+
+```typescript
+type ModalKind =
+  | { type: "agent"; agent: "sdr" | "faq" | "noshow" | "nps" }
+  | { type: "crm" }
+  | { type: "dashboard" }
+  | { type: "roi" }
+  | { type: "costs" }
+  | { type: "gains" }
+  | { type: "intelligence" }
+  | null;
+```
+
+### Agentes IA (4 tipos)
+
+| Agente | Nome Completo | Funcao |
+|--------|---------------|--------|
+| SDR | SDR & Agendamento | Qualificacao e agendamento 24/7 |
+| FAQ | FAQ Inteligente | Respostas automaticas a duvidas |
+| NoShow | Anti No-Show | Confirmacao e reagendamento |
+| NPS | Pesquisa & NPS | Coleta de feedback pos-consulta |
+
+Cada agente possui:
+- Diagrama radial de capacidades (RadialCapabilityDiagram)
+- Fluxograma interativo (AgentFlowDiagram com XYFlow)
+- Metricas e beneficios especificos
+
+### CRM Preview
+
+Navegacao por abas:
+- Dashboard (visao geral)
+- Contatos (lista de leads)
+- Pipeline (funil de vendas)
+- Inbox (mensagens)
+
+### Dashboard Preview
+
+Navegacao por abas:
+- Visao Geral (KPIs principais)
+- Gestao IA (metricas dos agentes)
+- Clientes (base de clientes)
+- Insights (recomendacoes)
+
+## Navegacao
+
+- **Scroll horizontal** com CSS snap
 - **Setas** `←` `→` e **Space** para navegar
-- **Home** / **End** para início/fim
+- **Home** / **End** para inicio/fim
 - **Mouse wheel** convertido para scroll horizontal
-- **Dots** clicáveis no topo
-- **Barra de progresso** no rodapé
+- **Dots** clicaveis na barra inferior
+- **Barra de progresso** animada no rodape
 
 ## Background 3D
 
 O background usa React Three Fiber com:
-- 150 partículas brancas conectadas
-- Movimento orgânico baseado em noise
+- 150 particulas brancas conectadas
+- Movimento organico baseado em noise
 - Post-processing: Bloom + Vignette
 - Opacity 30% para sutileza
 - Dynamic import para evitar SSR
 
-## Documento de Negócio
+## Documento de Negocio
 
 Ver `public/docs/arquitetura.md` para:
-- Análise de gargalos (6 problemas identificados)
-- Detalhamento das 4 soluções
+- Analise de gargalos (6 problemas identificados)
+- Detalhamento das 4 solucoes
 - Fluxos operacionais
-- Métricas e KPIs esperados
-- Plano de implementação
+- Metricas e KPIs esperados
+- Plano de implementacao
 - Breakdown de investimento
