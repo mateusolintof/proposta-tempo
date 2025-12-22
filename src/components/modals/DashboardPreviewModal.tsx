@@ -1,24 +1,24 @@
 "use client";
 
 import {
-  AreaChart,
   Area,
+  AreaChart,
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  BarChart,
-  Bar,
 } from "recharts";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
 import {
   LayoutDashboard,
   Bot,
   Users,
   UserCheck,
   Lightbulb,
-  Clock,
-  AlertTriangle,
 } from "lucide-react";
 import ModalWrapper from "./ModalWrapper";
 
@@ -44,6 +44,17 @@ const funnelData = [
   { stage: "Confirmados", value: 1500, percent: 33.1, color: "#4c9aaa" },
   { stage: "Realizados", value: 1300, percent: 28.9, color: "#5dbaca" },
 ];
+
+const leadsChartConfig = {
+  leads: {
+    label: "Leads",
+    color: "#3b82a0",
+  },
+  agendamentos: {
+    label: "Agendamentos",
+    color: "#1a4a5e",
+  },
+} satisfies ChartConfig;
 
 const menuItems = [
   { icon: LayoutDashboard, label: "Visão geral", active: true },
@@ -150,7 +161,7 @@ export default function DashboardPreviewModal({
           {/* Content Area */}
           <div className="flex-1 bg-gray-50 overflow-y-auto p-6">
             {/* KPI Cards - 2 rows of 3 */}
-            <div className="grid grid-cols-3 gap-4 mb-6">
+            <div className="grid grid-cols-3 gap-4 mb-4">
               {kpis.slice(0, 3).map((kpi) => (
                 <div
                   key={kpi.label}
@@ -211,90 +222,54 @@ export default function DashboardPreviewModal({
                   </h3>
                   <span className="text-xs text-gray-400">Últimos 30 dias</span>
                 </div>
-                <div className="h-[200px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={leadsData}>
-                      <defs>
-                        <linearGradient
-                          id="colorLeadsDash"
-                          x1="0"
-                          y1="0"
-                          x2="0"
-                          y2="1"
-                        >
-                          <stop
-                            offset="5%"
-                            stopColor="#3b82a0"
-                            stopOpacity={0.3}
-                          />
-                          <stop
-                            offset="95%"
-                            stopColor="#3b82a0"
-                            stopOpacity={0}
-                          />
-                        </linearGradient>
-                        <linearGradient
-                          id="colorAgendDash"
-                          x1="0"
-                          y1="0"
-                          x2="0"
-                          y2="1"
-                        >
-                          <stop
-                            offset="5%"
-                            stopColor="#1a4a5e"
-                            stopOpacity={0.3}
-                          />
-                          <stop
-                            offset="95%"
-                            stopColor="#1a4a5e"
-                            stopOpacity={0}
-                          />
-                        </linearGradient>
-                      </defs>
-                      <CartesianGrid
-                        strokeDasharray="3 3"
-                        stroke="#e5e7eb"
-                        vertical={false}
-                      />
-                      <XAxis
-                        dataKey="day"
-                        axisLine={false}
-                        tickLine={false}
-                        tick={{ fill: "#9ca3af", fontSize: 12 }}
-                      />
-                      <YAxis
-                        axisLine={false}
-                        tickLine={false}
-                        tick={{ fill: "#9ca3af", fontSize: 12 }}
-                        domain={[0, 200]}
-                        ticks={[0, 50, 100, 150, 200]}
-                      />
-                      <Tooltip
-                        contentStyle={{
-                          backgroundColor: "#1a2a3a",
-                          border: "none",
-                          borderRadius: "8px",
-                          color: "#fff",
-                        }}
-                      />
-                      <Area
-                        type="monotone"
-                        dataKey="leads"
-                        stroke="#3b82a0"
-                        strokeWidth={2}
-                        fill="url(#colorLeadsDash)"
-                      />
-                      <Area
-                        type="monotone"
-                        dataKey="agendamentos"
-                        stroke="#1a4a5e"
-                        strokeWidth={2}
-                        fill="url(#colorAgendDash)"
-                      />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </div>
+                <ChartContainer config={leadsChartConfig} className="h-[200px] w-full">
+                  <AreaChart
+                    data={leadsData}
+                    margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+                  >
+                    <defs>
+                      <linearGradient id="fillLeadsDash" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="var(--color-leads)" stopOpacity={0.3} />
+                        <stop offset="95%" stopColor="var(--color-leads)" stopOpacity={0} />
+                      </linearGradient>
+                      <linearGradient id="fillAgendDash" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="var(--color-agendamentos)" stopOpacity={0.3} />
+                        <stop offset="95%" stopColor="var(--color-agendamentos)" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                    <XAxis
+                      dataKey="day"
+                      axisLine={false}
+                      tickLine={false}
+                      tickMargin={8}
+                    />
+                    <YAxis
+                      axisLine={false}
+                      tickLine={false}
+                      tickMargin={8}
+                      domain={[0, 200]}
+                    />
+                    <ChartTooltip
+                      cursor={false}
+                      content={<ChartTooltipContent indicator="line" />}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="leads"
+                      stroke="var(--color-leads)"
+                      fill="url(#fillLeadsDash)"
+                      strokeWidth={2}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="agendamentos"
+                      stroke="var(--color-agendamentos)"
+                      fill="url(#fillAgendDash)"
+                      strokeWidth={2}
+                    />
+                  </AreaChart>
+                </ChartContainer>
               </div>
 
               {/* Funnel Chart */}
@@ -308,7 +283,7 @@ export default function DashboardPreviewModal({
                   </h3>
                 </div>
                 <div className="space-y-2">
-                  {funnelData.map((item, index) => (
+                  {funnelData.map((item) => (
                     <div key={item.stage} className="flex items-center gap-3">
                       <div
                         className="h-6 rounded-r-full transition-all"

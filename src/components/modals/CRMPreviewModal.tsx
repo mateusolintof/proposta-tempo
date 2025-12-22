@@ -1,18 +1,22 @@
 "use client";
 
-import { useState } from "react";
 import {
-  AreaChart,
   Area,
+  AreaChart,
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
-  ResponsiveContainer,
-  PieChart,
   Pie,
-  Cell,
+  PieChart,
 } from "recharts";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent,
+} from "@/components/ui/chart";
 import {
   LayoutDashboard,
   Inbox,
@@ -45,11 +49,44 @@ const volumeData = [
 ];
 
 const origemData = [
-  { name: "WhatsApp", value: 42, color: "#1a4a5e" },
-  { name: "Instagram", value: 26, color: "#3b82a0" },
-  { name: "Google", value: 20, color: "#5ba3c0" },
-  { name: "Indicação", value: 12, color: "#8ec5d9" },
+  { name: "WhatsApp", value: 42, fill: "#1a4a5e" },
+  { name: "Instagram", value: 26, fill: "#3b82a0" },
+  { name: "Google", value: 20, fill: "#5ba3c0" },
+  { name: "Indicação", value: 12, fill: "#8ec5d9" },
 ];
+
+const volumeChartConfig = {
+  leads: {
+    label: "Leads",
+    color: "#3b82a0",
+  },
+  agendamentos: {
+    label: "Agendamentos",
+    color: "#1a4a5e",
+  },
+} satisfies ChartConfig;
+
+const origemChartConfig = {
+  value: {
+    label: "Porcentagem",
+  },
+  WhatsApp: {
+    label: "WhatsApp",
+    color: "#1a4a5e",
+  },
+  Instagram: {
+    label: "Instagram",
+    color: "#3b82a0",
+  },
+  Google: {
+    label: "Google",
+    color: "#5ba3c0",
+  },
+  Indicação: {
+    label: "Indicação",
+    color: "#8ec5d9",
+  },
+} satisfies ChartConfig;
 
 const menuItems = [
   { icon: LayoutDashboard, label: "Dashboard", active: true },
@@ -228,72 +265,54 @@ export default function CRMPreviewModal({
                   </h3>
                   <span className="text-xs text-gray-400">Última semana</span>
                 </div>
-                <div className="h-[220px]">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={volumeData}>
-                      <defs>
-                        <linearGradient
-                          id="colorLeads"
-                          x1="0"
-                          y1="0"
-                          x2="0"
-                          y2="1"
-                        >
-                          <stop
-                            offset="5%"
-                            stopColor="#3b82a0"
-                            stopOpacity={0.3}
-                          />
-                          <stop
-                            offset="95%"
-                            stopColor="#3b82a0"
-                            stopOpacity={0}
-                          />
-                        </linearGradient>
-                      </defs>
-                      <CartesianGrid
-                        strokeDasharray="3 3"
-                        stroke="#e5e7eb"
-                        vertical={false}
-                      />
-                      <XAxis
-                        dataKey="day"
-                        axisLine={false}
-                        tickLine={false}
-                        tick={{ fill: "#9ca3af", fontSize: 12 }}
-                      />
-                      <YAxis
-                        axisLine={false}
-                        tickLine={false}
-                        tick={{ fill: "#9ca3af", fontSize: 12 }}
-                        domain={[0, 320]}
-                        ticks={[0, 80, 160, 240, 320]}
-                      />
-                      <Tooltip
-                        contentStyle={{
-                          backgroundColor: "#1a2a3a",
-                          border: "none",
-                          borderRadius: "8px",
-                          color: "#fff",
-                        }}
-                      />
-                      <Area
-                        type="monotone"
-                        dataKey="leads"
-                        stroke="#3b82a0"
-                        strokeWidth={2}
-                        fill="url(#colorLeads)"
-                      />
-                      <Area
-                        type="monotone"
-                        dataKey="agendamentos"
-                        stroke="#1a4a5e"
-                        strokeWidth={2}
-                        fill="transparent"
-                      />
-                    </AreaChart>
-                  </ResponsiveContainer>
-                </div>
+                <ChartContainer config={volumeChartConfig} className="h-[220px] w-full">
+                  <AreaChart
+                    data={volumeData}
+                    margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+                  >
+                    <defs>
+                      <linearGradient id="fillLeads" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="var(--color-leads)" stopOpacity={0.3} />
+                        <stop offset="95%" stopColor="var(--color-leads)" stopOpacity={0} />
+                      </linearGradient>
+                      <linearGradient id="fillAgendamentos" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="var(--color-agendamentos)" stopOpacity={0.3} />
+                        <stop offset="95%" stopColor="var(--color-agendamentos)" stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                    <XAxis
+                      dataKey="day"
+                      axisLine={false}
+                      tickLine={false}
+                      tickMargin={8}
+                    />
+                    <YAxis
+                      axisLine={false}
+                      tickLine={false}
+                      tickMargin={8}
+                      domain={[0, 320]}
+                    />
+                    <ChartTooltip
+                      cursor={false}
+                      content={<ChartTooltipContent indicator="line" />}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="leads"
+                      stroke="var(--color-leads)"
+                      fill="url(#fillLeads)"
+                      strokeWidth={2}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="agendamentos"
+                      stroke="var(--color-agendamentos)"
+                      fill="url(#fillAgendamentos)"
+                      strokeWidth={2}
+                    />
+                  </AreaChart>
+                </ChartContainer>
               </div>
 
               {/* Donut Chart */}
@@ -301,49 +320,28 @@ export default function CRMPreviewModal({
                 <h3 className="text-base font-semibold text-gray-900 mb-4">
                   Origem dos leads
                 </h3>
-                <div className="h-[180px] flex items-center justify-center">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <PieChart>
-                      <Pie
-                        data={origemData}
-                        cx="50%"
-                        cy="50%"
-                        innerRadius={50}
-                        outerRadius={80}
-                        paddingAngle={2}
-                        dataKey="value"
-                      >
-                        {origemData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        ))}
-                      </Pie>
-                      <Tooltip
-                        contentStyle={{
-                          backgroundColor: "#1a2a3a",
-                          border: "none",
-                          borderRadius: "8px",
-                          color: "#fff",
-                        }}
-                        formatter={(value: number) => [`${value}%`, ""]}
-                      />
-                    </PieChart>
-                  </ResponsiveContainer>
-                </div>
-                {/* Legend */}
-                <div className="flex flex-wrap gap-2 justify-center mt-2">
-                  {origemData.map((item) => (
-                    <span
-                      key={item.name}
-                      className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-gray-50 rounded-full text-xs text-gray-600"
-                    >
-                      <span
-                        className="w-2 h-2 rounded-full"
-                        style={{ backgroundColor: item.color }}
-                      />
-                      {item.name} {item.value}%
-                    </span>
-                  ))}
-                </div>
+                <ChartContainer config={origemChartConfig} className="h-[180px] w-full">
+                  <PieChart>
+                    <ChartTooltip
+                      cursor={false}
+                      content={<ChartTooltipContent hideLabel />}
+                    />
+                    <Pie
+                      data={origemData}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={50}
+                      outerRadius={80}
+                      paddingAngle={2}
+                    />
+                    <ChartLegend
+                      content={<ChartLegendContent nameKey="name" />}
+                      className="-translate-y-2 flex-wrap gap-2 [&>*]:basis-1/4 [&>*]:justify-center"
+                    />
+                  </PieChart>
+                </ChartContainer>
               </div>
             </div>
           </div>
