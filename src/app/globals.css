@@ -3,9 +3,15 @@
 @source "../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
 @custom-variant dark (&:is(.dark *));
 
-/* Theme tokens - CM Remédios */
+/* Theme tokens - CM Remédios Presentation */
 :root {
-  color-scheme: light;
+  color-scheme: dark;
+
+  /* Presentation Colors */
+  --background-deep: #02040A;
+  --color-accent-success: #00FF94;
+  --color-accent-tech: #00E5FF;
+  --color-error: #FF4D4D;
 
   /* Brand Colors */
   --prime-primary: #041e42;
@@ -419,5 +425,67 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Glassmorphism utilities */
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(32px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Tech grid background */
+.tech-grid {
+  background-image:
+    linear-gradient(rgba(0, 229, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 229, 255, 0.08) 1px, transparent 1px),
+    radial-gradient(circle at 20% 20%, rgba(0, 229, 255, 0.08), transparent 35%);
+  background-size: 120px 120px, 120px 120px, 100% 100%;
+  background-position: center;
+}
+
+/* Scanline effect */
+.scanline {
+  position: absolute;
+  inset: 0;
+  width: 35%;
+  background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.18), transparent);
+  filter: blur(6px);
+  animation: scanline 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes scanline {
+  0% {
+    transform: translateX(-40%);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    transform: translateX(140%);
+    opacity: 0;
   }
 }
