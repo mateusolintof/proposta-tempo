@@ -88,7 +88,6 @@ export default function ROICalculatorModal({
       onClose={onClose}
       title="Calculadora de ROI"
       subtitle="Simule o retorno do investimento em agentes de IA"
-      size="4xl"
     >
       <div className="space-y-8">
         {/* Sliders */}

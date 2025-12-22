@@ -27,6 +27,7 @@ import ViabilidadeSlide from "@/components/slides/ViabilidadeSlide";
 import EntregaveisSlide from "@/components/slides/EntregaveisSlide";
 import InvestimentoSlide from "@/components/slides/InvestimentoSlide";
 import CronogramaSlide from "@/components/slides/CronogramaSlide";
+import ImpactoSlide from "@/components/slides/ImpactoSlide";
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -47,6 +48,7 @@ export default function Home() {
     { id: "intro", label: "Inicio", element: <IntroSlide /> },
     { id: "diagnostico", label: "Diagnostico", element: <DiagnosticoSlide /> },
     { id: "desafio", label: "Desafio", element: <DesafioSlide /> },
+    { id: "impacto", label: "Impacto", element: <ImpactoSlide /> },
     { id: "solucao", label: "Solucao", element: <SolucaoSlide onOpenModal={handleOpenModal} /> },
     { id: "ferramentas", label: "Ferramentas", element: <FerramentasSlide onOpenModal={handleOpenModal} /> },
     { id: "ganhos", label: "Ganhos", element: <GanhosSlide /> },

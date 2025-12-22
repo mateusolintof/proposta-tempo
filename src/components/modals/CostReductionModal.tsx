@@ -69,7 +69,6 @@ export default function CostReductionModal({
       onClose={onClose}
       title="Simulador de Economia"
       subtitle="Calcule a reducao de custos com automacao"
-      size="4xl"
     >
       <div className="space-y-8">
         {/* Sliders */}

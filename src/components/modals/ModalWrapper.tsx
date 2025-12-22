@@ -15,7 +15,6 @@ interface ModalWrapperProps {
   onClose: () => void;
   title: string;
   subtitle?: string;
-  size?: "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl" | "5xl" | "full";
   children: ReactNode;
 }
 
@@ -24,7 +23,6 @@ export default function ModalWrapper({
   onClose,
   title,
   subtitle,
-  size = "5xl",
   children,
 }: ModalWrapperProps) {
   return (
@@ -33,14 +31,15 @@ export default function ModalWrapper({
         <Modal
           isOpen={isOpen}
           onOpenChange={(open) => !open && onClose()}
-          size={size}
+          size="full"
           scrollBehavior="inside"
           backdrop="blur"
           hideCloseButton
           classNames={{
-            base: "bg-[#0a0f1a]/95 border border-white/10 backdrop-blur-xl max-h-[90vh]",
-            header: "border-b border-white/10 pb-4",
-            body: "py-6",
+            base: "bg-[#02040A] border-none backdrop-blur-xl h-screen max-h-screen rounded-none",
+            wrapper: "overflow-hidden",
+            header: "border-b border-white/10 pb-4 px-8 pt-6",
+            body: "py-6 px-8 overflow-y-auto",
           }}
           motionProps={{
             variants: {
@@ -65,31 +64,32 @@ export default function ModalWrapper({
             },
           }}
         >
-          <ModalContent>
-            <ModalHeader className="flex items-start justify-between gap-4">
+          <ModalContent className="h-full flex flex-col">
+            <ModalHeader className="flex items-start justify-between gap-4 flex-shrink-0">
               <div>
-                <h2 className="text-2xl md:text-3xl font-bold text-white">
+                <h2 className="text-3xl md:text-4xl font-bold text-white">
                   {title}
                 </h2>
                 {subtitle && (
-                  <p className="text-white/60 mt-1 text-sm md:text-base">
+                  <p className="text-white/60 mt-2 text-base md:text-lg">
                     {subtitle}
                   </p>
                 )}
               </div>
               <button
                 onClick={onClose}
-                className="p-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
+                className="p-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-colors group"
                 aria-label="Fechar"
               >
-                <X className="w-5 h-5 text-white/70" />
+                <X className="w-6 h-6 text-white/70 group-hover:text-white transition-colors" />
               </button>
             </ModalHeader>
-            <ModalBody>
+            <ModalBody className="flex-1 overflow-y-auto">
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
+                className="h-full"
               >
                 {children}
               </motion.div>

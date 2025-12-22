@@ -794,77 +794,89 @@ export default function AgentModal({ agent, isOpen, onClose }: AgentModalProps) 
       onClose={onClose}
       title={data.name}
       subtitle={data.fullName}
-      size="5xl"
     >
-      <div className="space-y-8">
-        {/* Description */}
-        <div className="flex items-start gap-4">
-          <div
-            className="p-4 rounded-xl"
-            style={{ backgroundColor: `${data.color}20` }}
-          >
-            <div style={{ color: data.color }}>{data.icon}</div>
+      <div className="h-full flex flex-col lg:flex-row gap-8">
+        {/* Left Column - Info */}
+        <div className="lg:w-[45%] space-y-6 flex-shrink-0">
+          {/* Description */}
+          <div className="flex items-start gap-4">
+            <div
+              className="p-4 rounded-xl flex-shrink-0"
+              style={{ backgroundColor: `${data.color}20` }}
+            >
+              <div style={{ color: data.color }}>{data.icon}</div>
+            </div>
+            <p className="text-white/70 text-base lg:text-lg leading-relaxed">
+              {data.description}
+            </p>
           </div>
-          <p className="text-white/70 text-lg leading-relaxed flex-1">
-            {data.description}
-          </p>
-        </div>
 
-        {/* Benefits */}
-        <div>
-          <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-            <CheckCircle className="w-5 h-5 text-[#00FF94]" />
-            Beneficios
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-            {data.benefits.map((benefit, index) => (
-              <motion.div
-                key={index}
-                className="flex items-start gap-3 bg-white/5 rounded-lg p-3"
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.05 }}
-              >
-                <CheckCircle className="w-4 h-4 text-[#00FF94] mt-0.5 flex-shrink-0" />
-                <span className="text-white/70 text-sm">{benefit}</span>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* Metrics */}
-        <div>
-          <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-            <TrendingUp className="w-5 h-5 text-[#00E5FF]" />
-            Metricas Esperadas
-          </h3>
-          <div className="grid grid-cols-3 gap-4">
-            {data.metrics.map((metric, index) => (
-              <motion.div
-                key={index}
-                className="bg-white/5 border border-white/10 rounded-xl p-4 text-center"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 + index * 0.1 }}
-              >
-                <p
-                  className="text-2xl md:text-3xl font-bold"
-                  style={{ color: metric.color }}
+          {/* Metrics */}
+          <div>
+            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <TrendingUp className="w-5 h-5 text-[#00E5FF]" />
+              Metricas Esperadas
+            </h3>
+            <div className="grid grid-cols-3 gap-3">
+              {data.metrics.map((metric, index) => (
+                <motion.div
+                  key={index}
+                  className="bg-white/5 border border-white/10 rounded-xl p-4 text-center"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 + index * 0.1 }}
                 >
-                  {metric.value}
-                </p>
-                <p className="text-white/50 text-xs mt-1">{metric.label}</p>
-              </motion.div>
-            ))}
+                  <p
+                    className="text-2xl lg:text-3xl font-bold"
+                    style={{ color: metric.color }}
+                  >
+                    {metric.value}
+                  </p>
+                  <p className="text-white/50 text-xs mt-1">{metric.label}</p>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* Benefits */}
+          <div>
+            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+              <CheckCircle className="w-5 h-5 text-[#00FF94]" />
+              Beneficios
+            </h3>
+            <div className="space-y-2">
+              {data.benefits.map((benefit, index) => (
+                <motion.div
+                  key={index}
+                  className="flex items-start gap-3 bg-white/5 rounded-lg p-3"
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                >
+                  <CheckCircle className="w-4 h-4 text-[#00FF94] mt-0.5 flex-shrink-0" />
+                  <span className="text-white/70 text-sm">{benefit}</span>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="text-center pt-4 border-t border-white/10">
+            <p className="text-white/50 text-sm">
+              Este agente esta incluido no{" "}
+              <span className="text-[#00FF94] font-semibold">
+                Ecossistema Full
+              </span>
+            </p>
           </div>
         </div>
 
-        {/* Flow Diagram */}
-        <div>
+        {/* Right Column - Flow Diagram */}
+        <div className="flex-1 flex flex-col min-h-[500px] lg:min-h-0">
           <h3 className="text-lg font-semibold text-white mb-4">
             Fluxo de Operacao
           </h3>
-          <div className="h-[400px] bg-[#0a0f1a] rounded-xl border border-white/10 overflow-hidden">
+          <div className="flex-1 bg-[#0a0f1a] rounded-xl border border-white/10 overflow-hidden">
             <ReactFlow
               nodes={nodes}
               edges={edges}
@@ -874,29 +886,22 @@ export default function AgentModal({ agent, isOpen, onClose }: AgentModalProps) 
               nodesDraggable={false}
               nodesConnectable={false}
               elementsSelectable={false}
-              zoomOnScroll={false}
-              panOnScroll={false}
-              panOnDrag={false}
+              zoomOnScroll={true}
+              panOnScroll={true}
+              panOnDrag={true}
+              minZoom={0.5}
+              maxZoom={2}
             >
               <Background color="#ffffff10" gap={20} />
               <Controls
-                showZoom={false}
+                showZoom={true}
                 showFitView={true}
                 showInteractive={false}
                 position="bottom-right"
+                className="!bg-white/10 !border-white/20 !rounded-lg [&>button]:!bg-transparent [&>button]:!border-white/10 [&>button]:!text-white/70 [&>button:hover]:!bg-white/10"
               />
             </ReactFlow>
           </div>
-        </div>
-
-        {/* CTA */}
-        <div className="text-center pt-4 border-t border-white/10">
-          <p className="text-white/50 text-sm">
-            Este agente esta incluido no{" "}
-            <span className="text-[#00FF94] font-semibold">
-              Ecossistema Full
-            </span>
-          </p>
         </div>
       </div>
     </ModalWrapper>

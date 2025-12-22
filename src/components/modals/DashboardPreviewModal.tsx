@@ -108,7 +108,6 @@ export default function DashboardPreviewModal({
       onClose={onClose}
       title="Dashboard Executivo"
       subtitle="KPIs em tempo real para tomada de decisao"
-      size="5xl"
     >
       <div className="space-y-8">
         {/* KPIs Grid */}

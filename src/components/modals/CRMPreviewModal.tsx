@@ -70,7 +70,6 @@ export default function CRMPreviewModal({
       onClose={onClose}
       title="CRM Comercial"
       subtitle="Visualizacao completa do funil de vendas"
-      size="5xl"
     >
       <div className="space-y-8">
         {/* Pipeline Visual */}
