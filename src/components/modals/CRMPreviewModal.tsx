@@ -81,8 +81,11 @@ export default function CRMPreviewModal({
       subtitle=""
     >
       <div className="h-full flex flex-col -mx-8 -mt-2">
+        {/* Transition gradient from dark modal to light content */}
+        <div className="h-2 bg-gradient-to-b from-[#02040A] to-[#1a2a3a]" />
+
         {/* Header with subtitle and filters */}
-        <div className="px-8 pb-4 border-b border-gray-200 bg-white">
+        <div className="px-8 pb-4 border-b border-gray-100 bg-gradient-to-b from-gray-50 to-white shadow-sm">
           <div className="flex items-start justify-between">
             <div>
               <p className="text-[10px] font-semibold tracking-widest text-gray-400 uppercase">
@@ -96,13 +99,12 @@ export default function CRMPreviewModal({
               </p>
             </div>
             <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-400 bg-gray-100 px-3 py-1.5 rounded-full">
+                Preview interativo
+              </span>
               <button className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-50">
                 <Clock className="w-4 h-4" />
                 Últimos 30 dias
-              </button>
-              <button className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-50">
-                <Settings className="w-4 h-4" />
-                Segmento: ortopedia
               </button>
               <button className="inline-flex items-center gap-2 px-3 py-1.5 text-sm text-[#1a3a4a] bg-[#e8f4f8] border border-[#c5e4ed] rounded-full">
                 <Sparkles className="w-4 h-4" />

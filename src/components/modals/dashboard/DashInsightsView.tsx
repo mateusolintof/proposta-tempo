@@ -239,7 +239,7 @@ export default function DashInsightsView() {
                   }`} />
                   <div className="flex-1 min-w-0">
                     <p className="text-xs text-gray-900 truncate">{item.task}</p>
-                    <p className="text-[10px] text-gray-500">{item.due}</p>
+                    <p className="text-[11px] text-gray-500">{item.due}</p>
                   </div>
                 </div>
               ))}
@@ -269,7 +269,7 @@ export default function DashInsightsView() {
                     )}
                   </div>
                   <p className="text-xs text-gray-500 mb-1">{report.description}</p>
-                  <p className="text-[10px] text-gray-400">{report.date}</p>
+                  <p className="text-[11px] text-gray-400">{report.date}</p>
                 </div>
               ))}
             </div>

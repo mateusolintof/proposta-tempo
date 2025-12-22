@@ -319,7 +319,7 @@ export default function AgentFlowDiagram({ agentType, agentColor }: AgentFlowDia
 
       {/* Legend */}
       <div className="absolute bottom-3 left-3 z-10 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 border border-gray-200 shadow-sm">
-        <div className="flex items-center gap-3 text-[10px]">
+        <div className="flex items-center gap-3 text-[11px]">
           <div className="flex items-center gap-1">
             <div className="w-2 h-2 rounded-full bg-emerald-500" />
             <span className="text-gray-600">Entrada</span>

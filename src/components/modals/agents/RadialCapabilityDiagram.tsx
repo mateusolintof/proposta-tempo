@@ -493,7 +493,7 @@ export default function RadialCapabilityDiagram({
         >
           <Bot className="w-7 h-7 mb-1" />
           <span className="text-xs font-bold text-center leading-tight">{agentConfig.centerTitle}</span>
-          <span className="text-[10px] opacity-80">{agentConfig.centerSubtitle}</span>
+          <span className="text-[11px] opacity-80">{agentConfig.centerSubtitle}</span>
         </div>
       </motion.div>
 
@@ -528,12 +528,12 @@ export default function RadialCapabilityDiagram({
                 </div>
                 <div className="min-w-0">
                   <h4 className="text-xs font-semibold text-gray-900 truncate">{cap.title}</h4>
-                  <p className="text-[10px] text-gray-500 truncate">{cap.subtitle}</p>
+                  <p className="text-[11px] text-gray-500 truncate">{cap.subtitle}</p>
                 </div>
               </div>
               <ul className="space-y-0.5">
                 {cap.items.map((item, i) => (
-                  <li key={i} className="text-[10px] text-gray-600 flex items-start gap-1">
+                  <li key={i} className="text-[11px] text-gray-600 flex items-start gap-1">
                     <span className="text-gray-400 mt-0.5">•</span>
                     <span className="leading-tight">{item}</span>
                   </li>

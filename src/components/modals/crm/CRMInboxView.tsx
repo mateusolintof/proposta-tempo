@@ -164,7 +164,7 @@ export default function CRMInboxView() {
                 }`}
               >
                 <p className="text-sm">{msg.text}</p>
-                <p className={`text-[10px] mt-1 ${
+                <p className={`text-[11px] mt-1 ${
                   msg.from === "lead" ? "text-gray-400" : "text-white/60"
                 }`}>
                   {msg.time} {msg.from === "ai" && "• IA"}

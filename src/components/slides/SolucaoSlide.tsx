@@ -109,7 +109,7 @@ export default function SolucaoSlide({ onOpenModal }: SolucaoSlideProps) {
                         <div className="text-white/80 group-hover:text-[#00FF94] transition-colors">
                           {agent.icon}
                         </div>
-                        <span className="absolute -bottom-10 text-[10px] font-medium text-white/60 group-hover:text-white whitespace-nowrap text-center leading-tight transition-colors">
+                        <span className="absolute -bottom-10 text-[11px] font-medium text-white/60 group-hover:text-white whitespace-nowrap text-center leading-tight transition-colors">
                           {agent.name}
                         </span>
                       </motion.button>

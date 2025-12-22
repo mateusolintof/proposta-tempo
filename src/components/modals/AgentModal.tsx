@@ -186,9 +186,14 @@ export default function AgentModal({ agent, isOpen, onClose }: AgentModalProps) 
 
         {/* Bottom Section: Interactive Flowchart */}
         <div>
-          <h3 className="text-lg font-semibold text-white mb-4">
-            Fluxo de Operacao Detalhado
-          </h3>
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-lg font-semibold text-white">
+              Fluxo de Operacao Detalhado
+            </h3>
+            <span className="text-xs text-white/40 bg-white/5 px-3 py-1 rounded-full">
+              Arraste para explorar
+            </span>
+          </div>
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
