@@ -45,8 +45,8 @@ export default function ViabilidadeSlide({ onOpenModal }: ViabilidadeSlideProps)
     <SlideShell
       eyebrow="Viabilidade"
       eyebrowColor="success"
-      title="Viabilidade Economica"
-      subtitle="Simule o retorno do investimento e economia com automacao"
+      title="Viabilidade Econômica"
+      subtitle="Simule o retorno do investimento e a economia com automação"
       align="center"
       background={
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#00FF94]/5 via-transparent to-transparent pointer-events-none" />
@@ -72,7 +72,7 @@ export default function ViabilidadeSlide({ onOpenModal }: ViabilidadeSlideProps)
             <p className="text-3xl md:text-4xl font-bold" style={{ color: item.color }}>
               {item.value}
             </p>
-            <p className="text-white/70 text-sm mt-1">{item.label}</p>
+            <p className="text-white/70 text-body mt-1">{item.label}</p>
             <p className="text-white/40 text-xs">{item.desc}</p>
           </motion.div>
         ))}
@@ -100,13 +100,13 @@ export default function ViabilidadeSlide({ onOpenModal }: ViabilidadeSlideProps)
               <h3 className="text-xl font-semibold text-white group-hover:text-[#00FF94] transition-colors">
                 Calculadora de ROI
               </h3>
-              <p className="text-white/60 mt-2 text-sm leading-relaxed">
+              <p className="text-white/60 mt-2 text-body leading-relaxed">
                 Simule o retorno do investimento baseado no seu volume de leads,
-                ticket medio e taxa de conversao atual.
+                ticket médio e taxa de conversão atual.
               </p>
               <div className="mt-4 flex items-center gap-2 text-[#00FF94]">
                 <Zap className="w-4 h-4" />
-                <span className="text-sm font-medium">Calcular agora</span>
+                <span className="text-body font-medium">Calcular agora</span>
               </div>
             </div>
           </div>
@@ -132,13 +132,13 @@ export default function ViabilidadeSlide({ onOpenModal }: ViabilidadeSlideProps)
               <h3 className="text-xl font-semibold text-white group-hover:text-[#00E5FF] transition-colors">
                 Simulador de Economia
               </h3>
-              <p className="text-white/60 mt-2 text-sm leading-relaxed">
-                Calcule a reducao de custos com automacao baseado na sua equipe
-                atual e nivel de automacao desejado.
+              <p className="text-white/60 mt-2 text-body leading-relaxed">
+                Calcule a redução de custos com automação baseada na sua equipe
+                atual e nível de automação desejado.
               </p>
               <div className="mt-4 flex items-center gap-2 text-[#00E5FF]">
                 <Zap className="w-4 h-4" />
-                <span className="text-sm font-medium">Simular economia</span>
+                <span className="text-body font-medium">Simular economia</span>
               </div>
             </div>
           </div>
@@ -147,14 +147,14 @@ export default function ViabilidadeSlide({ onOpenModal }: ViabilidadeSlideProps)
 
       {/* Bottom Note */}
       <motion.p
-        className="mt-10 text-white/40 text-sm text-center max-w-lg mx-auto"
+        className="mt-10 text-white/40 text-body text-center max-w-lg mx-auto"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ delay: 0.6 }}
       >
         * Valores projetados com base em benchmarks de mercado. Use as calculadoras
-        para simular cenarios personalizados para sua operacao.
+        para simular cenários personalizados para sua operação.
       </motion.p>
     </SlideShell>
   );

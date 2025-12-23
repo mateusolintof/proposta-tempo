@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 type SlideShellProps = {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   subtitle?: ReactNode;
   children?: ReactNode;
@@ -39,7 +39,7 @@ export default function SlideShell({
   return (
     <section
       className={cn(
-        "h-full w-full pt-[clamp(72px,8vh,96px)] pb-[clamp(36px,6vh,56px)] px-6 md:px-8 flex flex-col",
+        "h-full w-full pt-[clamp(56px,7vh,96px)] pb-[clamp(24px,5vh,56px)] px-6 md:px-8 flex flex-col",
         "items-center relative",
         align === "center" ? "text-center" : "text-left",
         className
@@ -53,21 +53,23 @@ export default function SlideShell({
           viewport={{ once: true, amount: 0.6 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
         >
-          <span
-            className={cn(
-              "inline-flex mb-4 uppercase tracking-[0.28em] text-[11px] px-4 py-2 rounded-full border backdrop-blur-md",
-              eyebrowColors[eyebrowColor]
-            )}
-          >
-            {eyebrow}
-          </span>
+          {eyebrow ? (
+            <span
+              className={cn(
+                "inline-flex mb-4 uppercase tracking-[0.28em] text-[length:var(--text-eyebrow)] px-4 py-2 rounded-full border backdrop-blur-md",
+                eyebrowColors[eyebrowColor]
+              )}
+            >
+              {eyebrow}
+            </span>
+          ) : null}
 
           <h2
             className={cn(
-              "font-bold text-white leading-tight tracking-tight",
+              "font-bold text-white leading-[1.05] tracking-tight",
               size === "compact"
-                ? "text-3xl md:text-4xl"
-                : "text-4xl md:text-5xl"
+                ? "text-[length:var(--text-section-compact)]"
+                : "text-[length:var(--text-section)]"
             )}
           >
             {title}
@@ -76,7 +78,7 @@ export default function SlideShell({
           {subtitle ? (
             <p
               className={cn(
-                "mt-3 text-white/70 text-base md:text-lg leading-relaxed",
+                "mt-3 text-white/70 text-[length:var(--text-lead)] leading-relaxed",
                 align === "center" ? "mx-auto max-w-3xl" : "max-w-3xl"
               )}
             >
@@ -86,7 +88,14 @@ export default function SlideShell({
         </motion.div>
 
         {children ? (
-          <div className={cn("mt-8 w-full flex-1 min-h-0", contentClassName)}>
+          <div
+            data-allow-vertical-scroll
+            className={cn(
+              "mt-6 md:mt-8 w-full flex-1 min-h-0 overflow-y-auto scrollbar-hide",
+              "pb-[calc(env(safe-area-inset-bottom)+96px)]",
+              contentClassName
+            )}
+          >
             {children}
           </div>
         ) : null}

@@ -58,8 +58,8 @@ const insights = [
   },
   {
     type: "success",
-    title: "Meta de agendamentos atingida",
-    description: "Parabéns! O time superou a meta de agendamentos em 12% este mês. Mantenha a estratégia atual.",
+    title: "Meta de pedidos atingida",
+    description: "Parabéns! O time superou a meta de pedidos em 12% este mês. Mantenha a estratégia atual.",
     impact: "Positivo",
     action: "Ver detalhes",
   },
@@ -282,7 +282,7 @@ export default function DashInsightsView() {
               <h4 className="font-semibold text-sm">Resumo IA</h4>
             </div>
             <p className="text-xs text-gray-200 leading-relaxed">
-              Esta semana, o principal gargalo está na conversão de leads qualificados para agendamentos.
+              Esta semana, o principal gargalo está na conversão de leads qualificados para pedidos.
               Recomendamos priorizar o follow-up nos primeiros 20 minutos após a qualificação.
             </p>
           </div>

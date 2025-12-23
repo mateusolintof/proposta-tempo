@@ -6,24 +6,26 @@ Apresentacao interativa horizontal para proposta comercial da CM Remedios, com b
 
 | Tecnologia | Versao | Uso |
 |------------|--------|-----|
-| Next.js | 16.0.10 | App Router com Turbopack |
-| React | 19.2 | UI Library |
+| Next.js | 16.1.1 | App Router com Webpack (Turbopack opcional) |
+| React | 19.2.3 | UI Library |
 | Tailwind CSS | v4 | Estilizacao com `@theme inline` |
 | Framer Motion | 12.x | Animacoes de slides e modais |
 | React Three Fiber | 9.x | Background 3D |
 | HeroUI | 2.8.7 | Componentes base |
-| Recharts | - | Graficos nos modais |
-| XYFlow React | 12.x | Diagramas de fluxo dos agentes |
-| Lucide | 0.545 | Icones |
+| Recharts | 3.6.0 | Graficos nos modais |
+| XYFlow React | 12.10 | Diagramas de fluxo dos agentes |
+| Lucide | 0.562 | Icones |
 
 ## Execucao
 
 ```bash
 # Requisitos: Node >= 20.9.0
 npm install
-npm run dev     # http://localhost:3001
-npm run build   # Build de producao
-npm start       # Servir producao
+npm run dev             # dev with webpack on http://localhost:3001
+npm run dev:turbo       # dev with Turbopack (optional)
+npm run build           # production build (webpack)
+npm run build:turbo     # production build with Turbopack
+npm start -p 3001       # serve prod build on 3001
 ```
 
 ## Estrutura do Projeto
@@ -113,7 +115,7 @@ public/
 | 4 | Impacto | Custo da inacao, oportunidades perdidas | - |
 | 5 | Solucao | 4 agentes IA com arquitetura | AgentModal (4 tipos) |
 | 6 | Ferramentas | CRM, Dashboard, historico | CRMPreviewModal, DashboardPreviewModal |
-| 7 | Ganhos | -60% no-show, +40% conversao | GainsModal, IntelligenceModal |
+| 7 | Ganhos | -60% abandono, +40% conversao | GainsModal, IntelligenceModal |
 | 8 | Viabilidade | ROI projetado, payback | ROICalculatorModal, CostReductionModal |
 | 9 | Entregaveis | Setup + treinamento + suporte | - |
 | 10 | Investimento | R$25k setup + R$2.5k/mes | - |
@@ -140,10 +142,10 @@ type ModalKind =
 
 | Agente | Nome Completo | Funcao |
 |--------|---------------|--------|
-| SDR | SDR & Agendamento | Qualificacao e agendamento 24/7 |
+| SDR | SDR & Qualificacao | Qualificacao e conversao 24/7 |
 | FAQ | FAQ Inteligente | Respostas automaticas a duvidas |
-| NoShow | Anti No-Show | Confirmacao e reagendamento |
-| NPS | Pesquisa & NPS | Coleta de feedback pos-consulta |
+| NoShow | Follow-up Automatico | Cadencia e recuperacao de conversoes |
+| NPS | Pesquisa & NPS | Coleta de feedback pos-compra |
 
 Cada agente possui:
 - Diagrama radial de capacidades (RadialCapabilityDiagram)

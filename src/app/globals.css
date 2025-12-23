@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import "tw-animate-css";
 @source "../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}";
 @custom-variant dark (&:is(.dark *));
 
@@ -20,9 +19,17 @@
 
   /* Typography Scale */
   --text-hero: clamp(2.5rem, 5vw + 1rem, 4.5rem);
+  --text-hero-lead: clamp(1.125rem, 2vw + 0.4rem, 1.5rem);
   --text-section: clamp(2rem, 4vw + 0.5rem, 3.5rem);
+  --text-section-compact: clamp(1.75rem, 3.2vw + 0.5rem, 3.125rem);
   --text-subsection: clamp(1.25rem, 2vw + 0.5rem, 1.75rem);
   --text-body: clamp(1rem, 1.5vw + 0.5rem, 1.125rem);
+  --text-eyebrow: clamp(0.625rem, 0.55vw + 0.5rem, 0.75rem);
+  --text-lead: clamp(1.05rem, 1.25vw + 0.55rem, 1.25rem);
+
+  /* Font stacks (offline-safe; avoids build-time Google Fonts fetch) */
+  --font-montserrat: ui-sans-serif, system-ui, -apple-system, "Segoe UI", "Roboto", "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+  --font-geist-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.129 0.042 264.695);
@@ -55,40 +62,6 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
-}
-
-/* Hero Gradient Mesh Background */
-.hero-gradient-mesh {
-  background:
-    radial-gradient(ellipse 80% 50% at 20% 40%, rgba(65, 182, 230, 0.15) 0%, transparent 50%),
-    radial-gradient(ellipse 60% 40% at 80% 20%, rgba(65, 182, 230, 0.1) 0%, transparent 50%),
-    radial-gradient(ellipse 50% 80% at 50% 80%, rgba(4, 30, 66, 0.3) 0%, transparent 50%),
-    linear-gradient(180deg, #041e42 0%, #0a2851 50%, #041e42 100%);
-  background-size: 100% 100%;
-  animation: hero-gradient-shift 12s ease-in-out infinite;
-}
-
-@keyframes hero-gradient-shift {
-  0%, 100% {
-    background-position: 0% 0%, 100% 0%, 50% 100%, 0% 0%;
-  }
-  50% {
-    background-position: 100% 50%, 0% 100%, 50% 0%, 0% 0%;
-  }
-}
-
-/* Pricing Card Glow Animation */
-@keyframes pricing-glow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(65, 182, 230, 0.2), 0 25px 50px -12px rgba(4, 30, 66, 0.25);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(65, 182, 230, 0.35), 0 25px 50px -12px rgba(4, 30, 66, 0.3);
-  }
-}
-
-.pricing-card-featured {
-  animation: pricing-glow 3s ease-in-out infinite;
 }
 
 @theme inline {
@@ -139,102 +112,6 @@
   --radius-4xl: calc(var(--radius) + 16px);
 }
 
-/* Base styles */
-
-/* Helpers for slide-like spacing in a continuous page */
-.section {
-  @apply py-12 md:py-16;
-}
-
-.section-title { @apply text-3xl md:text-5xl font-bold text-prime; }
-
-.subtitle {
-  @apply text-base md:text-lg text-slate-600;
-}
-
-.btn-primary {
-  @apply inline-flex items-center gap-2 rounded-lg bg-prime-accent px-5 py-3 text-prime-dark font-semibold hover:bg-sky-400 transition-colors;
-}
-
-.btn-secondary {
-  @apply inline-flex items-center justify-center gap-2 rounded-full border border-prime-accent/60 bg-white px-4 py-2 text-sm font-semibold text-prime shadow-sm hover:border-prime hover:bg-prime-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-prime-accent focus-visible:ring-offset-2 transition-colors cursor-pointer;
-}
-
-.badge {
-  @apply inline-flex items-center rounded-full border border-slate-200 px-3 py-1 text-xs md:text-sm text-slate-600 bg-white shadow-sm;
-}
-
-.card {
-  @apply rounded-2xl border border-slate-200 bg-white/80 backdrop-blur shadow-sm p-6;
-}
-
-.kicker {
-  @apply uppercase tracking-widest text-xs font-semibold text-prime;
-}
-
-.hero-kicker {
-  @apply uppercase tracking-widest text-lg md:text-xl font-extrabold text-prime;
-}
-
-.btn-benefits {
-  position: relative;
-  isolation: isolate;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.6rem 0.95rem;
-  border-radius: 999px;
-  font-weight: 800;
-  font-size: 0.9rem;
-  color: var(--prime-primary);
-  background: #f8fafc;
-  border: 1.5px solid color-mix(in oklab, var(--prime-accent) 35%, white);
-  box-shadow: 0 12px 35px rgba(4, 30, 66, 0.08);
-  transition: transform 180ms ease, box-shadow 200ms ease, border-color 160ms ease, color 160ms ease;
-}
-.btn-benefits::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  background: linear-gradient(120deg, color-mix(in oklab, var(--prime-primary) 75%, white), var(--prime-accent), color-mix(in oklab, var(--prime-primary) 75%, white));
-  background-size: 220% 220%;
-  opacity: 0;
-  z-index: -1;
-  transition: opacity 180ms ease, transform 200ms ease;
-}
-.btn-benefits::after {
-  content: "";
-  position: absolute;
-  inset: 2px;
-  border-radius: inherit;
-  background: #ffffff;
-  z-index: -1;
-}
-.btn-benefits:hover {
-  transform: translateY(-1px) scale(1.01);
-  box-shadow: 0 14px 40px rgba(4, 30, 66, 0.12);
-  border-color: color-mix(in oklab, var(--prime-accent) 70%, white);
-}
-.btn-benefits:hover::before {
-  opacity: 0.8;
-  animation: benefits-glow 1.4s ease infinite;
-}
-.btn-benefits:focus-visible {
-  outline: 2px solid color-mix(in oklab, var(--prime-accent) 80%, white);
-  outline-offset: 3px;
-}
-.btn-benefits svg {
-  width: 0.75rem;
-  height: 0.75rem;
-}
-
-@keyframes benefits-glow {
-  0% { transform: translateX(-4%); background-position: 0% 50%; }
-  50% { transform: translateX(4%); background-position: 100% 50%; }
-  100% { transform: translateX(-4%); background-position: 0% 50%; }
-}
-
 /* React Flow — estilos de nós temáticos (cores do tema) */
 .flow-node {
   border: 1.5px solid color-mix(in oklab, var(--color-prime) 40%, white);
@@ -255,108 +132,6 @@
   box-shadow: 0 2px 6px rgba(0,0,0,0.06), 0 6px 16px rgba(0,0,0,0.04);
 }
 
-/* Print Styles */
-@media print {
-  /* Hide non-essential elements */
-  .no-print,
-  nav,
-  button,
-  .fixed,
-  .sticky,
-  [data-radix-portal],
-  .marquee-container {
-    display: none !important;
-  }
-
-  /* Reset backgrounds and colors for print */
-  body {
-    background: white !important;
-    color: black !important;
-    font-size: 12pt !important;
-    line-height: 1.5 !important;
-  }
-
-  /* Ensure text is readable */
-  * {
-    color: black !important;
-    background: transparent !important;
-    box-shadow: none !important;
-    text-shadow: none !important;
-  }
-
-  /* Keep brand colors for headings */
-  h1, h2, h3, h4, h5, h6,
-  .section-title {
-    color: #041e42 !important;
-    page-break-after: avoid;
-  }
-
-  /* Page breaks */
-  section {
-    page-break-inside: avoid;
-  }
-
-  .page-break {
-    page-break-before: always;
-  }
-
-  /* Ensure images print correctly */
-  img {
-    max-width: 100% !important;
-    page-break-inside: avoid;
-  }
-
-  /* Show URLs for links */
-  a[href]:after {
-    content: " (" attr(href) ")";
-    font-size: 0.8em;
-    color: #666 !important;
-  }
-
-  a[href^="#"]:after,
-  a[href^="javascript:"]:after {
-    content: "";
-  }
-
-  /* Cards and containers */
-  .card,
-  .rounded-2xl {
-    border: 1px solid #ddd !important;
-    border-radius: 0 !important;
-  }
-
-  /* Pricing cards */
-  .pricing-card-featured {
-    animation: none !important;
-  }
-
-  /* Hero section - simplify for print */
-  .hero-gradient-mesh {
-    background: #041e42 !important;
-    animation: none !important;
-  }
-
-  /* Reduce padding for print */
-  section {
-    padding-top: 1.5rem !important;
-    padding-bottom: 1.5rem !important;
-  }
-
-  /* Ensure grids are readable */
-  .grid {
-    gap: 1rem !important;
-  }
-
-  /* Footer info */
-  @page {
-    margin: 2cm;
-  }
-
-  @page :first {
-    margin-top: 1cm;
-  }
-}
-
 /* Reduced Motion Support */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -366,18 +141,6 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-
-  .hero-gradient-mesh {
-    animation: none !important;
-  }
-
-  .pricing-card-featured {
-    animation: none !important;
-  }
-
-  .marquee-content {
-    animation: none !important;
   }
 }
 
@@ -425,6 +188,19 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-size: var(--text-body);
+  }
+}
+
+@layer utilities {
+  .text-eyebrow {
+    font-size: var(--text-eyebrow);
+  }
+  .text-lead {
+    font-size: var(--text-lead);
+  }
+  .text-body {
+    font-size: var(--text-body);
   }
 }
 

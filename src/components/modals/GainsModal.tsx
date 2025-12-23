@@ -32,7 +32,7 @@ const workloadChartConfig = {
 
 function Bullet({ children }: { children: ReactNode }) {
   return (
-    <div className="flex gap-3 text-sm text-slate-700">
+    <div className="flex gap-3 text-body text-white/70">
       <span
         className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#00E5FF]"
         aria-hidden="true"
@@ -48,13 +48,13 @@ export default function GainsModal({ isOpen, onClose }: GainsModalProps) {
       isOpen={isOpen}
       onClose={onClose}
       title="Ganhos Operacionais"
-      subtitle="Impacto direto na operacao comercial"
+      subtitle="Impacto direto na operação comercial"
     >
       <div className="space-y-6">
-        <div className="text-sm text-white/70">
-          Esta e uma visao do que muda na operacao quando o volume repetitivo e
-          absorvido pela IA, com governanca de pipeline e relatorios para
-          gestao.
+        <div className="text-body text-white/70">
+          Esta é uma visão do que muda na operação quando o volume repetitivo é
+          absorvido pela IA, com governança de pipeline e relatórios para
+          gestão.
         </div>
 
         <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
@@ -67,22 +67,22 @@ export default function GainsModal({ isOpen, onClose }: GainsModalProps) {
                 </div>
                 <div className="min-w-0">
                   <h4 className="text-base font-bold text-white">
-                    Receita capturada com cadencia
+                    Receita capturada com cadência
                   </h4>
-                  <p className="mt-1 text-sm text-white/60">
-                    Leads entram fora do horario, voltam para o funil e seguem
-                    um proximo passo claro — sem depender de memoria ou
+                  <p className="mt-1 text-body text-white/60">
+                    Leads entram fora do horário, voltam para o funil e seguem
+                    um próximo passo claro — sem depender de memória ou
                     planilhas.
                   </p>
                   <div className="mt-4 space-y-2">
                     <Bullet>
-                      Resposta imediata 24/7 para nao &quot;esfriar&quot; o lead.
+                      Resposta imediata 24/7 para não &quot;esfriar&quot; o lead.
                     </Bullet>
                     <Bullet>
-                      Qualificacao e roteamento por convenio/particular.
+                      Qualificação e roteamento por perfil (PF/PJ) e intenção.
                     </Bullet>
                     <Bullet>
-                      Follow-up automatico com prioridade por intencao.
+                      Follow-up automático com prioridade por intenção.
                     </Bullet>
                   </div>
                 </div>
@@ -96,20 +96,19 @@ export default function GainsModal({ isOpen, onClose }: GainsModalProps) {
                 </div>
                 <div className="min-w-0">
                   <h4 className="text-base font-bold text-white">
-                    Menos ruido, mais produtividade
+                    Menos ruído, mais produtividade
                   </h4>
-                  <p className="mt-1 text-sm text-white/60">
-                    A recepcao deixa de ser call center. O time humano atua onde
-                    faz diferenca: negociacao, casos complexos e atendimento
-                    presencial.
+                  <p className="mt-1 text-body text-white/60">
+                    A operação deixa de ser call center. O time humano atua onde
+                    faz diferença: negociação, casos complexos e relacionamento.
                   </p>
                   <div className="mt-4 space-y-2">
                     <Bullet>
-                      Fila unica com contexto e historico da conversa.
+                      Fila única com contexto e histórico da conversa.
                     </Bullet>
-                    <Bullet>Distribuicao por responsavel e por canal.</Bullet>
+                    <Bullet>Distribuição por responsável e por canal.</Bullet>
                     <Bullet>
-                      Checklist de proximos passos para reduzir retrabalho.
+                      Checklist de próximos passos para reduzir retrabalho.
                     </Bullet>
                   </div>
                 </div>
@@ -123,22 +122,21 @@ export default function GainsModal({ isOpen, onClose }: GainsModalProps) {
                 </div>
                 <div className="min-w-0">
                   <h4 className="text-base font-bold text-white">
-                    Agenda mais previsivel
+                    Pipeline mais previsível
                   </h4>
-                  <p className="mt-1 text-sm text-white/60">
-                    Confirmacao ativa, fila de espera e remarcacao guiada
-                    diminuem lacunas — e deixam claro onde estao as perdas do
-                    funil.
+                  <p className="mt-1 text-body text-white/60">
+                    Cadência automática e reativação guiada diminuem perdas — e
+                    deixam claro onde estão os gargalos do funil.
                   </p>
                   <div className="mt-4 space-y-2">
                     <Bullet>
-                      Lembretes e confirmacao automatizados antes da consulta.
+                      Cadência automática para orçamentos e pedidos pendentes.
                     </Bullet>
                     <Bullet>
-                      Reagendamento imediato quando ha desistencia.
+                      Recuperação de conversões com alternativas e próxima ação.
                     </Bullet>
                     <Bullet>
-                      Registro de motivos para melhoria continua.
+                      Registro de motivos para melhoria contínua.
                     </Bullet>
                   </div>
                 </div>
@@ -151,11 +149,11 @@ export default function GainsModal({ isOpen, onClose }: GainsModalProps) {
             <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
               <div className="flex items-start justify-between gap-4">
                 <div className="min-w-0">
-                  <div className="text-sm font-semibold text-white">
+                  <div className="text-body font-semibold text-white">
                     Carga de atendimento (exemplo)
                   </div>
                   <div className="mt-1 text-xs text-white/50">
-                    IA absorve picos e fora do horario; humano foca no que
+                    IA absorve picos e fora do horário; humano foca no que
                     converte.
                   </div>
                 </div>
@@ -216,7 +214,7 @@ export default function GainsModal({ isOpen, onClose }: GainsModalProps) {
             </div>
 
             <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-              <div className="text-sm font-semibold text-white">
+              <div className="text-body font-semibold text-white">
                 O que aparece em Reports
               </div>
               <div className="mt-3 space-y-2">
@@ -225,18 +223,18 @@ export default function GainsModal({ isOpen, onClose }: GainsModalProps) {
                   humano).
                 </Bullet>
                 <Bullet>
-                  Conversao por etapa, origem e responsavel — com historico.
+                  Conversão por etapa, origem e responsável — com histórico.
                 </Bullet>
                 <Bullet>
-                  No-show, remarcacoes e fila de espera por periodo.
+                  Abandono, cancelamentos e motivos de perda por período.
                 </Bullet>
                 <Bullet>
-                  Motivos de perda e recomendacoes acionaveis geradas por IA.
+                  Motivos de perda e recomendações acionáveis geradas por IA.
                 </Bullet>
               </div>
               <div className="mt-4 text-xs text-white/40">
-                Dados e metas sao ilustrativos nesta proposta. Ajustamos apos a
-                imersao e leitura dos dados reais.
+                Dados e metas são ilustrativos nesta proposta. Ajustamos após a
+                imersão e leitura dos dados reais.
               </div>
             </div>
           </div>

@@ -38,8 +38,8 @@ export default function ModalWrapper({
           classNames={{
             base: "bg-[#02040A] border-none backdrop-blur-xl h-screen max-h-screen rounded-none",
             wrapper: "overflow-hidden",
-            header: "border-b border-white/10 pb-4 px-8 pt-6",
-            body: "py-6 px-8 overflow-y-auto",
+            header: "border-b border-white/10 pb-4 px-5 sm:px-6 md:px-8 pt-6",
+            body: "py-6 px-5 sm:px-6 md:px-8 overflow-y-auto",
           }}
           motionProps={{
             variants: {
@@ -77,6 +77,7 @@ export default function ModalWrapper({
                 )}
               </div>
               <button
+                type="button"
                 onClick={onClose}
                 className="p-3 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-colors group"
                 aria-label="Fechar"

@@ -38,15 +38,15 @@ export default function DesafioSlide() {
     >
       {/* Main stat highlight */}
       <motion.div
-        className="w-full bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-2xl p-8 text-center"
+        className="w-full bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-2xl p-6 md:p-8 text-center"
         initial={{ opacity: 0, scale: 0.95 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
       >
-        <p className="text-6xl md:text-8xl font-bold text-amber-400">
+        <p className="text-5xl sm:text-6xl md:text-8xl font-bold text-amber-400 leading-none">
           50-70%
         </p>
-        <p className="text-white/80 mt-4 text-lg">
+        <p className="text-white/80 mt-3 md:mt-4 text-base sm:text-lg">
           dos contatos fora do horário comercial não dão continuidade
         </p>
       </motion.div>
@@ -66,7 +66,7 @@ export default function DesafioSlide() {
             <h3 className="text-xl font-semibold text-white mb-2">
               {challenge.title}
             </h3>
-            <p className="text-white/60 text-sm leading-relaxed">
+            <p className="text-white/60 text-body leading-relaxed">
               {challenge.desc}
             </p>
             <div className="mt-4 inline-block px-3 py-1 bg-amber-500/10 rounded-full text-amber-400 text-xs font-medium">

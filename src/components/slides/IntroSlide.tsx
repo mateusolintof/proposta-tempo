@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { motion } from "framer-motion";
@@ -23,7 +24,7 @@ export default function IntroSlide() {
       >
         {/* Agency Logo */}
         <motion.div
-          className="mb-12 inline-flex items-center justify-center"
+          className="mb-8 md:mb-12 inline-flex items-center justify-center"
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.8 }}
@@ -31,13 +32,14 @@ export default function IntroSlide() {
           <img
             src="/branding/logo-principal-white.svg"
             alt="Convert A.I"
-            className="h-20 md:h-24"
+            className="h-16 md:h-24 w-auto"
+            loading="eager"
           />
         </motion.div>
 
         {/* Title */}
         <motion.h1
-          className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight"
+          className="text-[length:var(--text-hero)] font-bold text-white mb-6 leading-[1.05] tracking-tight"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.8 }}
@@ -47,7 +49,7 @@ export default function IntroSlide() {
 
         {/* Subtitle */}
         <motion.p
-          className="text-xl md:text-2xl text-white/60 mb-8 max-w-2xl mx-auto"
+          className="text-[length:var(--text-hero-lead)] text-white/60 mb-8 max-w-2xl mx-auto"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}
@@ -57,7 +59,7 @@ export default function IntroSlide() {
 
         {/* Tagline */}
         <motion.p
-          className="text-base text-white/40 mb-12"
+          className="text-[length:var(--text-body)] text-white/40 mb-10 md:mb-12"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.9 }}

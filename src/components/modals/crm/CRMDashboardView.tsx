@@ -20,12 +20,12 @@ import {
 
 // Chart data
 const volumeData = [
-  { day: "Seg", leads: 180, agendamentos: 95 },
-  { day: "Ter", leads: 220, agendamentos: 120 },
-  { day: "Qua", leads: 280, agendamentos: 150 },
-  { day: "Qui", leads: 260, agendamentos: 140 },
-  { day: "Sex", leads: 240, agendamentos: 130 },
-  { day: "Sab", leads: 160, agendamentos: 80 },
+  { day: "Seg", leads: 180, pedidos: 95 },
+  { day: "Ter", leads: 220, pedidos: 120 },
+  { day: "Qua", leads: 280, pedidos: 150 },
+  { day: "Qui", leads: 260, pedidos: 140 },
+  { day: "Sex", leads: 240, pedidos: 130 },
+  { day: "Sab", leads: 160, pedidos: 80 },
 ];
 
 const origemData = [
@@ -40,8 +40,8 @@ const volumeChartConfig = {
     label: "Leads",
     color: "#3b82a0",
   },
-  agendamentos: {
-    label: "Agendamentos",
+  pedidos: {
+    label: "Pedidos",
     color: "#1a4a5e",
   },
 } satisfies ChartConfig;
@@ -70,7 +70,7 @@ const origemChartConfig = {
 
 const kpis = [
   { label: "CONVERSAS ATIVAS", value: "284", subtitle: "Inbox unificado" },
-  { label: "AGENDAMENTOS ATIVOS", value: "126", subtitle: "Próximos 7 dias" },
+  { label: "PEDIDOS ATIVOS", value: "126", subtitle: "Próximos 7 dias" },
   { label: "DEALS EM NEGOCIAÇÃO", value: "412", subtitle: "Pipelines" },
   { label: "RECEITA EM PIPELINE", value: "R$ 1,9M", subtitle: "Prox. 30 dias" },
 ];
@@ -107,7 +107,7 @@ export default function CRMDashboardView() {
         <div className="col-span-3 bg-white rounded-xl p-5 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-base font-semibold text-gray-900">
-              Volume de leads e agendamentos
+              Volume de leads e pedidos
             </h3>
             <span className="text-xs text-gray-400">Última semana</span>
           </div>
@@ -121,9 +121,9 @@ export default function CRMDashboardView() {
                   <stop offset="5%" stopColor="var(--color-leads)" stopOpacity={0.3} />
                   <stop offset="95%" stopColor="var(--color-leads)" stopOpacity={0} />
                 </linearGradient>
-                <linearGradient id="fillAgendamentosCRM" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="var(--color-agendamentos)" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="var(--color-agendamentos)" stopOpacity={0} />
+                <linearGradient id="fillPedidosCRM" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="var(--color-pedidos)" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="var(--color-pedidos)" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
@@ -152,9 +152,9 @@ export default function CRMDashboardView() {
               />
               <Area
                 type="monotone"
-                dataKey="agendamentos"
-                stroke="var(--color-agendamentos)"
-                fill="url(#fillAgendamentosCRM)"
+                dataKey="pedidos"
+                stroke="var(--color-pedidos)"
+                fill="url(#fillPedidosCRM)"
                 strokeWidth={2}
               />
             </AreaChart>

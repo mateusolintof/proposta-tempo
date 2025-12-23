@@ -10,34 +10,34 @@ const tools = [
     id: "crm",
     icon: <Users className="w-6 h-6" />,
     title: "CRM Integrado",
-    desc: "Visualizacao completa do funil de vendas com status de cada lead",
+    desc: "Visualização completa do funil de vendas com status de cada lead",
     hasPreview: true,
   },
   {
     id: "dashboard",
     icon: <LayoutDashboard className="w-6 h-6" />,
     title: "Dashboard Executivo",
-    desc: "KPIs em tempo real para tomada de decisao rapida",
+    desc: "KPIs em tempo real para tomada de decisão rápida",
     hasPreview: true,
   },
   {
     id: "history",
     icon: <History className="w-6 h-6" />,
-    title: "Historico Completo",
-    desc: "Todas as conversas registradas e acessiveis para analise",
+    title: "Histórico Completo",
+    desc: "Todas as conversas registradas e acessíveis para análise",
     hasPreview: false,
   },
   {
     id: "filters",
     icon: <Filter className="w-6 h-6" />,
-    title: "Filtros Avancados",
-    desc: "Segmentacao por canal, equipe e periodo personalizado",
+    title: "Filtros Avançados",
+    desc: "Segmentação por canal, equipe e período personalizado",
     hasPreview: false,
   },
 ];
 
 const metrics = [
-  { label: "Aumento de Conversao", value: "+40%" },
+  { label: "Aumento de Conversão", value: "+40%" },
   { label: "Tempo de Resposta", value: "Imediato" },
 ];
 
@@ -94,7 +94,7 @@ export default function FerramentasSlide({ onOpenModal }: FerramentasSlideProps)
                     <Maximize2 className="w-4 h-4 text-[#00E5FF] opacity-60" />
                   )}
                 </div>
-                <p className="text-white/60 mt-1 text-sm leading-relaxed">
+                <p className="text-white/60 mt-1 text-body leading-relaxed">
                   {tool.desc}
                 </p>
                 {tool.hasPreview && (
@@ -122,7 +122,7 @@ export default function FerramentasSlide({ onOpenModal }: FerramentasSlideProps)
             <p className="text-3xl md:text-4xl font-bold text-[#00E5FF]">
               {metric.value}
             </p>
-            <p className="text-white/60 mt-2 text-sm">{metric.label}</p>
+            <p className="text-white/60 mt-2 text-body">{metric.label}</p>
           </motion.div>
         ))}
       </div>

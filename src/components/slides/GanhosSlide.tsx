@@ -22,13 +22,13 @@ const gains = [
   {
     icon: <CalendarCheck className="w-6 h-6" />,
     title: "Qualificação Elevada",
-    desc: "Taxa de agendamento aumentada com qualificação automatizada",
+    desc: "Conversão aumenta com qualificação e roteamento automatizados",
     color: "green",
   },
   {
     icon: <TrendingUp className="w-6 h-6" />,
-    title: "No-show Reduzido",
-    desc: "Gestão ativa de confirmações e fila de espera",
+    title: "Abandono Reduzido",
+    desc: "Cadência automática e recuperação de conversões",
     color: "cyan",
   },
   {
@@ -40,7 +40,7 @@ const gains = [
 ];
 
 const mainMetrics = [
-  { label: "Redução No-show", value: "-60%", color: "#00FF94" },
+  { label: "Redução Abandono", value: "-60%", color: "#00FF94" },
   { label: "Aumento Conversão", value: "+40%", color: "#00E5FF" },
 ];
 
@@ -80,7 +80,7 @@ export default function GanhosSlide({ onOpenModal }: GanhosSlideProps) {
             >
               {metric.value}
             </p>
-            <p className="text-white/70 mt-3 text-sm font-medium">
+            <p className="text-white/70 mt-3 text-body font-medium">
               {metric.label}
             </p>
           </motion.div>
@@ -111,7 +111,7 @@ export default function GanhosSlide({ onOpenModal }: GanhosSlideProps) {
               <h3 className="text-base font-semibold text-white">
                 {gain.title}
               </h3>
-              <p className="text-white/50 mt-1 text-sm">{gain.desc}</p>
+              <p className="text-white/50 mt-1 text-body">{gain.desc}</p>
             </div>
           </motion.div>
         ))}
@@ -145,7 +145,7 @@ export default function GanhosSlide({ onOpenModal }: GanhosSlideProps) {
           whileTap={{ scale: 0.98 }}
         >
           <BarChart3 className="w-5 h-5 text-[#00E5FF]" />
-          <span className="font-medium">Ver Inteligencia de Dados</span>
+          <span className="font-medium">Ver Inteligência de Dados</span>
           <ArrowRight className="w-4 h-4 text-[#00E5FF] group-hover:translate-x-1 transition-transform" />
         </motion.button>
       </motion.div>

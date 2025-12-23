@@ -14,37 +14,33 @@ import type { ModalKind, AgentType } from "@/types/modal";
 const ORBIT_RADIUS = "clamp(100px, 14vw, 160px)";
 const AGENT_ANGLES = [0, 90, 180, 270];
 
-const agents: { id: AgentType; name: string; desc: string; icon: React.ReactNode }[] = [
+const agents: { id: AgentType; name: string; icon: React.ReactNode }[] = [
   {
     id: "sdr",
-    name: "SDR & Agendamento",
-    desc: "Qualificacao e integracao ERP",
+    name: "SDR & Qualificação",
     icon: <MessageSquare className="w-5 h-5" />,
   },
   {
     id: "faq",
     name: "FAQ Inteligente",
-    desc: "Base de conhecimento 24/7",
     icon: <HelpCircle className="w-5 h-5" />,
   },
   {
     id: "noshow",
-    name: "Anti No-Show",
-    desc: "Confirmacoes e fila de espera",
+    name: "Follow-up Automático",
     icon: <CalendarCheck className="w-5 h-5" />,
   },
   {
     id: "nps",
     name: "Pesquisa & NPS",
-    desc: "Satisfacao e Google Reviews",
     icon: <Star className="w-5 h-5" />,
   },
 ];
 
 const features = [
-  { title: "Handoffs", desc: "Escala inteligente para humanos em casos criticos" },
-  { title: "Ferramentas", desc: "Agenda, CRM, ERP e base de conhecimento integrados" },
-  { title: "Guardrails", desc: "LGPD, limites de risco e confirmacao em casos sensiveis" },
+  { title: "Handoffs", desc: "Escala inteligente para humanos em casos críticos" },
+  { title: "Ferramentas", desc: "CRM, ERP e base de conhecimento integrados" },
+  { title: "Guardrails", desc: "LGPD, limites de risco e confirmação em casos sensíveis" },
 ];
 
 interface SolucaoSlideProps {
@@ -76,11 +72,11 @@ export default function SolucaoSlide({ onOpenModal }: SolucaoSlideProps) {
           </div>
 
           {/* Orbit Rings */}
-          <div className="absolute inset-0 border border-white/5 rounded-full animate-[spin_30s_linear_infinite]" />
-          <div className="absolute inset-12 border border-dashed border-white/10 rounded-full animate-[spin_20s_linear_infinite_reverse]" />
+          <div className="absolute inset-0 border border-white/5 rounded-full md:animate-[spin_30s_linear_infinite]" />
+          <div className="absolute inset-12 border border-dashed border-white/10 rounded-full md:animate-[spin_20s_linear_infinite_reverse]" />
 
           {/* Agents (orbiting) */}
-          <div className="absolute inset-0 animate-[spin_28s_linear_infinite]">
+          <div className="absolute inset-0">
             {agents.map((agent, index) => {
               const angle = AGENT_ANGLES[index] ?? 0;
               return (
@@ -92,28 +88,26 @@ export default function SolucaoSlide({ onOpenModal }: SolucaoSlideProps) {
                   }}
                 >
                   <div style={{ transform: `rotate(-${angle}deg)` }}>
-                    <div className="animate-[spin_28s_linear_infinite_reverse]">
-                      <motion.button
-                        type="button"
-                        onClick={() => onOpenModal?.({ type: "agent", agent: agent.id })}
-                        className="relative w-14 h-14 rounded-full bg-black/60 border border-white/20 hover:border-[#00FF94] transition-all flex items-center justify-center backdrop-blur-md group cursor-pointer"
-                        initial={{ opacity: 0, scale: 0 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.2 + index * 0.1 }}
-                        whileHover={{ scale: 1.15, boxShadow: "0 0 20px rgba(0, 255, 148, 0.4)" }}
-                        whileTap={{ scale: 0.95 }}
-                      >
-                        {/* Pulse ring */}
-                        <span className="absolute inset-0 rounded-full border border-[#00FF94]/30 animate-ping opacity-30" />
-                        <div className="text-white/80 group-hover:text-[#00FF94] transition-colors">
-                          {agent.icon}
-                        </div>
-                        <span className="absolute -bottom-10 text-[11px] font-medium text-white/60 group-hover:text-white whitespace-nowrap text-center leading-tight transition-colors">
-                          {agent.name}
-                        </span>
-                      </motion.button>
-                    </div>
+                    <motion.button
+                      type="button"
+                      onClick={() => onOpenModal?.({ type: "agent", agent: agent.id })}
+                      className="relative w-14 h-14 rounded-full bg-black/60 border border-white/20 hover:border-[#00FF94] transition-all flex items-center justify-center backdrop-blur-md group cursor-pointer"
+                      initial={{ opacity: 0, scale: 0 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: 0.2 + index * 0.1 }}
+                      whileHover={{ scale: 1.15, boxShadow: "0 0 20px rgba(0, 255, 148, 0.4)" }}
+                      whileTap={{ scale: 0.95 }}
+                    >
+                      {/* Pulse ring */}
+                      <span className="absolute inset-0 rounded-full border border-[#00FF94]/30 animate-ping opacity-30" />
+                      <div className="text-white/80 group-hover:text-[#00FF94] transition-colors">
+                        {agent.icon}
+                      </div>
+                      <span className="absolute -bottom-10 text-[11px] font-medium text-white/60 group-hover:text-white whitespace-nowrap text-center leading-tight transition-colors">
+                        {agent.name}
+                      </span>
+                    </motion.button>
                   </div>
                 </div>
               );
@@ -135,7 +129,7 @@ export default function SolucaoSlide({ onOpenModal }: SolucaoSlideProps) {
               <p className="text-xs uppercase tracking-widest text-[#00FF94]/80">
                 {feature.title}
               </p>
-              <p className="text-white/70 mt-2 text-sm leading-relaxed">
+              <p className="text-white/70 mt-2 text-body leading-relaxed">
                 {feature.desc}
               </p>
             </motion.div>

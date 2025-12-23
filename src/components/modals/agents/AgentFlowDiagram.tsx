@@ -1,6 +1,5 @@
 "use client";
 
-import { useCallback, useMemo } from "react";
 import {
   ReactFlow,
   Background,
@@ -169,10 +168,10 @@ const flowDataByAgent: Record<AgentType, { nodes: Node[]; edges: Edge[] }> = {
     nodes: [
       { id: "1", type: "custom", position: { x: 0, y: 100 }, data: { label: "Lead Chega", description: "WhatsApp / Landing", icon: "MessageSquare", variant: "input" } },
       { id: "2", type: "custom", position: { x: 200, y: 100 }, data: { label: "Agente SDR", description: "Qualifica e direciona", icon: "Bot", variant: "primary" } },
-      { id: "3", type: "custom", position: { x: 400, y: 0 }, data: { label: "Particular?", description: "Verifica tipo", icon: "HelpCircle", variant: "decision" } },
-      { id: "4", type: "custom", position: { x: 400, y: 200 }, data: { label: "Convênio?", description: "Valida cobertura", icon: "FileText", variant: "decision" } },
+      { id: "3", type: "custom", position: { x: 400, y: 0 }, data: { label: "Cliente PF/PJ?", description: "Define perfil", icon: "HelpCircle", variant: "decision" } },
+      { id: "4", type: "custom", position: { x: 400, y: 200 }, data: { label: "Cadastro OK?", description: "Valida dados", icon: "FileText", variant: "decision" } },
       { id: "5", type: "custom", position: { x: 600, y: 100 }, data: { label: "Qualificação", description: "Coleta dados", icon: "Users", variant: "primary" } },
-      { id: "6", type: "custom", position: { x: 800, y: 100 }, data: { label: "Agenda Unificada", description: "Sincroniza calendário", icon: "Calendar", variant: "success" } },
+      { id: "6", type: "custom", position: { x: 800, y: 100 }, data: { label: "Orçamento/Pedido", description: "Gera proposta", icon: "Calendar", variant: "success" } },
       { id: "7", type: "custom", position: { x: 1000, y: 100 }, data: { label: "Registra CRM", description: "Salva lead", icon: "CheckCircle", variant: "success" } },
     ],
     edges: [
@@ -189,11 +188,11 @@ const flowDataByAgent: Record<AgentType, { nodes: Node[]; edges: Edge[] }> = {
     nodes: [
       { id: "1", type: "custom", position: { x: 0, y: 100 }, data: { label: "Lead com Dúvida", description: "Pergunta via WhatsApp", icon: "MessageSquare", variant: "input" } },
       { id: "2", type: "custom", position: { x: 200, y: 100 }, data: { label: "Agente FAQ", description: "Interpreta pergunta", icon: "Bot", variant: "primary" } },
-      { id: "3", type: "custom", position: { x: 400, y: 0 }, data: { label: "Procedimentos", description: "Explica serviços", icon: "FileText", variant: "default" } },
-      { id: "4", type: "custom", position: { x: 400, y: 100 }, data: { label: "Convênios", description: "Cobertura e planos", icon: "FileText", variant: "default" } },
-      { id: "5", type: "custom", position: { x: 400, y: 200 }, data: { label: "Valores", description: "Preços e formas pgto", icon: "FileText", variant: "default" } },
+      { id: "3", type: "custom", position: { x: 400, y: 0 }, data: { label: "Produtos", description: "Catálogo e estoque", icon: "FileText", variant: "default" } },
+      { id: "4", type: "custom", position: { x: 400, y: 100 }, data: { label: "Entrega", description: "Frete e prazos", icon: "FileText", variant: "default" } },
+      { id: "5", type: "custom", position: { x: 400, y: 200 }, data: { label: "Pagamento", description: "Formas e NF", icon: "FileText", variant: "default" } },
       { id: "6", type: "custom", position: { x: 600, y: 100 }, data: { label: "Resposta Educativa", description: "Envia informação", icon: "Send", variant: "primary" } },
-      { id: "7", type: "custom", position: { x: 800, y: 50 }, data: { label: "Oferta Agendamento", description: "Converte em consulta", icon: "Calendar", variant: "success" } },
+      { id: "7", type: "custom", position: { x: 800, y: 50 }, data: { label: "Oferta de orçamento", description: "Converte em pedido", icon: "Calendar", variant: "success" } },
       { id: "8", type: "custom", position: { x: 800, y: 150 }, data: { label: "Escala p/ SDR", description: "Handoff humano", icon: "Users", variant: "output" } },
     ],
     edges: [
@@ -210,15 +209,15 @@ const flowDataByAgent: Record<AgentType, { nodes: Node[]; edges: Edge[] }> = {
   },
   noshow: {
     nodes: [
-      { id: "1", type: "custom", position: { x: 0, y: 100 }, data: { label: "Consulta Agendada", description: "48h antes", icon: "Calendar", variant: "input" } },
-      { id: "2", type: "custom", position: { x: 200, y: 100 }, data: { label: "D-2: Lembrete", description: "Confirmação 48h", icon: "Clock", variant: "primary" } },
-      { id: "3", type: "custom", position: { x: 400, y: 0 }, data: { label: "Confirma", description: "Paciente OK", icon: "CheckCircle", variant: "success" } },
-      { id: "4", type: "custom", position: { x: 400, y: 100 }, data: { label: "Reagenda", description: "Nova data", icon: "Calendar", variant: "decision" } },
-      { id: "5", type: "custom", position: { x: 400, y: 200 }, data: { label: "Cancela", description: "Desistência", icon: "XCircle", variant: "danger" } },
-      { id: "6", type: "custom", position: { x: 600, y: 0 }, data: { label: "D-1: Lembrete", description: "Confirmação 24h", icon: "Clock", variant: "primary" } },
-      { id: "7", type: "custom", position: { x: 600, y: 200 }, data: { label: "Notifica Fila", description: "Libera horário", icon: "Users", variant: "success" } },
-      { id: "8", type: "custom", position: { x: 800, y: 0 }, data: { label: "Consulta Realizada", description: "Atendimento OK", icon: "CheckCircle", variant: "success" } },
-      { id: "9", type: "custom", position: { x: 1000, y: 0 }, data: { label: "D+1: Follow-up", description: "NPS pós-consulta", icon: "Star", variant: "output" } },
+      { id: "1", type: "custom", position: { x: 0, y: 100 }, data: { label: "Orçamento/Pedido", description: "Pendente", icon: "Calendar", variant: "input" } },
+      { id: "2", type: "custom", position: { x: 200, y: 100 }, data: { label: "Follow-up", description: "Automático", icon: "Clock", variant: "primary" } },
+      { id: "3", type: "custom", position: { x: 400, y: 0 }, data: { label: "Responde", description: "Cliente engaja", icon: "CheckCircle", variant: "success" } },
+      { id: "4", type: "custom", position: { x: 400, y: 100 }, data: { label: "Ajusta oferta", description: "Preço/prazo", icon: "Calendar", variant: "decision" } },
+      { id: "5", type: "custom", position: { x: 400, y: 200 }, data: { label: "Perdido", description: "Sem resposta", icon: "XCircle", variant: "danger" } },
+      { id: "6", type: "custom", position: { x: 600, y: 0 }, data: { label: "2º toque", description: "24h", icon: "Clock", variant: "primary" } },
+      { id: "7", type: "custom", position: { x: 600, y: 200 }, data: { label: "Escala humano", description: "Vendedor", icon: "Users", variant: "success" } },
+      { id: "8", type: "custom", position: { x: 800, y: 0 }, data: { label: "Pedido fechado", description: "Compra OK", icon: "CheckCircle", variant: "success" } },
+      { id: "9", type: "custom", position: { x: 1000, y: 0 }, data: { label: "Pós-venda / NPS", description: "Satisfação", icon: "Star", variant: "output" } },
     ],
     edges: [
       { id: "e1-2", source: "1", target: "2", animated: true, style: { stroke: "#f87171" }, markerEnd: { type: MarkerType.ArrowClosed, color: "#f87171" } },
@@ -233,12 +232,12 @@ const flowDataByAgent: Record<AgentType, { nodes: Node[]; edges: Edge[] }> = {
   },
   nps: {
     nodes: [
-      { id: "1", type: "custom", position: { x: 0, y: 100 }, data: { label: "Consulta Realizada", description: "Atendimento concluído", icon: "CheckCircle", variant: "input" } },
+      { id: "1", type: "custom", position: { x: 0, y: 100 }, data: { label: "Compra concluída", description: "Pedido finalizado", icon: "CheckCircle", variant: "input" } },
       { id: "2", type: "custom", position: { x: 200, y: 100 }, data: { label: "Envia Pesquisa", description: "NPS via WhatsApp", icon: "Send", variant: "primary" } },
       { id: "3", type: "custom", position: { x: 400, y: 0 }, data: { label: "Promotor (9-10)", description: "Cliente satisfeito", icon: "ThumbsUp", variant: "success" } },
       { id: "4", type: "custom", position: { x: 400, y: 100 }, data: { label: "Neutro (7-8)", description: "Experiência OK", icon: "HelpCircle", variant: "decision" } },
       { id: "5", type: "custom", position: { x: 400, y: 200 }, data: { label: "Detrator (0-6)", description: "Insatisfeito", icon: "AlertTriangle", variant: "danger" } },
-      { id: "6", type: "custom", position: { x: 600, y: 0 }, data: { label: "Convida Review", description: "Google / Doctoralia", icon: "Star", variant: "success" } },
+      { id: "6", type: "custom", position: { x: 600, y: 0 }, data: { label: "Convida Review", description: "Google Reviews", icon: "Star", variant: "success" } },
       { id: "7", type: "custom", position: { x: 600, y: 200 }, data: { label: "Alerta Equipe", description: "Ação imediata", icon: "AlertTriangle", variant: "danger" } },
       { id: "8", type: "custom", position: { x: 800, y: 100 }, data: { label: "Dashboard", description: "Insights e métricas", icon: "BarChart3", variant: "output" } },
     ],
@@ -263,14 +262,26 @@ interface AgentFlowDiagramProps {
 
 export default function AgentFlowDiagram({ agentType, agentColor }: AgentFlowDiagramProps) {
   const flowData = flowDataByAgent[agentType];
-  const [nodes, setNodes, onNodesChange] = useNodesState(flowData.nodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(flowData.edges);
+  const [nodes, , onNodesChange] = useNodesState(flowData.nodes);
+  const [edges, , onEdgesChange] = useEdgesState(flowData.edges);
 
   return (
     <div className="w-full h-[400px] bg-white rounded-xl border border-gray-200 overflow-hidden relative">
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-1"
+        style={{ backgroundColor: agentColor }}
+      />
       {/* Header */}
       <div className="absolute top-3 left-3 z-10 bg-white/90 backdrop-blur-sm rounded-lg px-3 py-2 border border-gray-200 shadow-sm">
-        <h4 className="text-sm font-semibold text-gray-900">Fluxo de Operação</h4>
+        <div className="flex items-center gap-2">
+          <span
+            aria-hidden="true"
+            className="h-2 w-2 rounded-full"
+            style={{ backgroundColor: agentColor }}
+          />
+          <h4 className="text-sm font-semibold text-gray-900">Fluxo de Operação</h4>
+        </div>
         <p className="text-xs text-gray-500">Arraste para navegar • Scroll para zoom</p>
       </div>
 

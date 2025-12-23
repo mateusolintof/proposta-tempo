@@ -23,27 +23,27 @@ const faqItems: FAQItem[] = [
   {
     icon: <Shield className="w-5 h-5" />,
     question:
-      "Os dados dos pacientes estão seguros? A solução é compatível com a LGPD?",
+      "Os dados dos clientes estão seguros? A solução é compatível com a LGPD?",
     answer:
-      "Sim, 100%. Nossa infraestrutura segue rigorosos padrões de segurança: criptografia de ponta a ponta (AES-256), servidores em data centers certificados ISO 27001 no Brasil, e total conformidade com a LGPD. Além disso, você mantém controle total sobre os dados - eles são seus, e podemos exportá-los ou excluí-los quando desejar.",
+      "A solução é desenhada com boas práticas de segurança e privacidade, alinhadas à LGPD (ex.: criptografia em trânsito e em repouso, controle de acesso, trilhas de auditoria e políticas de retenção). No kick-off, alinhamos governança de dados (exportação, retenção e exclusão) e os termos de tratamento conforme o escopo definido.",
   },
   {
     icon: <Zap className="w-5 h-5" />,
-    question: "Como funciona a integração com nosso sistema ERP/agenda atual?",
+    question: "Como funciona a integração com nosso ERP e canais atuais?",
     answer:
-      "Desenvolvemos integrações customizadas para cada cliente. Trabalhamos com os principais ERPs do mercado de saúde (MV, Tasy, Totvs, Philips, etc.) e sistemas de agenda. A integração é feita via API segura, sem necessidade de substituir seu sistema atual. Durante a fase de kick-off, mapeamos suas necessidades específicas.",
+      "Desenvolvemos integrações sob medida para cada operação. Conectamos ao seu ERP/CRM e canais (ex.: WhatsApp) via API e/ou webhooks, sem necessidade de substituir o sistema atual. No kick-off, mapeamos os eventos e dados necessários (cadastro, catálogo, status do pedido, pagamentos etc.) e validamos juntos o fluxo ideal.",
   },
   {
     icon: <RefreshCw className="w-5 h-5" />,
     question: "E se os resultados não forem os esperados? Existe garantia?",
     answer:
-      "Oferecemos um período de 90 dias para validação de resultados. Se após esse período, com uso correto da plataforma, os indicadores não apresentarem melhoria significativa, renegociamos os termos ou encerramos o contrato sem multa. Nosso objetivo é parceria de longo prazo, não contratos forçados.",
+      "A fase de Validação (piloto) existe justamente para ajustar fluxos, mensagens e regras de handoff antes do Go-Live. Definimos metas e critérios no kick-off e acompanhamos os KPIs com a equipe. Se o cenário real exigir mudanças de escopo/integrações, replanejamos para manter o projeto viável e orientado a resultado.",
   },
   {
     icon: <Clock className="w-5 h-5" />,
     question: "Quanto tempo leva para implementar e ver resultados?",
     answer:
-      "A implementação completa leva de 4 a 6 semanas, dependendo da complexidade das integrações. Os primeiros resultados (redução de tempo de resposta e aumento de leads capturados fora do horário) aparecem já na primeira semana de operação. Resultados consolidados de conversão são visíveis a partir do segundo mês.",
+      "Em geral, a implementação leva de 4 a 6 semanas, dependendo da complexidade das integrações. Os primeiros ganhos (tempo de resposta e captura de leads fora do horário) aparecem nas primeiras semanas. Ganhos consolidados de conversão e recuperação tendem a aparecer após o período de estabilização e ajustes do piloto.",
   },
   {
     icon: <HelpCircle className="w-5 h-5" />,
@@ -55,7 +55,7 @@ const faqItems: FAQItem[] = [
     icon: <Lock className="w-5 h-5" />,
     question: "Posso cancelar o contrato a qualquer momento?",
     answer:
-      "Sim. Trabalhamos com contratos de 12 meses (para garantir tempo adequado de implementação e maturação), mas com possibilidade de cancelamento após os primeiros 90 dias mediante aviso prévio de 30 dias. Não há multas abusivas - apenas cobramos o proporcional ao uso.",
+      "Os termos comerciais (setup, mensalidade e prazo) são definidos na proposta e podem ser ajustados conforme o nível de integração e o esforço de implantação. O importante é garantir tempo suficiente para implementar, validar e estabilizar a operação — e manter transparência de condições desde o início.",
   },
 ];
 
@@ -68,9 +68,9 @@ export default function FAQSlide() {
 
   return (
     <SlideShell
-      eyebrow="Dúvidas Frequentes"
+      eyebrow="FAQ"
       eyebrowColor="default"
-      title="Perguntas que Você Pode Estar se Fazendo"
+      title="Perguntas Frequentes"
       subtitle="Transparência total sobre segurança, integrações, garantias e prazos."
       align="center"
       size="compact"
@@ -100,7 +100,7 @@ export default function FAQSlide() {
                 {item.icon}
               </div>
               <span
-                className={`flex-1 font-medium transition-colors text-sm ${
+                className={`flex-1 font-medium transition-colors text-body ${
                   openIndex === index ? "text-white" : "text-white/80"
                 }`}
               >
@@ -128,7 +128,7 @@ export default function FAQSlide() {
                   transition={{ duration: 0.3, ease: "easeInOut" }}
                 >
                   <div className="px-5 pb-4 pl-[4.5rem]">
-                    <p className="text-white/60 text-sm leading-relaxed">
+                    <p className="text-white/60 text-body leading-relaxed">
                       {item.answer}
                     </p>
                   </div>
@@ -146,7 +146,7 @@ export default function FAQSlide() {
         viewport={{ once: true }}
         className="mt-8 text-center"
       >
-        <p className="text-white/40 text-sm">
+        <p className="text-white/40 text-body">
           Ainda tem dúvidas?{" "}
           <span className="font-semibold text-[#00E5FF]">
             Estamos à disposição para esclarecer qualquer ponto.

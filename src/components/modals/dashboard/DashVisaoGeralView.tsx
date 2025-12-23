@@ -16,20 +16,20 @@ import {
 
 // Chart data
 const leadsData = [
-  { day: "Seg", leads: 120, agendamentos: 45 },
-  { day: "Ter", leads: 145, agendamentos: 62 },
-  { day: "Qua", leads: 180, agendamentos: 85 },
-  { day: "Qui", leads: 165, agendamentos: 78 },
-  { day: "Sex", leads: 155, agendamentos: 70 },
-  { day: "Sab", leads: 90, agendamentos: 35 },
+  { day: "Seg", leads: 120, pedidos: 45 },
+  { day: "Ter", leads: 145, pedidos: 62 },
+  { day: "Qua", leads: 180, pedidos: 85 },
+  { day: "Qui", leads: 165, pedidos: 78 },
+  { day: "Sex", leads: 155, pedidos: 70 },
+  { day: "Sab", leads: 90, pedidos: 35 },
 ];
 
 const funnelData = [
   { stage: "Leads", value: 4500, percent: 100, color: "#1a3a4a" },
   { stage: "Qualificados", value: 2500, percent: 55.6, color: "#2a5a6a" },
-  { stage: "Agendados", value: 1700, percent: 37.8, color: "#3b7a8a" },
-  { stage: "Confirmados", value: 1500, percent: 33.1, color: "#4c9aaa" },
-  { stage: "Realizados", value: 1300, percent: 28.9, color: "#5dbaca" },
+  { stage: "Orçamentos", value: 1900, percent: 42.2, color: "#3b7a8a" },
+  { stage: "Pedidos", value: 1500, percent: 33.1, color: "#4c9aaa" },
+  { stage: "Faturados", value: 1300, percent: 28.9, color: "#5dbaca" },
 ];
 
 const leadsChartConfig = {
@@ -37,8 +37,8 @@ const leadsChartConfig = {
     label: "Leads",
     color: "#3b82a0",
   },
-  agendamentos: {
-    label: "Agendamentos",
+  pedidos: {
+    label: "Pedidos",
     color: "#1a4a5e",
   },
 } satisfies ChartConfig;
@@ -46,8 +46,8 @@ const leadsChartConfig = {
 const kpis = [
   { label: "LEADS/DIA", value: "150", subtitle: "Média 7 dias" },
   { label: "QUALIFICADOS", value: "55%", subtitle: "Por intenção" },
-  { label: "AGENDAMENTOS", value: "38%", subtitle: "Lead → agenda" },
-  { label: "NO-SHOW", value: "14%", subtitle: "Últimos 30 dias", warning: true },
+  { label: "PEDIDOS", value: "38%", subtitle: "Lead → pedido" },
+  { label: "ABANDONO", value: "14%", subtitle: "Últimos 30 dias", warning: true },
   { label: "RECEITA (PIPELINE)", value: "R$ 1,2M", subtitle: "Prox. 30 dias" },
   { label: "PIPELINE", value: "R$ 2,1M", subtitle: "Em negociação" },
 ];
@@ -113,7 +113,7 @@ export default function DashVisaoGeralView() {
         <div className="col-span-3 bg-white rounded-xl p-5 border border-gray-100">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-base font-semibold text-gray-900">
-              Leads e agendamentos
+              Leads e pedidos
             </h3>
             <span className="text-xs text-gray-400">Últimos 30 dias</span>
           </div>
@@ -127,9 +127,9 @@ export default function DashVisaoGeralView() {
                   <stop offset="5%" stopColor="var(--color-leads)" stopOpacity={0.3} />
                   <stop offset="95%" stopColor="var(--color-leads)" stopOpacity={0} />
                 </linearGradient>
-                <linearGradient id="fillAgendDashVG" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="var(--color-agendamentos)" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="var(--color-agendamentos)" stopOpacity={0} />
+                <linearGradient id="fillPedidosDashVG" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="var(--color-pedidos)" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="var(--color-pedidos)" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" vertical={false} />
@@ -158,9 +158,9 @@ export default function DashVisaoGeralView() {
               />
               <Area
                 type="monotone"
-                dataKey="agendamentos"
-                stroke="var(--color-agendamentos)"
-                fill="url(#fillAgendDashVG)"
+                dataKey="pedidos"
+                stroke="var(--color-pedidos)"
+                fill="url(#fillPedidosDashVG)"
                 strokeWidth={2}
               />
             </AreaChart>
@@ -207,7 +207,7 @@ export default function DashVisaoGeralView() {
             <p className="text-xs text-cyan-800">
               <span className="font-semibold">Oportunidade:</span> reforçar
               follow-up nos primeiros 20 minutos para reduzir queda entre
-              "Qualificados" e "Agendados".
+              &quot;Qualificados&quot; e &quot;Orçamentos&quot;.
             </p>
           </div>
         </div>

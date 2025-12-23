@@ -12,24 +12,26 @@ Apresentacao horizontal interativa para proposta comercial da CM Remedios, focad
 
 | Tecnologia | Versao | Uso |
 |------------|--------|-----|
-| Next.js | 16.0.10 | App Router + Turbopack |
-| React | 19.2 | UI Library |
+| Next.js | 16.1.1 | App Router com Webpack (Turbopack opcional) |
+| React | 19.2.3 | UI Library |
 | TypeScript | 5.x | Tipagem estatica |
 | Tailwind CSS | v4 | `@theme inline` |
 | Framer Motion | 12.x | Animacoes |
 | React Three Fiber | 9.x | Background 3D |
 | HeroUI | 2.8.7 | Componentes base |
-| Recharts | - | Graficos |
-| XYFlow React | 12.x | Diagramas de fluxo |
-| Lucide | 0.545 | Icones |
+| Recharts | 3.6.0 | Graficos |
+| XYFlow React | 12.10 | Diagramas de fluxo |
+| Lucide | 0.562 | Icones |
 
 ## Execucao
 
 ```bash
 npm install
-npm run dev     # http://localhost:3001
-npm run build   # Build de producao
-npm start       # Servir producao
+npm run dev             # webpack dev (http://localhost:3001)
+npm run dev:turbo       # turbopack dev (opcinal, requer acesso)
+npm run build           # producao (webpack)
+npm run build:turbo     # producao (turbopack, rede requerida)
+npm start -p 3001       # Servir build final
 ```
 
 ## Arquitetura de Componentes
@@ -52,7 +54,7 @@ src/components/slides/
 ├── ImpactoSlide.tsx       # Custo da inacao, oportunidades perdidas
 ├── SolucaoSlide.tsx       # 4 agentes IA (abre AgentModal)
 ├── FerramentasSlide.tsx   # CRM + Dashboard (abre modais de preview)
-├── GanhosSlide.tsx        # -60% no-show, +40% conversao
+├── GanhosSlide.tsx        # -60% abandono, +40% conversao
 ├── ViabilidadeSlide.tsx   # ROI +300%, payback 3-4 meses
 ├── EntregaveisSlide.tsx   # 4 agentes + ERP + CRM + treinamento
 ├── InvestimentoSlide.tsx  # R$25k setup + R$2.5k/mes
@@ -129,10 +131,10 @@ src/components/modals/
 
 | ID | Nome | Funcao | Cor |
 |----|------|--------|-----|
-| sdr | SDR & Agendamento | Qualificacao e agendamento 24/7 | Cyan |
+| sdr | SDR & Qualificacao | Qualificacao e conversao 24/7 | Cyan |
 | faq | FAQ Inteligente | Respostas automaticas a duvidas | Verde |
-| noshow | Anti No-Show | Confirmacao e reagendamento | Cyan |
-| nps | Pesquisa & NPS | Coleta de feedback pos-consulta | Verde |
+| noshow | Follow-up Automatico | Cadencia e recuperacao de conversoes | Cyan |
+| nps | Pesquisa & NPS | Coleta de feedback pos-compra | Verde |
 
 Cada agente no AgentModal exibe:
 - Diagrama radial de capacidades (customizado por tipo)

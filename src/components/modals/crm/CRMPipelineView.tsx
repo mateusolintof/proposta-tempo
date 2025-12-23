@@ -26,31 +26,31 @@ const pipelineData: Record<PipelineTab, Column[]> = {
       id: "novo",
       title: "Novo",
       deals: [
-        { id: 1, name: "Maria S.", value: 4200, tags: ["Ortopedia"], origin: "WhatsApp" },
-        { id: 2, name: "Jose Sa...", value: 1800, tags: ["Consulta"], origin: "Instagram" },
+        { id: 1, name: "Drogaria A...", value: 4200, tags: ["Reposição"], origin: "WhatsApp" },
+        { id: 2, name: "Farmácia B...", value: 1800, tags: ["Cotação"], origin: "Instagram" },
       ],
     },
     {
       id: "triagem",
       title: "Triagem IA",
       deals: [
-        { id: 3, name: "Carla Men...", value: 780, tags: ["Avaliacao"], status: "Primeiro passo" },
-        { id: 4, name: "Pedro C...", value: 9200, tags: ["Cirurgia"], status: "Primeiro passo" },
+        { id: 3, name: "Cliente PF...", value: 780, tags: ["Primeira compra"], status: "Primeiro passo" },
+        { id: 4, name: "Cliente PJ...", value: 9200, tags: ["Cadastro PJ"], status: "Primeiro passo" },
       ],
     },
     {
       id: "qualificado",
       title: "Qualificado",
       deals: [
-        { id: 5, name: "Camila R...", value: 1400, tags: ["LCA"], status: "Primeiro passo" },
-        { id: 6, name: "Juliana...", value: 5800, tags: ["Artroscopia"], status: "Primeiro passo" },
+        { id: 5, name: "Conta Rec...", value: 1400, tags: ["Recorrente"], status: "Primeiro passo" },
+        { id: 6, name: "Compra Gr...", value: 5800, tags: ["Atacado"], status: "Primeiro passo" },
       ],
     },
     {
-      id: "agendamento",
-      title: "Agendamento",
+      id: "pedido",
+      title: "Pedido",
       deals: [
-        { id: 7, name: "Lucas Vit...", value: 680, tags: ["Consulta"], status: "Confirmado" },
+        { id: 7, name: "Checkout...", value: 680, tags: ["Pagamento"], status: "Aguardando" },
       ],
     },
   ],
@@ -59,21 +59,21 @@ const pipelineData: Record<PipelineTab, Column[]> = {
       id: "novo",
       title: "Novo",
       deals: [
-        { id: 8, name: "Roberto F.", value: 3200, tags: ["Complexo"], origin: "Indicacao" },
+        { id: 8, name: "Conta E...", value: 3200, tags: ["Negociação"], origin: "Indicação" },
       ],
     },
     {
       id: "negociacao",
       title: "Negociação",
       deals: [
-        { id: 9, name: "Ana Paula", value: 12000, tags: ["Cirurgia"], status: "Em análise" },
+        { id: 9, name: "Compra G...", value: 12000, tags: ["Condições"], status: "Em análise" },
       ],
     },
     {
       id: "proposta",
       title: "Proposta",
       deals: [
-        { id: 10, name: "Marcos A.", value: 8500, tags: ["Particular"], status: "Aguardando" },
+        { id: 10, name: "Cliente PJ", value: 8500, tags: ["Orçamento"], status: "Aguardando" },
       ],
     },
     {
@@ -87,15 +87,15 @@ const pipelineData: Record<PipelineTab, Column[]> = {
       id: "pendente",
       title: "Pendente",
       deals: [
-        { id: 11, name: "Fernanda L.", value: 2100, tags: ["Retorno"], status: "3 dias" },
-        { id: 12, name: "Carlos E.", value: 950, tags: ["Reagendar"], status: "7 dias" },
+        { id: 11, name: "Orçamento...", value: 2100, tags: ["Sem resposta"], status: "3 dias" },
+        { id: 12, name: "Pedido pen...", value: 950, tags: ["Pagamento"], status: "7 dias" },
       ],
     },
     {
       id: "emandamento",
       title: "Em andamento",
       deals: [
-        { id: 13, name: "Patricia M.", value: 1800, tags: ["Confirmacao"], status: "Hoje" },
+        { id: 13, name: "Reativação", value: 1800, tags: ["Follow-up"], status: "Hoje" },
       ],
     },
     {

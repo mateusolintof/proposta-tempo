@@ -15,9 +15,9 @@ const deliverables = [
     icon: <Bot className="w-7 h-7" />,
     title: "4 Agentes Configurados",
     items: [
-      "SDR & Agendamento",
+      "SDR & Qualificação",
       "FAQ Inteligente",
-      "Anti No-Show",
+      "Follow-up Automático",
       "Pesquisa & NPS",
     ],
   },
@@ -25,8 +25,8 @@ const deliverables = [
     icon: <Link2 className="w-7 h-7" />,
     title: "Integração ERP",
     items: [
-      "Conexão com Tasy",
-      "Sincronização de agenda",
+      "Conexão com ERP atual (via API)",
+      "Sincronização de catálogo e status",
       "Atualização automática",
     ],
   },
@@ -77,7 +77,7 @@ export default function EntregaveisSlide() {
               {item.items.map((subItem) => (
                 <li
                   key={subItem}
-                  className="flex items-center gap-2 text-white/60 text-sm"
+                  className="flex items-center gap-2 text-white/60 text-body"
                 >
                   <Check className="w-4 h-4 text-[#00FF94]" />
                   {subItem}

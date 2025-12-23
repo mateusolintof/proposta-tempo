@@ -8,6 +8,9 @@ import { cn } from "@/lib/utils"
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const
 
+type RechartsValueType = number | string | ReadonlyArray<number | string>
+type RechartsNameType = number | string
+
 export type ChartConfig = {
   [k in string]: {
     label?: React.ReactNode
@@ -61,7 +64,9 @@ function ChartContainer({
         {...props}
       >
         <ChartStyle id={chartId} config={config} />
-        <RechartsPrimitive.ResponsiveContainer>
+        <RechartsPrimitive.ResponsiveContainer
+          initialDimension={{ width: 1, height: 1 }}
+        >
           {children}
         </RechartsPrimitive.ResponsiveContainer>
       </div>
@@ -118,7 +123,9 @@ function ChartTooltipContent({
   color,
   nameKey,
   labelKey,
-}: React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
+}: Partial<
+  RechartsPrimitive.TooltipContentProps<RechartsValueType, RechartsNameType>
+> &
   React.ComponentProps<"div"> & {
     hideLabel?: boolean
     hideIndicator?: boolean
@@ -259,7 +266,10 @@ function ChartLegendContent({
   verticalAlign = "bottom",
   nameKey,
 }: React.ComponentProps<"div"> &
-  Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign"> & {
+  Partial<{
+    payload: ReadonlyArray<RechartsPrimitive.LegendPayload>;
+    verticalAlign: "top" | "bottom" | "middle";
+  }> & {
     hideIcon?: boolean
     nameKey?: string
   }) {

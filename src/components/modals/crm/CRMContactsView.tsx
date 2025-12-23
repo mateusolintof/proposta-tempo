@@ -5,7 +5,7 @@ import { useState } from "react";
 interface Contact {
   id: number;
   name: string;
-  specialty: string;
+  segment: string;
   stage: string;
   channel: string;
   tags: string[];
@@ -13,14 +13,14 @@ interface Contact {
 }
 
 const contacts: Contact[] = [
-  { id: 1, name: "Marina Duarte", specialty: "Artroplastia", stage: "Qualificado", channel: "WhatsApp", tags: ["Cirurgia", "Convênio"], score: 88 },
-  { id: 2, name: "Rafaela Souza", specialty: "Artroscopia", stage: "Proposta", channel: "Instagram", tags: ["Consulta", "Particular"], score: 74 },
-  { id: 3, name: "Helio Lima", specialty: "Dor no joelho", stage: "Sem resposta", channel: "Google", tags: ["Follow-up"], score: 54 },
-  { id: 4, name: "Isadora Pinto", specialty: "Reconstrucao LCA", stage: "Agendado", channel: "WhatsApp", tags: ["Cirurgia", "Alta prioridade"], score: 91 },
-  { id: 5, name: "Paulo Cesar", specialty: "Artrose", stage: "Diagnostico", channel: "Indicacao", tags: ["Consulta", "Indicacao"], score: 79 },
+  { id: 1, name: "Marina Duarte", segment: "Reposição mensal", stage: "Qualificado", channel: "WhatsApp", tags: ["Recorrente", "PJ"], score: 88 },
+  { id: 2, name: "Rafaela Souza", segment: "Cotação atacado", stage: "Proposta", channel: "Instagram", tags: ["Orçamento", "PJ"], score: 74 },
+  { id: 3, name: "Helio Lima", segment: "Primeira compra", stage: "Sem resposta", channel: "Google", tags: ["Follow-up"], score: 54 },
+  { id: 4, name: "Isadora Pinto", segment: "Pedido recorrente", stage: "Pedido", channel: "WhatsApp", tags: ["Alta prioridade", "Pagamento"], score: 91 },
+  { id: 5, name: "Paulo Cesar", segment: "Reativação", stage: "Qualificação", channel: "Indicação", tags: ["Retomada"], score: 79 },
 ];
 
-const filters = ["Todos", "Qualificados", "Alta prioridade", "Agendados", "Sem resposta"];
+const filters = ["Todos", "Qualificados", "Alta prioridade", "Pedidos", "Sem resposta"];
 
 export default function CRMContactsView() {
   const [activeFilter, setActiveFilter] = useState("Todos");
@@ -31,7 +31,7 @@ export default function CRMContactsView() {
     : contacts.filter((c) => {
         if (activeFilter === "Qualificados") return c.stage === "Qualificado";
         if (activeFilter === "Alta prioridade") return c.tags.includes("Alta prioridade");
-        if (activeFilter === "Agendados") return c.stage === "Agendado";
+        if (activeFilter === "Pedidos") return c.stage === "Pedido";
         if (activeFilter === "Sem resposta") return c.stage === "Sem resposta";
         return true;
       });
@@ -92,14 +92,14 @@ export default function CRMContactsView() {
                     <td className="px-4 py-3">
                       <div>
                         <p className="font-medium text-gray-900 text-sm">{contact.name}</p>
-                        <p className="text-xs text-gray-500">{contact.specialty}</p>
+                        <p className="text-xs text-gray-500">{contact.segment}</p>
                       </div>
                     </td>
                     <td className="px-4 py-3">
                       <span className={`px-2 py-1 text-xs rounded-full ${
                         contact.stage === "Qualificado" ? "bg-green-100 text-green-700" :
                         contact.stage === "Proposta" ? "bg-blue-100 text-blue-700" :
-                        contact.stage === "Agendado" ? "bg-purple-100 text-purple-700" :
+                        contact.stage === "Pedido" ? "bg-purple-100 text-purple-700" :
                         contact.stage === "Sem resposta" ? "bg-gray-100 text-gray-600" :
                         "bg-yellow-100 text-yellow-700"
                       }`}>

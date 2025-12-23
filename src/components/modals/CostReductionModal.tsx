@@ -68,16 +68,17 @@ export default function CostReductionModal({
       isOpen={isOpen}
       onClose={onClose}
       title="Simulador de Economia"
-      subtitle="Calcule a reducao de custos com automacao"
+      subtitle="Calcule a redução de custos com automação"
     >
       <div className="space-y-8">
         {/* Sliders */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-            <label className="text-white/70 text-sm block mb-4">
-              Numero de atendentes
+            <label className="text-white/70 text-body block mb-4">
+              Número de atendentes
             </label>
             <Slider
+              aria-label="Número de atendentes"
               size="sm"
               step={1}
               minValue={1}
@@ -97,10 +98,11 @@ export default function CostReductionModal({
           </div>
 
           <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-            <label className="text-white/70 text-sm block mb-4">
-              Salario medio (R$)
+            <label className="text-white/70 text-body block mb-4">
+              Salário médio (R$)
             </label>
             <Slider
+              aria-label="Salário médio (R$)"
               size="sm"
               step={100}
               minValue={1500}
@@ -120,10 +122,11 @@ export default function CostReductionModal({
           </div>
 
           <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-            <label className="text-white/70 text-sm block mb-4">
-              Automacao (%)
+            <label className="text-white/70 text-body block mb-4">
+              Automação (%)
             </label>
             <Slider
+              aria-label="Automação (%)"
               size="sm"
               step={5}
               minValue={30}
@@ -148,7 +151,7 @@ export default function CostReductionModal({
           <div className="bg-white/5 border border-white/10 rounded-xl p-5">
             <h4 className="text-white font-semibold mb-4 flex items-center gap-2">
               <Users className="w-5 h-5 text-white/70" />
-              Cenario Atual
+              Cenário Atual
             </h4>
             <div className="space-y-3">
               <div className="flex justify-between">
@@ -156,7 +159,7 @@ export default function CostReductionModal({
                 <span className="text-white">{attendantCount} pessoas</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-white/50">Salario medio</span>
+                <span className="text-white/50">Salário médio</span>
                 <span className="text-white">{formatCurrency(avgSalary)}</span>
               </div>
               <div className="flex justify-between pt-3 border-t border-white/10">
@@ -171,17 +174,17 @@ export default function CostReductionModal({
           <div className="bg-gradient-to-br from-[#00FF94]/10 to-transparent border border-[#00FF94]/30 rounded-xl p-5">
             <h4 className="text-white font-semibold mb-4 flex items-center gap-2">
               <Bot className="w-5 h-5 text-[#00FF94]" />
-              Cenario com IA
+              Cenário com IA
             </h4>
             <div className="space-y-3">
               <div className="flex justify-between">
-                <span className="text-white/50">Atendentes necessarios</span>
+                <span className="text-white/50">Atendentes necessários</span>
                 <span className="text-[#00FF94]">
                   {calculations.remainingStaff} pessoas
                 </span>
               </div>
               <div className="flex justify-between">
-                <span className="text-white/50">Automacao efetiva</span>
+                <span className="text-white/50">Automação efetiva</span>
                 <span className="text-[#00FF94]">
                   {(calculations.effectiveAutomation * 100).toFixed(0)}%
                 </span>
@@ -231,7 +234,7 @@ export default function CostReductionModal({
             transition={{ delay: 0.3 }}
           >
             <Clock className="w-6 h-6 text-[#FFD700] mx-auto mb-2" />
-            <p className="text-white/50 text-xs mb-1">Horas Liberadas/Mes</p>
+            <p className="text-white/50 text-xs mb-1">Horas Liberadas/Mês</p>
             <p className="text-3xl font-bold text-[#FFD700]">
               {calculations.hoursFreed}h
             </p>
@@ -243,11 +246,11 @@ export default function CostReductionModal({
           <AlertCircle className="w-5 h-5 text-[#FFD700] flex-shrink-0 mt-0.5" />
           <div>
             <p className="text-white/80 text-sm font-medium">
-              15% reservado para supervisao de qualidade
+              15% reservado para supervisão de qualidade
             </p>
             <p className="text-white/50 text-xs mt-1">
-              A automacao efetiva considera {SUPERVISION_RESERVE * 100}% do tempo
-              para supervisao humana, garantindo qualidade no atendimento e
+              A automação efetiva considera {SUPERVISION_RESERVE * 100}% do tempo
+              para supervisão humana, garantindo qualidade no atendimento e
               tratamento de casos excepcionais.
             </p>
           </div>
@@ -256,9 +259,9 @@ export default function CostReductionModal({
         {/* Benefits */}
         <div className="bg-white/5 border border-white/10 rounded-xl p-5">
           <h4 className="text-white font-semibold mb-3">
-            Beneficios Adicionais
+            Benefícios Adicionais
           </h4>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-body">
             <div className="flex items-center gap-2 text-white/70">
               <div className="w-2 h-2 bg-[#00FF94] rounded-full" />
               Equipe focada em tarefas de alto valor
@@ -281,7 +284,7 @@ export default function CostReductionModal({
         {/* Disclaimer */}
         <p className="text-white/30 text-xs text-center">
           * Valores simulados. A economia real depende do volume de atendimentos
-          e complexidade das operacoes.
+          e complexidade das operações.
         </p>
       </div>
     </ModalWrapper>

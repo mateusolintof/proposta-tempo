@@ -1,6 +1,7 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useRef, useEffect, useCallback, useState } from "react";
+import { useRef, useEffect, useCallback, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import { motion, useScroll } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -36,8 +37,8 @@ export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollXProgress } = useScroll({ container: containerRef });
   const [activeSlide, setActiveSlide] = useState(0);
-  const [isIntroComplete, setIsIntroComplete] = useState(false);
   const [modal, setModal] = useState<ModalKind>(null);
+  const isModalOpen = modal !== null;
 
   const handleOpenModal = useCallback((newModal: ModalKind) => {
     setModal(newModal);
@@ -47,20 +48,39 @@ export default function Home() {
     setModal(null);
   }, []);
 
-  const slides = [
-    { id: "intro", label: "Inicio", element: <IntroSlide /> },
-    { id: "diagnostico", label: "Diagnostico", element: <DiagnosticoSlide /> },
-    { id: "desafio", label: "Desafio", element: <DesafioSlide /> },
-    { id: "impacto", label: "Impacto", element: <ImpactoSlide /> },
-    { id: "solucao", label: "Solucao", element: <SolucaoSlide onOpenModal={handleOpenModal} /> },
-    { id: "ferramentas", label: "Ferramentas", element: <FerramentasSlide onOpenModal={handleOpenModal} /> },
-    { id: "ganhos", label: "Ganhos", element: <GanhosSlide onOpenModal={handleOpenModal} /> },
-    { id: "viabilidade", label: "Viabilidade", element: <ViabilidadeSlide onOpenModal={handleOpenModal} /> },
-    { id: "entregaveis", label: "Entregaveis", element: <EntregaveisSlide /> },
-    { id: "investimento", label: "Investimento", element: <InvestimentoSlide /> },
-    { id: "faq", label: "FAQ", element: <FAQSlide /> },
-    { id: "cronograma", label: "Cronograma", element: <CronogramaSlide /> },
-  ];
+  const slides = useMemo(
+    () => [
+      { id: "intro", label: "Início", element: <IntroSlide /> },
+      { id: "diagnostico", label: "Diagnóstico", element: <DiagnosticoSlide /> },
+      { id: "desafio", label: "Desafio", element: <DesafioSlide /> },
+      { id: "impacto", label: "Impacto", element: <ImpactoSlide /> },
+      {
+        id: "solucao",
+        label: "Solução",
+        element: <SolucaoSlide onOpenModal={handleOpenModal} />,
+      },
+      {
+        id: "ferramentas",
+        label: "Ferramentas",
+        element: <FerramentasSlide onOpenModal={handleOpenModal} />,
+      },
+      {
+        id: "ganhos",
+        label: "Ganhos",
+        element: <GanhosSlide onOpenModal={handleOpenModal} />,
+      },
+      {
+        id: "viabilidade",
+        label: "Viabilidade",
+        element: <ViabilidadeSlide onOpenModal={handleOpenModal} />,
+      },
+      { id: "entregaveis", label: "Entregáveis", element: <EntregaveisSlide /> },
+      { id: "investimento", label: "Investimento", element: <InvestimentoSlide /> },
+      { id: "faq", label: "FAQ", element: <FAQSlide /> },
+      { id: "cronograma", label: "Cronograma", element: <CronogramaSlide /> },
+    ],
+    [handleOpenModal]
+  );
 
   const scrollToIndex = useCallback((index: number) => {
     if (!containerRef.current) return;
@@ -70,7 +90,7 @@ export default function Home() {
       left: slideWidth * clampedIndex,
       behavior: "smooth",
     });
-  }, []);
+  }, [slides.length]);
 
   const handleScroll = useCallback(() => {
     if (!containerRef.current) return;
@@ -81,12 +101,7 @@ export default function Home() {
       Math.min(slides.length - 1, Math.round(currentScrollLeft / slideWidth))
     );
     setActiveSlide(activeIndex);
-
-    // Mark intro as complete once user scrolls past first slide
-    if (activeIndex > 0 && !isIntroComplete) {
-      setIsIntroComplete(true);
-    }
-  }, [isIntroComplete]);
+  }, [slides.length]);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -103,7 +118,27 @@ export default function Home() {
     const onWheel = (event: WheelEvent) => {
       if (event.ctrlKey || event.metaKey) return;
       const target = event.target as HTMLElement | null;
-      if (target?.closest("[data-allow-vertical-scroll]")) return;
+
+      const verticalScrollable = target?.closest(
+        "[data-allow-vertical-scroll]"
+      ) as HTMLElement | null;
+      if (verticalScrollable) {
+        const canScrollVertically =
+          verticalScrollable.scrollHeight > verticalScrollable.clientHeight + 1;
+
+        if (canScrollVertically) {
+          const scrollingDown = event.deltaY > 0;
+          const atTop = verticalScrollable.scrollTop <= 0;
+          const atBottom =
+            verticalScrollable.scrollTop + verticalScrollable.clientHeight >=
+            verticalScrollable.scrollHeight - 1;
+
+          const canScrollInDirection =
+            (scrollingDown && !atBottom) || (!scrollingDown && !atTop);
+
+          if (canScrollInDirection) return;
+        }
+      }
 
       const delta =
         Math.abs(event.deltaX) > Math.abs(event.deltaY)
@@ -151,13 +186,13 @@ export default function Home() {
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [activeSlide, scrollToIndex]);
+  }, [activeSlide, scrollToIndex, slides.length]);
 
   return (
     <main className="h-screen w-screen bg-[#02040A] text-white relative overflow-hidden">
       {/* 3D Background */}
       <div className="absolute inset-0 z-0 opacity-30 pointer-events-none">
-        <Scene />
+        {!isModalOpen ? <Scene /> : null}
       </div>
       <div className="absolute inset-0 z-[1] bg-[#02040A]/32 pointer-events-none" />
 
@@ -231,7 +266,7 @@ export default function Home() {
         <img
           src="/branding/logo-badge-white.svg"
           alt="Convert A.I"
-          className="h-5 opacity-60"
+          className="h-5 w-auto opacity-60"
         />
       </div>
 

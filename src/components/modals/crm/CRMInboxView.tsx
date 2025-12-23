@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MessageSquare, Phone, Mail, Tag } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 
 interface Conversation {
   id: number;
@@ -21,23 +21,23 @@ interface Message {
 }
 
 const conversations: Conversation[] = [
-  { id: 1, name: "Julia Alves", preview: "Podemos confirmar SIM ou Não. Qual preferir?", time: "há segundos", channel: "whatsapp", unread: true },
-  { id: 2, name: "Marcos Lima", preview: "Olá! Gostaria de agendar uma consulta...", time: "10 min atrás", channel: "whatsapp" },
-  { id: 3, name: "Patrícia Souza", preview: "Perfeito! Posso confirmar SIM às 17h...", time: "25 min atrás", channel: "whatsapp" },
-  { id: 4, name: "Fernando Oliveira", preview: "Caro cliente, obrigado pelo contato...", time: "1h atrás", channel: "instagram" },
+  { id: 1, name: "Julia Alves", preview: "Podemos confirmar o pedido? Responda SIM ou NÃO.", time: "há segundos", channel: "whatsapp", unread: true },
+  { id: 2, name: "Marcos Lima", preview: "Olá! Gostaria de fazer um pedido e preciso de orçamento...", time: "10 min atrás", channel: "whatsapp" },
+  { id: 3, name: "Patrícia Souza", preview: "Perfeito! Posso te enviar o link de pagamento agora.", time: "25 min atrás", channel: "whatsapp" },
+  { id: 4, name: "Fernando Oliveira", preview: "Caro cliente, segue atualização do seu pedido...", time: "1h atrás", channel: "instagram" },
 ];
 
 const messagesData: Record<number, Message[]> = {
   1: [
-    { id: 1, from: "lead", text: "Olá, gostaria de agendar uma consulta de ortopedia", time: "10:30" },
-    { id: 2, from: "ai", text: "Olá Julia! Claro, temos horários disponíveis. Você prefere pela manhã ou tarde?", time: "10:31" },
-    { id: 3, from: "lead", text: "Prefiro à tarde, por favor", time: "10:32" },
-    { id: 4, from: "ai", text: "Perfeito! Temos disponibilidade às 14h ou 17h. Qual horário funciona melhor para você?", time: "10:32" },
-    { id: 5, from: "lead", text: "Podemos confirmar SIM ou Não. Qual preferir?", time: "10:33" },
+    { id: 1, from: "lead", text: "Olá! Quero fazer um pedido, mas estou com dúvida no frete.", time: "10:30" },
+    { id: 2, from: "ai", text: "Oi Julia! Posso te ajudar. Me diga seu CEP e se prefere entrega ou retirada.", time: "10:31" },
+    { id: 3, from: "lead", text: "Entrega. CEP 01310-000", time: "10:32" },
+    { id: 4, from: "ai", text: "Perfeito. Para esse CEP, o prazo estimado é de 1–2 dias úteis. Posso confirmar o pedido agora? Responda SIM ou NÃO.", time: "10:32" },
+    { id: 5, from: "lead", text: "SIM", time: "10:33" },
   ],
   2: [
-    { id: 1, from: "lead", text: "Olá! Gostaria de agendar uma consulta para avaliar dor no joelho", time: "09:45" },
-    { id: 2, from: "ai", text: "Olá Marcos! Entendo, vamos verificar a disponibilidade. Você tem convênio?", time: "09:46" },
+    { id: 1, from: "lead", text: "Olá! Gostaria de fazer um pedido e preciso de orçamento.", time: "09:45" },
+    { id: 2, from: "ai", text: "Olá Marcos! Perfeito. Você é PF ou PJ? Se for PJ, me envie o CNPJ para cadastro e condições.", time: "09:46" },
   ],
 };
 
@@ -55,8 +55,8 @@ const leadDetailsData: Record<number, {
     phone: "+55 11 99999-9999",
     source: "WhatsApp",
     score: 88,
-    recommendations: ["Ligar", "Reagendamento LCA"],
-    tags: ["Cirurgia", "Convênio"],
+    recommendations: ["Confirmar pedido", "Enviar link de pagamento"],
+    tags: ["Pedido", "Entrega"],
     lastInteraction: "Hoje 10:33",
   },
   2: {
@@ -64,8 +64,8 @@ const leadDetailsData: Record<number, {
     phone: "+55 11 98888-8888",
     source: "WhatsApp",
     score: 72,
-    recommendations: ["Enviar informações", "Verificar convênio"],
-    tags: ["Consulta", "Particular"],
+    recommendations: ["Coletar CNPJ", "Enviar orçamento"],
+    tags: ["Orçamento", "PJ"],
     lastInteraction: "Hoje 09:46",
   },
 };

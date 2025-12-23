@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { motion } from "framer-motion";
@@ -60,18 +61,17 @@ export default function CronogramaSlide() {
               {/* Phase circle */}
               <div className="relative z-10 w-16 h-16 rounded-full bg-gradient-to-br from-[#00E5FF]/20 to-[#00FF94]/20 border border-[#00E5FF]/40 flex items-center justify-center mb-4 shadow-[0_0_30px_rgba(0,229,255,0.15)]">
                 <div className="text-[#00E5FF]">{phase.icon}</div>
+                {/* Phase number */}
+                <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-[#00FF94] text-[#02040A] text-xs font-bold flex items-center justify-center z-20">
+                  {phase.phase}
+                </span>
               </div>
-
-              {/* Phase number */}
-              <span className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-[#00FF94] text-[#02040A] text-xs font-bold flex items-center justify-center z-20">
-                {phase.phase}
-              </span>
 
               {/* Content */}
               <h3 className="text-lg font-semibold text-white mb-2">
                 {phase.title}
               </h3>
-              <p className="text-white/50 text-sm leading-relaxed">
+              <p className="text-white/50 text-body leading-relaxed">
                 {phase.desc}
               </p>
             </motion.div>
@@ -106,7 +106,7 @@ export default function CronogramaSlide() {
         <img
           src="/branding/logo-principal-white.svg"
           alt="Convert A.I - Atendimento Personalizado"
-          className="h-12 opacity-60"
+          className="h-12 w-auto opacity-60"
         />
       </motion.div>
     </SlideShell>

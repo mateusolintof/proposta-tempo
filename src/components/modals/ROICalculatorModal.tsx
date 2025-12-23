@@ -35,16 +35,16 @@ export default function ROICalculatorModal({
       80
     );
 
-    const currentMonthlyConsults = Math.round(
+    const currentMonthlyOrders = Math.round(
       (leadsPerMonth * currentConversionRate) / 100
     );
-    const newMonthlyConsults = Math.round(
+    const newMonthlyOrders = Math.round(
       (leadsPerMonth * newConversionRate) / 100
     );
-    const additionalConsults = newMonthlyConsults - currentMonthlyConsults;
+    const additionalOrders = newMonthlyOrders - currentMonthlyOrders;
 
-    const currentMonthlyRevenue = currentMonthlyConsults * avgTicket;
-    const newMonthlyRevenue = newMonthlyConsults * avgTicket;
+    const currentMonthlyRevenue = currentMonthlyOrders * avgTicket;
+    const newMonthlyRevenue = newMonthlyOrders * avgTicket;
     const additionalRevenue = newMonthlyRevenue - currentMonthlyRevenue;
 
     const monthlyProfit = additionalRevenue - MONTHLY_COST;
@@ -61,9 +61,9 @@ export default function ROICalculatorModal({
         : 0;
 
     return {
-      currentMonthlyConsults,
-      newMonthlyConsults,
-      additionalConsults,
+      currentMonthlyOrders,
+      newMonthlyOrders,
+      additionalOrders,
       currentMonthlyRevenue,
       newMonthlyRevenue,
       additionalRevenue,
@@ -82,6 +82,8 @@ export default function ROICalculatorModal({
       maximumFractionDigits: 0,
     }).format(value);
 
+  const formatMonths = (months: number) => (months === 1 ? "1 mês" : `${months} meses`);
+
   return (
     <ModalWrapper
       isOpen={isOpen}
@@ -93,10 +95,11 @@ export default function ROICalculatorModal({
         {/* Sliders */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-            <label className="text-white/70 text-sm block mb-4">
-              Leads por mes
+            <label className="text-white/70 text-body block mb-4">
+              Leads por mês
             </label>
             <Slider
+              aria-label="Leads por mês"
               size="sm"
               step={100}
               minValue={500}
@@ -116,10 +119,11 @@ export default function ROICalculatorModal({
           </div>
 
           <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-            <label className="text-white/70 text-sm block mb-4">
-              Ticket medio (R$)
+            <label className="text-white/70 text-body block mb-4">
+              Ticket médio (R$)
             </label>
             <Slider
+              aria-label="Ticket médio (R$)"
               size="sm"
               step={50}
               minValue={100}
@@ -139,10 +143,11 @@ export default function ROICalculatorModal({
           </div>
 
           <div className="bg-white/5 border border-white/10 rounded-xl p-5">
-            <label className="text-white/70 text-sm block mb-4">
-              Conversao atual (%)
+            <label className="text-white/70 text-body block mb-4">
+              Conversão atual (%)
             </label>
             <Slider
+              aria-label="Conversão atual (%)"
               size="sm"
               step={1}
               minValue={5}
@@ -166,7 +171,7 @@ export default function ROICalculatorModal({
         <div className="bg-white/5 border border-white/10 rounded-xl p-5">
           <h4 className="text-white font-semibold mb-4 flex items-center gap-2">
             <TrendingUp className="w-5 h-5 text-[#00FF94]" />
-            Projecao de Melhoria
+            Projeção de Melhoria
           </h4>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center">
@@ -175,7 +180,7 @@ export default function ROICalculatorModal({
                 {currentConversionRate}%
               </p>
               <p className="text-white/40 text-sm mt-1">
-                {calculations.currentMonthlyConsults} consultas/mes
+                {calculations.currentMonthlyOrders} pedidos/mês
               </p>
             </div>
             <div className="flex items-center justify-center">
@@ -187,16 +192,16 @@ export default function ROICalculatorModal({
                 {calculations.newConversionRate.toFixed(0)}%
               </p>
               <p className="text-[#00FF94] text-sm mt-1">
-                {calculations.newMonthlyConsults} consultas/mes
+                {calculations.newMonthlyOrders} pedidos/mês
               </p>
             </div>
           </div>
           <div className="mt-4 pt-4 border-t border-white/10 text-center">
             <p className="text-white/70">
               <span className="text-[#00FF94] font-bold text-xl">
-                +{calculations.additionalConsults}
+                +{calculations.additionalOrders}
               </span>{" "}
-              consultas adicionais por mes
+              pedidos adicionais por mês
             </p>
           </div>
         </div>
@@ -210,7 +215,7 @@ export default function ROICalculatorModal({
             transition={{ delay: 0.1 }}
           >
             <DollarSign className="w-6 h-6 text-[#00E5FF] mx-auto mb-2" />
-            <p className="text-white/50 text-xs mb-1">Receita Adicional/Mes</p>
+            <p className="text-white/50 text-xs mb-1">Receita Adicional/Mês</p>
             <p className="text-2xl font-bold text-[#00E5FF]">
               {formatCurrency(calculations.additionalRevenue)}
             </p>
@@ -223,12 +228,12 @@ export default function ROICalculatorModal({
             transition={{ delay: 0.2 }}
           >
             <TrendingUp className="w-6 h-6 text-[#00FF94] mx-auto mb-2" />
-            <p className="text-white/50 text-xs mb-1">Lucro Liquido/Mes</p>
+            <p className="text-white/50 text-xs mb-1">Lucro Líquido/Mês</p>
             <p className="text-2xl font-bold text-[#00FF94]">
               {formatCurrency(calculations.monthlyProfit)}
             </p>
             <p className="text-white/30 text-xs">
-              (ja descontando R$ 2.5k/mes)
+              (já descontando {formatCurrency(MONTHLY_COST)}/mês)
             </p>
           </motion.div>
 
@@ -243,7 +248,7 @@ export default function ROICalculatorModal({
             <p className="text-2xl font-bold text-[#FFD700]">
               {calculations.paybackMonths === Infinity
                 ? "-"
-                : `${calculations.paybackMonths} meses`}
+                : formatMonths(calculations.paybackMonths)}
             </p>
             <p className="text-white/30 text-xs">(setup R$ 25k)</p>
           </motion.div>
@@ -272,9 +277,9 @@ export default function ROICalculatorModal({
           <h4 className="text-white font-semibold mb-3">
             Resumo do Investimento
           </h4>
-          <div className="grid grid-cols-2 gap-4 text-sm">
+          <div className="grid grid-cols-2 gap-4 text-body">
             <div className="flex justify-between">
-              <span className="text-white/50">Setup (unico)</span>
+              <span className="text-white/50">Setup (único)</span>
               <span className="text-white">{formatCurrency(SETUP_COST)}</span>
             </div>
             <div className="flex justify-between">
@@ -282,13 +287,13 @@ export default function ROICalculatorModal({
               <span className="text-white">{formatCurrency(MONTHLY_COST)}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-white/50">Custo 1o ano</span>
+              <span className="text-white/50">Custo 1º ano</span>
               <span className="text-white">
                 {formatCurrency(SETUP_COST + MONTHLY_COST * 12)}
               </span>
             </div>
             <div className="flex justify-between">
-              <span className="text-white/50">Receita adicional 1o ano</span>
+              <span className="text-white/50">Receita adicional 1º ano</span>
               <span className="text-[#00FF94]">
                 {formatCurrency(calculations.additionalRevenue * 12)}
               </span>
@@ -299,7 +304,7 @@ export default function ROICalculatorModal({
         {/* Disclaimer */}
         <p className="text-white/30 text-xs text-center">
           * Valores projetados com base em benchmarks de mercado. Resultados
-          reais podem variar de acordo com a operacao.
+          reais podem variar de acordo com a operação.
         </p>
       </div>
     </ModalWrapper>

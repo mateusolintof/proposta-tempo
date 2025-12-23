@@ -6,7 +6,7 @@ import { Flame, TrendingUp, AlertTriangle, ArrowRight } from "lucide-react";
 interface Cliente {
   id: number;
   name: string;
-  specialty: string;
+  segment: string;
   stage: string;
   channel: string;
   score: number;
@@ -14,12 +14,12 @@ interface Cliente {
 }
 
 const clientes: Cliente[] = [
-  { id: 1, name: "Marina Duarte", specialty: "Artroplastia", stage: "Qualificado", channel: "WhatsApp", score: 88, ticket: 4200 },
-  { id: 2, name: "Rafaela Souza", specialty: "Artroscopia", stage: "Proposta", channel: "Instagram", score: 74, ticket: 1800 },
-  { id: 3, name: "Helio Lima", specialty: "Dor no joelho", stage: "Sem resposta", channel: "Google", score: 54, ticket: 780 },
-  { id: 4, name: "Isadora Pinto", specialty: "Reconstrucao LCA", stage: "Agendado", channel: "WhatsApp", score: 91, ticket: 9200 },
-  { id: 5, name: "Paulo Cesar", specialty: "Artrose", stage: "Diagnostico", channel: "Indicacao", score: 79, ticket: 5800 },
-  { id: 6, name: "Camila Rodrigues", specialty: "Lesao meniscal", stage: "Qualificado", channel: "Instagram", score: 82, ticket: 3500 },
+  { id: 1, name: "Marina Duarte", segment: "Reposição mensal", stage: "Qualificado", channel: "WhatsApp", score: 88, ticket: 4200 },
+  { id: 2, name: "Rafaela Souza", segment: "Cotação atacado", stage: "Proposta", channel: "Instagram", score: 74, ticket: 1800 },
+  { id: 3, name: "Helio Lima", segment: "Primeira compra", stage: "Sem resposta", channel: "Google", score: 54, ticket: 780 },
+  { id: 4, name: "Isadora Pinto", segment: "Pedido recorrente", stage: "Pedido", channel: "WhatsApp", score: 91, ticket: 9200 },
+  { id: 5, name: "Paulo Cesar", segment: "Reativação", stage: "Qualificação", channel: "Indicação", score: 79, ticket: 5800 },
+  { id: 6, name: "Camila Rodrigues", segment: "Recorrente", stage: "Qualificado", channel: "Instagram", score: 82, ticket: 3500 },
 ];
 
 const getAnaliseIA = (cliente: Cliente) => {
@@ -39,10 +39,10 @@ const getAnaliseIA = (cliente: Cliente) => {
   const proximaAcao = cliente.stage === "Sem resposta"
     ? "Enviar mensagem de reativação"
     : cliente.stage === "Qualificado"
-    ? "Agendar consulta"
+    ? "Enviar orçamento"
     : cliente.stage === "Proposta"
     ? "Enviar proposta comercial"
-    : "Confirmar agendamento";
+    : "Confirmar pedido";
 
   return { temperatura, sinais, riscos, proximaAcao };
 };
@@ -96,14 +96,14 @@ export default function DashClientesView() {
                     <td className="px-4 py-3">
                       <div>
                         <p className="font-medium text-gray-900 text-sm">{cliente.name}</p>
-                        <p className="text-xs text-gray-500">{cliente.specialty}</p>
+                        <p className="text-xs text-gray-500">{cliente.segment}</p>
                       </div>
                     </td>
                     <td className="px-4 py-3">
                       <span className={`px-2 py-1 text-xs rounded-full ${
                         cliente.stage === "Qualificado" ? "bg-green-100 text-green-700" :
                         cliente.stage === "Proposta" ? "bg-blue-100 text-blue-700" :
-                        cliente.stage === "Agendado" ? "bg-purple-100 text-purple-700" :
+                        cliente.stage === "Pedido" ? "bg-purple-100 text-purple-700" :
                         cliente.stage === "Sem resposta" ? "bg-gray-100 text-gray-600" :
                         "bg-yellow-100 text-yellow-700"
                       }`}>
@@ -218,7 +218,7 @@ export default function DashClientesView() {
               </p>
               <div className="flex flex-wrap gap-2">
                 <span className="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-full">
-                  {selectedCliente.specialty}
+                  {selectedCliente.segment}
                 </span>
                 <span className="px-2 py-1 text-xs bg-gray-100 text-gray-600 rounded-full">
                   {selectedCliente.channel}

@@ -19,8 +19,8 @@ const AgentFlowDiagram = dynamic(
   {
     ssr: false,
     loading: () => (
-      <div className="w-full h-[400px] bg-gray-100 rounded-xl flex items-center justify-center">
-        <div className="text-gray-500 text-sm">Carregando fluxograma...</div>
+      <div className="w-full h-[400px] rounded-xl border border-white/10 bg-white/5 flex items-center justify-center">
+        <div className="text-white/60 text-sm">Carregando fluxograma...</div>
       </div>
     ),
   }
@@ -44,63 +44,63 @@ const agentData: Record<
   }
 > = {
   sdr: {
-    name: "SDR & Agendamento",
-    fullName: "Assistente Virtual de Qualificacao e Agendamento Comercial",
+    name: "SDR & Qualificação",
+    fullName: "Agente de Qualificação e Conversão Comercial",
     description:
-      "Agente de IA que qualifica leads, valida elegibilidade e agenda consultas automaticamente via WhatsApp.",
+      "Agente de IA que qualifica leads, coleta dados essenciais e direciona para orçamento/pedido via WhatsApp com registro automático no CRM.",
     icon: <MessageSquare className="w-6 h-6" />,
     color: "#00FF94",
     benefits: [
-      "Atendimento 24/7 - Nunca mais perca leads fora do horario comercial",
-      "Qualificacao automatica - Filtra leads elegiveis vs nao elegiveis",
-      "Validacao de convenios - Confirma se o plano e aceito antes de agendar",
-      "Agendamento inteligente - Propoe horarios livres em tempo real",
-      "Reducao de 80% no tempo das atendentes com qualificacao basica",
+      "Atendimento 24/7 - Nunca mais perca leads fora do horário comercial",
+      "Qualificação automática - Identifica intenção, perfil (PF/PJ) e urgência comercial",
+      "Coleta de dados - Cadastro, endereço, preferência de entrega/retirada e pagamento",
+      "Orçamento/pedido guiado - Encaminha para pagamento ou vendedor com contexto",
+      "Redução de tempo do time com triagem e tarefas repetitivas",
     ],
   },
   faq: {
     name: "FAQ Inteligente",
-    fullName: "Central de Atendimento Educacional",
+    fullName: "Central de Atendimento de Produtos e Políticas",
     description:
-      "Agente especialista que responde duvidas sobre procedimentos, tratamentos e informacoes gerais automaticamente.",
+      "Agente especialista que responde dúvidas sobre produtos, disponibilidade, entrega, pagamento e pós-venda automaticamente.",
     icon: <HelpCircle className="w-6 h-6" />,
     color: "#00E5FF",
     benefits: [
-      "Reducao de 60% no tempo gasto com perguntas repetitivas",
-      "Educacao do paciente antes da consulta (maior satisfacao)",
-      "Conversao de duvidas em leads - Sempre oferece agendamento ao final",
-      "Escalabilidade - Atende ilimitados pacientes simultaneamente",
-      "Disponibilidade total - Respostas instantaneas 24/7",
+      "Redução de 60% no tempo gasto com perguntas repetitivas",
+      "Respostas consistentes e atualizadas com base de conhecimento validada",
+      "Conversão de dúvidas em vendas - Captura interesse e direciona para SDR",
+      "Escalabilidade - Atende clientes simultaneamente sem limite",
+      "Disponibilidade total - Respostas instantâneas 24/7",
     ],
   },
   noshow: {
-    name: "Anti No-Show",
-    fullName: "Sistema Anti No-Show com Follow-Up Automatizado",
+    name: "Follow-up Automático",
+    fullName: "Sistema de Follow-up e Recuperação de Conversões",
     description:
-      "Sistema completo para confirmar presenca, reduzir faltas e fazer follow-up pos-consulta.",
+      "Sistema completo para reativar conversas, recuperar orçamentos/pedidos pendentes e reduzir abandono com cadência automática.",
     icon: <CalendarCheck className="w-6 h-6" />,
     color: "#FF6B6B",
     benefits: [
-      "Reducao de 40% na taxa de no-show (benchmark de mercado)",
-      "Otimizacao de agenda - Vagas canceladas preenchidas automaticamente",
-      "Aumento de satisfacao - Follow-up pos-consulta humanizado",
-      "Mais consultas fechadas - Follow-up ativo para decisoes",
-      "Fila de espera inteligente - Priorizacao automatica por urgencia",
+      "Redução de perdas por abandono com cadência e priorização por intenção",
+      "Recuperação de oportunidades - Retoma conversas no timing certo",
+      "Escalação inteligente - Handoff para humano quando necessário",
+      "Registro de motivos de perda para melhoria contínua",
+      "Previsibilidade - Pipeline mais limpo e com próxima ação definida",
     ],
   },
   nps: {
     name: "Pesquisa & NPS",
-    fullName: "Sistema de Pesquisa de Satisfacao e NPS",
+    fullName: "Sistema de Pesquisa de Satisfação e NPS",
     description:
-      "Coleta feedback dos pacientes, direciona avaliacoes positivas para Google Reviews e gera insights para melhoria continua.",
+      "Coleta feedback dos clientes, direciona avaliações positivas para Google Reviews e gera insights para melhoria contínua.",
     icon: <Star className="w-6 h-6" />,
     color: "#FFD700",
     benefits: [
-      "Coleta automatica de feedback pos-atendimento",
-      "Direcionamento de avaliacoes positivas para Google Reviews",
-      "Identificacao rapida de pacientes insatisfeitos",
-      "Insights para melhoria continua do atendimento",
-      "Aumento da reputacao online da clinica",
+      "Coleta automática de feedback pós-atendimento",
+      "Direcionamento de avaliações positivas para Google Reviews",
+      "Identificação rápida de clientes insatisfeitos",
+      "Insights para melhoria contínua do atendimento",
+      "Aumento da reputação online da marca",
     ],
   },
 };
@@ -137,7 +137,7 @@ export default function AgentModal({ agent, isOpen, onClose }: AgentModalProps) 
             <div>
               <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                 <CheckCircle className="w-5 h-5 text-[#00FF94]" />
-                Beneficios
+                Benefícios
               </h3>
               <div className="space-y-2">
                 {data.benefits.map((benefit, index) => (
@@ -158,7 +158,7 @@ export default function AgentModal({ agent, isOpen, onClose }: AgentModalProps) 
             {/* CTA */}
             <div className="text-center pt-4 border-t border-white/10">
               <p className="text-white/50 text-sm">
-                Este agente esta incluido no{" "}
+                Este agente está incluído no{" "}
                 <span className="text-[#00FF94] font-semibold">
                   Ecossistema Full
                 </span>
@@ -188,7 +188,7 @@ export default function AgentModal({ agent, isOpen, onClose }: AgentModalProps) 
         <div>
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-lg font-semibold text-white">
-              Fluxo de Operacao Detalhado
+              Fluxo de Operação Detalhado
             </h3>
             <span className="text-xs text-white/40 bg-white/5 px-3 py-1 rounded-full">
               Arraste para explorar

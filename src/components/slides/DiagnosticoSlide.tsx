@@ -23,8 +23,8 @@ const painPoints = [
   },
   {
     icon: <AlertTriangle className="w-6 h-6" />,
-    title: "No-show e Remarcações",
-    desc: "Taxa elevada sem conferência ou follow-up adequado",
+    title: "Abandono e Falta de Follow-up",
+    desc: "Conversas e orçamentos ficam pendentes; sem cadência, a oportunidade esfria",
   },
 ];
 
@@ -51,7 +51,7 @@ export default function DiagnosticoSlide() {
               {metric.value}
             </p>
             <p className="text-white/80 mt-2 font-medium">{metric.label}</p>
-            <p className="text-white/40 text-sm mt-1">{metric.subtext}</p>
+            <p className="text-white/40 text-eyebrow mt-1">{metric.subtext}</p>
           </motion.div>
         ))}
       </div>
@@ -75,7 +75,7 @@ export default function DiagnosticoSlide() {
                 <h3 className="text-lg font-semibold text-white">
                   {point.title}
                 </h3>
-                <p className="text-white/60 mt-2 text-sm leading-relaxed">
+                <p className="text-white/60 mt-2 text-body leading-relaxed">
                   {point.desc}
                 </p>
               </div>

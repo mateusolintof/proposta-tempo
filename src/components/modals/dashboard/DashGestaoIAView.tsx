@@ -27,10 +27,10 @@ const resolucaoData = [
 ];
 
 const intencoesData = [
-  { name: "Agendamento", value: 320 },
+  { name: "Pedido", value: 320 },
   { name: "FAQ", value: 240 },
-  { name: "Reagendamento", value: 160 },
-  { name: "Pré-cadastro", value: 100 },
+  { name: "Status do pedido", value: 160 },
+  { name: "Cadastro PJ", value: 100 },
 ];
 
 const resolucaoChartConfig = {

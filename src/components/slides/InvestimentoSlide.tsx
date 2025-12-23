@@ -6,7 +6,7 @@ import SlideShell from "@/components/ui/SlideShell";
 
 const included = [
   "Configuração dos 4 agentes com base de conhecimento",
-  "Integração completa com ERP (Tasy)",
+  "Integração com ERP e canais de atendimento (via API)",
   "CRM e Dashboard configurados",
   "Treinamento + 30 dias de acompanhamento",
 ];
@@ -49,7 +49,7 @@ export default function InvestimentoSlide() {
           <p className="text-4xl md:text-5xl font-bold text-white mt-2">
             R$ 25.000
           </p>
-          <p className="text-white/50 mt-4 text-sm">
+          <p className="text-white/50 mt-4 text-body">
             Implantação completa do ecossistema
           </p>
         </motion.div>
@@ -73,7 +73,7 @@ export default function InvestimentoSlide() {
           <p className="text-4xl md:text-5xl font-bold text-[#00FF94] mt-2">
             R$ 2.500
           </p>
-          <p className="text-white/50 mt-4 text-sm">/mês por todos os módulos</p>
+          <p className="text-white/50 mt-4 text-body">/mês por todos os módulos</p>
         </motion.div>
       </div>
 
@@ -92,7 +92,7 @@ export default function InvestimentoSlide() {
           {included.map((item) => (
             <div
               key={item}
-              className="flex items-center gap-2 text-white/70 text-sm"
+              className="flex items-center gap-2 text-white/70 text-body"
             >
               <Check className="w-4 h-4 text-[#00FF94] flex-shrink-0" />
               {item}
@@ -110,7 +110,7 @@ export default function InvestimentoSlide() {
         transition={{ delay: 0.3 }}
       >
         <CreditCard className="w-4 h-4 text-white/40" />
-        <span className="text-white/40 text-sm">Formas de pagamento:</span>
+        <span className="text-white/40 text-body">Formas de pagamento:</span>
         {paymentOptions.map((option) => (
           <span
             key={option}

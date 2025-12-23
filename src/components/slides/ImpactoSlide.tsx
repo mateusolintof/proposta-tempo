@@ -21,7 +21,7 @@ const problems = [
     icon: <BarChart3 className="w-6 h-6" />,
     title: "Falta de visibilidade",
     subtitle: "GESTÃO ÀS CEGAS",
-    desc: "Sem dados por canal, etapa e equipe, fica difícil corrigir gargalos, reduzir no-show e preencher lacunas da agenda.",
+    desc: "Sem dados por canal, etapa e equipe, fica difícil corrigir gargalos, reduzir abandono e priorizar as oportunidades certas.",
   },
 ];
 
@@ -61,7 +61,7 @@ export default function ImpactoSlide() {
             </p>
 
             {/* Description */}
-            <p className="text-sm text-white/60 leading-relaxed">
+            <p className="text-body text-white/60 leading-relaxed">
               {problem.desc}
             </p>
           </motion.div>
