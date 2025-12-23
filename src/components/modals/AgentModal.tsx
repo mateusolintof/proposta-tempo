@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import {
   MessageSquare,
-  HelpCircle,
   CalendarCheck,
   Star,
   CheckCircle,
@@ -45,62 +44,47 @@ const agentData: Record<
 > = {
   sdr: {
     name: "SDR & Qualificação",
-    fullName: "Agente de Qualificação e Conversão Comercial",
+    fullName: "Agente de Qualificação",
     description:
-      "Agente de IA que qualifica leads, coleta dados essenciais e direciona para orçamento/pedido via WhatsApp com registro automático no CRM.",
+      "Agente de IA que qualifica e classifica leads, coleta dados essenciais (leitura de fatura via OCR), realiza cálculos de economia e direciona para vendedor humano com registro automático no CRM.",
     icon: <MessageSquare className="w-6 h-6" />,
     color: "#00FF94",
     benefits: [
       "Atendimento 24/7 - Nunca mais perca leads fora do horário comercial",
-      "Qualificação automática - Identifica intenção, perfil (PF/PJ) e urgência comercial",
-      "Coleta de dados - Cadastro, endereço, preferência de entrega/retirada e pagamento",
-      "Orçamento/pedido guiado - Encaminha para pagamento ou vendedor com contexto",
+      "Qualificação automática - Identifica intenção, perfil e urgência comercial",
+      "Leitura de faturas (OCR) - Valida consumo mínimo de R$ 250 automaticamente",
+      "Orçamento/simulação guiada - Cálculos de economia em tempo real",
       "Redução de tempo do time com triagem e tarefas repetitivas",
-    ],
-  },
-  faq: {
-    name: "FAQ Inteligente",
-    fullName: "Central de Atendimento de Produtos e Políticas",
-    description:
-      "Agente especialista que responde dúvidas sobre produtos, disponibilidade, entrega, pagamento e pós-venda automaticamente.",
-    icon: <HelpCircle className="w-6 h-6" />,
-    color: "#00E5FF",
-    benefits: [
-      "Redução de 60% no tempo gasto com perguntas repetitivas",
-      "Respostas consistentes e atualizadas com base de conhecimento validada",
-      "Conversão de dúvidas em vendas - Captura interesse e direciona para SDR",
-      "Escalabilidade - Atende clientes simultaneamente sem limite",
-      "Disponibilidade total - Respostas instantâneas 24/7",
     ],
   },
   noshow: {
     name: "Follow-up Automático",
-    fullName: "Sistema de Follow-up e Recuperação de Conversões",
+    fullName: "Agente de Recuperação e Cadência",
     description:
-      "Sistema completo para reativar conversas, recuperar orçamentos/pedidos pendentes e reduzir abandono com cadência automática.",
+      "Sistema inteligente que retoma conversas abandonadas, recupera orçamentos pendentes e mantém cadência automatizada para aumentar a taxa de conversão.",
     icon: <CalendarCheck className="w-6 h-6" />,
     color: "#FF6B6B",
     benefits: [
-      "Redução de perdas por abandono com cadência e priorização por intenção",
-      "Recuperação de oportunidades - Retoma conversas no timing certo",
-      "Escalação inteligente - Handoff para humano quando necessário",
-      "Registro de motivos de perda para melhoria contínua",
-      "Previsibilidade - Pipeline mais limpo e com próxima ação definida",
+      "Recuperação de orçamentos - Retoma leads que receberam proposta mas não responderam",
+      "Cadência inteligente - Sequência de mensagens no timing certo sem parecer spam",
+      "Objeções e dúvidas - Identifica motivos de hesitação e oferece esclarecimentos",
+      "Handoff para vendedor - Escala para humano quando detecta interesse real",
+      "Métricas de recuperação - Taxa de reativação e motivos de perda",
     ],
   },
   nps: {
-    name: "Pesquisa & NPS",
-    fullName: "Sistema de Pesquisa de Satisfação e NPS",
+    name: "Pós-vendas & NPS",
+    fullName: "Agente de Relacionamento e Fidelização",
     description:
-      "Coleta feedback dos clientes, direciona avaliações positivas para Google Reviews e gera insights para melhoria contínua.",
+      "Cuida do cliente após a venda: envia lembretes de pagamento, campanhas de indicação, pesquisas de satisfação e mantém o relacionamento ativo.",
     icon: <Star className="w-6 h-6" />,
     color: "#FFD700",
     benefits: [
-      "Coleta automática de feedback pós-atendimento",
-      "Direcionamento de avaliações positivas para Google Reviews",
-      "Identificação rápida de clientes insatisfeitos",
-      "Insights para melhoria contínua do atendimento",
-      "Aumento da reputação online da marca",
+      "Cobranças e lembretes - Avisos automáticos de vencimento e status de pagamento",
+      "Campanhas de indicação - 'Indique 5 pessoas e ganhe 10% off na próxima fatura'",
+      "Pesquisa NPS - Coleta feedback e direciona promotores para avaliação no Google",
+      "Comunicação proativa - Informativos sobre economia gerada e status da instalação",
+      "Suporte pós-venda - FAQ de cliente ativo e agendamento de visita técnica",
     ],
   },
 };

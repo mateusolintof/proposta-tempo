@@ -4,7 +4,11 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
-export default function IntroSlide() {
+interface IntroSlideProps {
+  onEnter?: () => void;
+}
+
+export default function IntroSlide({ onEnter }: IntroSlideProps) {
   return (
     <section className="h-full w-full flex flex-col items-center justify-center relative overflow-hidden">
       {/* Background gradient */}
@@ -17,14 +21,14 @@ export default function IntroSlide() {
       <div className="scanline" />
 
       <motion.div
-        className="relative z-10 text-center px-6 max-w-4xl"
+        className="relative z-10 text-center px-6 max-w-5xl"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1, ease: "easeOut" }}
       >
         {/* Agency Logo */}
         <motion.div
-          className="mb-8 md:mb-12 inline-flex items-center justify-center"
+          className="mb-6 md:mb-8 inline-flex items-center justify-center"
           initial={{ scale: 0.8, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.8 }}
@@ -32,7 +36,7 @@ export default function IntroSlide() {
           <img
             src="/branding/logo-principal-white.svg"
             alt="Convert A.I"
-            className="h-16 md:h-24 w-auto"
+            className="h-14 md:h-20 w-auto"
             loading="eager"
           />
         </motion.div>
@@ -44,17 +48,19 @@ export default function IntroSlide() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.8 }}
         >
-          CM Remédios
+          Agentes de IA & Inteligência Comercial
         </motion.h1>
 
         {/* Subtitle */}
         <motion.p
-          className="text-[length:var(--text-hero-lead)] text-white/60 mb-8 max-w-2xl mx-auto"
+          className="text-[length:var(--text-hero-lead)] text-white/60 mb-6 max-w-4xl mx-auto leading-relaxed"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7 }}
         >
-          Agentes Inteligentes para Atendimento Comercial
+          Atendimento Personalizado, Triagem Automática via Sistema de OCR,
+          ampla base de conhecimento e Gestão Inteligente de Dados de CRM e
+          Dashboard.
         </motion.p>
 
         {/* Tagline */}
@@ -64,19 +70,23 @@ export default function IntroSlide() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.9 }}
         >
-          Transformação Digital · Outubro 2025
+          Solução desenhada exclusivamente para Tempo Energia.
         </motion.p>
 
-        {/* CTA hint */}
-        <motion.div
-          className="flex items-center justify-center gap-2 text-white/50 text-sm"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
+        {/* CTA Button */}
+        <motion.button
+          type="button"
+          onClick={onEnter}
+          className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-[#00FF94] to-[#00E5FF] rounded-full text-black font-semibold text-lg hover:scale-105 transition-transform cursor-pointer shadow-[0_0_30px_rgba(0,255,148,0.3)]"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2, duration: 0.6 }}
+          whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(0, 255, 148, 0.5)" }}
+          whileTap={{ scale: 0.98 }}
         >
-          <span>Deslize para continuar</span>
-          <ArrowRight size={16} className="animate-pulse" />
-        </motion.div>
+          <span>Acessar Apresentação</span>
+          <ArrowRight size={20} />
+        </motion.button>
       </motion.div>
     </section>
   );

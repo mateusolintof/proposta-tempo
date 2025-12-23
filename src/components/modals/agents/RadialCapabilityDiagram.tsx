@@ -7,7 +7,7 @@ import {
   Database,
   MessageSquare,
   Users,
-  Calendar,
+  Calculator,
   ClipboardCheck,
   Target,
   Clock,
@@ -17,11 +17,10 @@ import {
   ThumbsUp,
   AlertTriangle,
   BarChart3,
-  TrendingUp,
-  BookOpen,
-  HelpCircle,
-  Send,
+  Eye,
+  Globe,
   RefreshCw,
+  Gift,
 } from "lucide-react";
 import { AgentType } from "@/types/modal";
 
@@ -48,56 +47,56 @@ const capabilitiesByAgent: Record<AgentType, AgentCapabilities> = {
     centerSubtitle: "Qualificação 24h",
     capabilities: [
       {
+        id: "ocr",
+        title: "Leitura de Faturas",
+        subtitle: "Visão Computacional",
+        icon: Eye,
+        items: [
+          "Lê PDF ou foto da fatura",
+          "Extrai consumo kWh e valor",
+          "Valida mínimo R$ 250",
+        ],
+        position: { angle: -60, distance: 200 },
+        connectionLabel: "ANALISA",
+      },
+      {
         id: "qualificacao",
         title: "Qualificação",
-        subtitle: "Filtra leads elegíveis",
+        subtitle: "Score automático",
         icon: Target,
         items: [
-          "Valida perfil do cliente (PF/PJ)",
-          "Identifica interesse real",
-          "Atribui score automático",
+          "Classifica perfil do lead",
+          "Atribui score de intenção",
+          "Prioriza leads quentes",
         ],
-        position: { angle: -60, distance: 175 },
+        position: { angle: 0, distance: 200 },
         connectionLabel: "QUALIFICA",
       },
       {
-        id: "comercial",
-        title: "Condições Comerciais",
-        subtitle: "Valida cadastro",
-        icon: ClipboardCheck,
+        id: "calculos",
+        title: "Simulações",
+        subtitle: "Cérebro matemático",
+        icon: Calculator,
         items: [
-          "Coleta CNPJ/CPF",
-          "Define forma de pagamento",
-          "Registra condições e preferência",
+          "Calcula economia mensal",
+          "Projeta payback",
+          "Simula financiamento",
         ],
-        position: { angle: 0, distance: 175 },
+        position: { angle: 60, distance: 200 },
+        connectionLabel: "CALCULA",
+      },
+      {
+        id: "pesquisas",
+        title: "Validações",
+        subtitle: "Pesquisas online",
+        icon: Globe,
+        items: [
+          "Consulta CPF/CNPJ",
+          "Verifica restrições",
+          "Valida elegibilidade",
+        ],
+        position: { angle: 120, distance: 200 },
         connectionLabel: "VALIDA",
-      },
-      {
-        id: "pedido",
-        title: "Orçamento/Pedido",
-        subtitle: "Converte no canal",
-        icon: Calendar,
-        items: [
-          "Confirma itens e quantidades",
-          "Sugere alternativas/upsell",
-          "Encaminha para pagamento ou vendedor",
-        ],
-        position: { angle: 60, distance: 175 },
-        connectionLabel: "CONVERTE",
-      },
-      {
-        id: "crm",
-        title: "Integração CRM",
-        subtitle: "Registra tudo",
-        icon: Database,
-        items: [
-          "Salva lead no sistema",
-          "Atualiza histórico",
-          "Alimenta pipeline",
-        ],
-        position: { angle: 120, distance: 175 },
-        connectionLabel: "REGISTRA",
       },
       {
         id: "conversacao",
@@ -109,104 +108,20 @@ const capabilitiesByAgent: Record<AgentType, AgentCapabilities> = {
           "Responde humanizado",
           "Mantém contexto",
         ],
-        position: { angle: 180, distance: 175 },
+        position: { angle: 180, distance: 200 },
         connectionLabel: "CONVERSA",
       },
       {
         id: "escalacao",
         title: "Handoff Inteligente",
-        subtitle: "Escala quando precisa",
+        subtitle: "Escala para vendedor",
         icon: Users,
         items: [
-          "Detecta casos complexos",
+          "Detecta interesse real",
           "Transfere com contexto",
-          "Notifica atendente",
+          "Agenda ligação/visita",
         ],
-        position: { angle: -120, distance: 175 },
-        connectionLabel: "ESCALA",
-      },
-    ],
-  },
-  faq: {
-    centerTitle: "Agente FAQ",
-    centerSubtitle: "Respostas 24h",
-    capabilities: [
-      {
-        id: "conhecimento",
-        title: "Base de Conhecimento",
-        subtitle: "Sabe tudo do negócio",
-        icon: BookOpen,
-        items: [
-          "Catálogo e disponibilidade",
-          "Entrega, frete e prazos",
-          "Pagamento, NF e devoluções",
-        ],
-        position: { angle: -60, distance: 175 },
-        connectionLabel: "BUSCA",
-      },
-      {
-        id: "interpretacao",
-        title: "Interpretação",
-        subtitle: "Entende a dúvida",
-        icon: Brain,
-        items: [
-          "Identifica intenção",
-          "Classifica pergunta",
-          "Contextualiza resposta",
-        ],
-        position: { angle: 0, distance: 175 },
-        connectionLabel: "INTERPRETA",
-      },
-      {
-        id: "resposta",
-        title: "Resposta Educativa",
-        subtitle: "Explica com clareza",
-        icon: HelpCircle,
-        items: [
-          "Linguagem acessível",
-          "Informação completa",
-          "Tom empático",
-        ],
-        position: { angle: 60, distance: 175 },
-        connectionLabel: "RESPONDE",
-      },
-      {
-        id: "conversao",
-        title: "Conversão",
-        subtitle: "Transforma em lead",
-        icon: TrendingUp,
-        items: [
-          "Capta interesse",
-          "Qualifica rapidamente",
-          "Encaminha para SDR/vendas",
-        ],
-        position: { angle: 120, distance: 175 },
-        connectionLabel: "CONVERTE",
-      },
-      {
-        id: "multicanal",
-        title: "Atendimento",
-        subtitle: "WhatsApp + Chat",
-        icon: MessageSquare,
-        items: [
-          "Respostas instantâneas",
-          "Múltiplas conversas",
-          "Histórico preservado",
-        ],
-        position: { angle: 180, distance: 175 },
-        connectionLabel: "ATENDE",
-      },
-      {
-        id: "escalacao",
-        title: "Escalação",
-        subtitle: "Quando necessário",
-        icon: Send,
-        items: [
-          "Casos complexos",
-          "Dúvidas específicas",
-          "Transfere contexto",
-        ],
-        position: { angle: -120, distance: 175 },
+        position: { angle: -120, distance: 200 },
         connectionLabel: "ESCALA",
       },
     ],
@@ -216,165 +131,165 @@ const capabilitiesByAgent: Record<AgentType, AgentCapabilities> = {
     centerSubtitle: "Recuperação Automática",
     capabilities: [
       {
-        id: "lembrete48",
-        title: "Follow-up rápido",
-        subtitle: "Após 1ª mensagem",
-        icon: Bell,
-        items: [
-          "Mensagem curta e objetiva",
-          "Botões de ação (sim/não)",
-          "Pergunta de intenção",
-        ],
-        position: { angle: -60, distance: 175 },
-        connectionLabel: "LEMBRA",
-      },
-      {
-        id: "lembrete24",
-        title: "Follow-up 24h",
-        subtitle: "Segundo toque",
-        icon: Clock,
-        items: [
-          "Reforço com contexto",
-          "Sugere alternativas",
-          "Oferece atendimento humano",
-        ],
-        position: { angle: 0, distance: 175 },
-        connectionLabel: "CONFIRMA",
-      },
-      {
-        id: "confirmacao",
-        title: "Confirma interesse",
-        subtitle: "Captura resposta",
-        icon: UserCheck,
-        items: [
-          "Confirma interesse de compra",
-          "Processa objeções",
-          "Registra motivo de perda",
-        ],
-        position: { angle: 60, distance: 175 },
-        connectionLabel: "PROCESSA",
-      },
-      {
-        id: "fila",
+        id: "recuperacao",
         title: "Recuperação",
-        subtitle: "Orçamento/pedido",
+        subtitle: "Orçamentos pendentes",
         icon: RefreshCw,
         items: [
-          "Reabre conversa no timing",
-          "Envia link de pagamento",
-          "Escala vendedor quando precisa",
+          "Detecta propostas sem resposta",
+          "Retoma conversa após 24h/48h",
+          "Oferece atualização de valores",
         ],
-        position: { angle: 120, distance: 175 },
+        position: { angle: -60, distance: 200 },
         connectionLabel: "RECUPERA",
       },
       {
-        id: "followup",
-        title: "Pós-venda",
-        subtitle: "Acompanha entrega",
+        id: "cadencia",
+        title: "Cadência",
+        subtitle: "Sequência otimizada",
+        icon: Clock,
+        items: [
+          "1º toque: lembrete amigável",
+          "2º toque: valor agregado",
+          "3º toque: oferta especial",
+        ],
+        position: { angle: 0, distance: 200 },
+        connectionLabel: "AGENDA",
+      },
+      {
+        id: "objecoes",
+        title: "Objeções",
+        subtitle: "Trata hesitações",
         icon: MessageSquare,
         items: [
-          "Confirma recebimento",
-          "Resolve pendências",
-          "Solicita avaliação",
+          "Identifica motivo da dúvida",
+          "Responde com argumentos",
+          "Envia material de apoio",
         ],
-        position: { angle: 180, distance: 175 },
-        connectionLabel: "ACOMPANHA",
+        position: { angle: 60, distance: 200 },
+        connectionLabel: "RESPONDE",
+      },
+      {
+        id: "urgencia",
+        title: "Gatilhos",
+        subtitle: "Cria urgência",
+        icon: Bell,
+        items: [
+          "Vagas limitadas",
+          "Prazo de validade",
+          "Condição especial",
+        ],
+        position: { angle: 120, distance: 200 },
+        connectionLabel: "ATIVA",
+      },
+      {
+        id: "handoff",
+        title: "Handoff",
+        subtitle: "Escala vendedor",
+        icon: Users,
+        items: [
+          "Detecta interesse real",
+          "Transfere com contexto",
+          "Agenda ligação/visita",
+        ],
+        position: { angle: 180, distance: 200 },
+        connectionLabel: "ESCALA",
       },
       {
         id: "metricas",
         title: "Métricas",
-        subtitle: "Monitora taxa",
+        subtitle: "Taxa de recuperação",
         icon: BarChart3,
         items: [
-          "Taxa de resposta",
-          "Taxa de recuperação",
+          "% leads reativados",
           "Motivos de perda",
+          "Tempo médio de conversão",
         ],
-        position: { angle: -120, distance: 175 },
+        position: { angle: -120, distance: 200 },
         connectionLabel: "MEDE",
       },
     ],
   },
   nps: {
-    centerTitle: "Agente NPS",
-    centerSubtitle: "Satisfação Contínua",
+    centerTitle: "Agente Pós-vendas",
+    centerSubtitle: "Relacionamento Contínuo",
     capabilities: [
       {
-        id: "pesquisa",
+        id: "cobranca",
+        title: "Cobranças",
+        subtitle: "Lembretes automáticos",
+        icon: Bell,
+        items: [
+          "Aviso de vencimento",
+          "Status de pagamento",
+          "Segunda via de boleto",
+        ],
+        position: { angle: -60, distance: 200 },
+        connectionLabel: "LEMBRA",
+      },
+      {
+        id: "indicacao",
+        title: "Indicação",
+        subtitle: "Programa de benefícios",
+        icon: Gift,
+        items: [
+          "Indique e ganhe desconto",
+          "Rastreia indicações",
+          "Aplica benefício automático",
+        ],
+        position: { angle: 0, distance: 200 },
+        connectionLabel: "INCENTIVA",
+      },
+      {
+        id: "nps",
         title: "Pesquisa NPS",
-        subtitle: "Coleta feedback",
+        subtitle: "Satisfação do cliente",
         icon: Star,
         items: [
-          "Pergunta após compra",
-          "Escala 0-10",
-          "Comentário opcional",
+          "Pergunta após instalação",
+          "Classifica promotor/detrator",
+          "Direciona para Google Reviews",
         ],
-        position: { angle: -60, distance: 175 },
-        connectionLabel: "PERGUNTA",
+        position: { angle: 60, distance: 200 },
+        connectionLabel: "AVALIA",
       },
       {
-        id: "classificacao",
-        title: "Classificação",
-        subtitle: "Segmenta respostas",
-        icon: Target,
+        id: "informativos",
+        title: "Informativos",
+        subtitle: "Comunicação proativa",
+        icon: MessageSquare,
         items: [
-          "Promotores (9-10)",
-          "Neutros (7-8)",
-          "Detratores (0-6)",
+          "Economia gerada no mês",
+          "Status da instalação",
+          "Dicas de uso",
         ],
-        position: { angle: 0, distance: 175 },
-        connectionLabel: "CLASSIFICA",
+        position: { angle: 120, distance: 200 },
+        connectionLabel: "INFORMA",
       },
       {
-        id: "reviews",
-        title: "Google Reviews",
-        subtitle: "Promotores",
-        icon: ThumbsUp,
+        id: "suporte",
+        title: "Suporte",
+        subtitle: "Dúvidas pós-venda",
+        icon: UserCheck,
         items: [
-          "Convida para avaliar",
-          "Link direto Google",
-          "Aumenta reputação",
+          "FAQ de cliente ativo",
+          "Agendamento de visita técnica",
+          "Escala para atendimento humano",
         ],
-        position: { angle: 60, distance: 175 },
-        connectionLabel: "DIRECIONA",
-      },
-      {
-        id: "alertas",
-        title: "Alertas",
-        subtitle: "Detratores",
-        icon: AlertTriangle,
-        items: [
-          "Notifica equipe",
-          "Prioriza contato",
-          "Recupera cliente",
-        ],
-        position: { angle: 120, distance: 175 },
-        connectionLabel: "ALERTA",
-      },
-      {
-        id: "insights",
-        title: "Insights",
-        subtitle: "Análise contínua",
-        icon: Brain,
-        items: [
-          "Tendências de satisfação",
-          "Pontos de melhoria",
-          "Comparativo temporal",
-        ],
-        position: { angle: 180, distance: 175 },
-        connectionLabel: "ANALISA",
+        position: { angle: 180, distance: 200 },
+        connectionLabel: "ATENDE",
       },
       {
         id: "dashboard",
         title: "Dashboard",
-        subtitle: "Visualização",
+        subtitle: "Visão do cliente",
         icon: BarChart3,
         items: [
-          "Score NPS geral",
-          "Por período/canal",
-          "Evolução histórica",
+          "NPS geral e evolução",
+          "Inadimplência",
+          "Taxa de indicação",
         ],
-        position: { angle: -120, distance: 175 },
+        position: { angle: -120, distance: 200 },
         connectionLabel: "EXIBE",
       },
     ],
@@ -390,8 +305,8 @@ export default function RadialCapabilityDiagram({
   agentType,
   agentColor,
 }: RadialCapabilityDiagramProps) {
-  const centerX = 400;
-  const centerY = 280;
+  const centerX = 450;
+  const centerY = 310;
   const agentConfig = capabilitiesByAgent[agentType];
 
   const getNodePosition = (angle: number, distance: number) => {
@@ -411,7 +326,7 @@ export default function RadialCapabilityDiagram({
   };
 
   return (
-    <div className="relative w-full h-[560px] bg-gradient-to-b from-gray-50 to-white rounded-2xl overflow-hidden">
+    <div className="relative w-full h-[620px] bg-gradient-to-b from-gray-50 to-white rounded-2xl overflow-hidden">
       {/* Title */}
       <div className="absolute top-4 left-0 right-0 text-center z-10">
         <div className="inline-flex items-center gap-2 text-gray-800">
@@ -423,7 +338,7 @@ export default function RadialCapabilityDiagram({
       {/* SVG for connections */}
       <svg
         className="absolute inset-0 w-full h-full"
-        viewBox="0 0 800 560"
+        viewBox="0 0 900 620"
         preserveAspectRatio="xMidYMid meet"
       >
         <defs>
@@ -500,8 +415,8 @@ export default function RadialCapabilityDiagram({
 
         const cardStyle: React.CSSProperties = {
           position: "absolute",
-          left: `${(pos.x / 800) * 100}%`,
-          top: `${(pos.y / 560) * 100}%`,
+          left: `${(pos.x / 900) * 100}%`,
+          top: `${(pos.y / 620) * 100}%`,
           transform: "translate(-50%, -50%)",
         };
 
@@ -514,7 +429,7 @@ export default function RadialCapabilityDiagram({
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4, delay: 0.3 + index * 0.1 }}
           >
-            <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-3 w-40 hover:shadow-md transition-shadow">
+            <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-2.5 w-36 hover:shadow-md transition-shadow">
               <div className="flex items-center gap-2 mb-2">
                 <div
                   className="w-7 h-7 rounded-lg flex items-center justify-center"

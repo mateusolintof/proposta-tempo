@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import {
   MessageSquare,
-  HelpCircle,
   CalendarCheck,
   Star,
   BrainCircuit,
@@ -12,7 +11,7 @@ import SlideShell from "@/components/ui/SlideShell";
 import type { ModalKind, AgentType } from "@/types/modal";
 
 const ORBIT_RADIUS = "clamp(100px, 14vw, 160px)";
-const AGENT_ANGLES = [0, 90, 180, 270];
+const AGENT_ANGLES = [0, 120, 240];
 
 const agents: { id: AgentType; name: string; icon: React.ReactNode }[] = [
   {
@@ -21,26 +20,21 @@ const agents: { id: AgentType; name: string; icon: React.ReactNode }[] = [
     icon: <MessageSquare className="w-5 h-5" />,
   },
   {
-    id: "faq",
-    name: "FAQ Inteligente",
-    icon: <HelpCircle className="w-5 h-5" />,
-  },
-  {
     id: "noshow",
     name: "Follow-up Automático",
     icon: <CalendarCheck className="w-5 h-5" />,
   },
   {
     id: "nps",
-    name: "Pesquisa & NPS",
+    name: "Pós-vendas & NPS",
     icon: <Star className="w-5 h-5" />,
   },
 ];
 
 const features = [
-  { title: "Handoffs", desc: "Escala inteligente para humanos em casos críticos" },
-  { title: "Ferramentas", desc: "CRM, ERP e base de conhecimento integrados" },
-  { title: "Guardrails", desc: "LGPD, limites de risco e confirmação em casos sensíveis" },
+  { title: "Ferramentas Técnicas", desc: "Leitura de faturas (OCR), cálculos matemáticos avançados e pesquisas na internet" },
+  { title: "Integrações", desc: "CRM, ERP e base de conhecimento integrados" },
+  { title: "Guardrails e Handoff", desc: "Segurança, limites de alucinações e escala inteligente para humanos em casos críticos" },
 ];
 
 interface SolucaoSlideProps {
@@ -53,7 +47,7 @@ export default function SolucaoSlide({ onOpenModal }: SolucaoSlideProps) {
       eyebrow="Solução"
       eyebrowColor="success"
       title="Arquitetura da Solução"
-      subtitle="4 Agentes Especializados + Ecossistema de Gestão"
+      subtitle="3 Agentes Especializados + Ecossistema de Gestão"
       align="center"
       size="compact"
       background={
@@ -135,17 +129,6 @@ export default function SolucaoSlide({ onOpenModal }: SolucaoSlideProps) {
             </motion.div>
           ))}
 
-          {/* Stats */}
-          <div className="grid grid-cols-2 gap-4 mt-6">
-            <div className="bg-[#00FF94]/10 border border-[#00FF94]/30 rounded-xl p-4 text-center">
-              <p className="text-3xl font-bold text-[#00FF94]">4</p>
-              <p className="text-white/60 text-xs mt-1">Agentes IA</p>
-            </div>
-            <div className="bg-[#00E5FF]/10 border border-[#00E5FF]/30 rounded-xl p-4 text-center">
-              <p className="text-3xl font-bold text-[#00E5FF]">24/7</p>
-              <p className="text-white/60 text-xs mt-1">Disponibilidade</p>
-            </div>
-          </div>
         </div>
       </div>
     </SlideShell>

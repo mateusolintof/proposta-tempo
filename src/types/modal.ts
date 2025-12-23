@@ -1,4 +1,4 @@
-export type AgentType = "sdr" | "faq" | "noshow" | "nps";
+export type AgentType = "sdr" | "noshow" | "nps";
 
 export type ModalKind =
   | { type: "agent"; agent: AgentType }

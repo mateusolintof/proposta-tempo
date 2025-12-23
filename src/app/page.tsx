@@ -22,7 +22,7 @@ const IntelligenceModal = dynamic(() => import("@/components/modals/Intelligence
 // Slides
 import IntroSlide from "@/components/slides/IntroSlide";
 import DiagnosticoSlide from "@/components/slides/DiagnosticoSlide";
-import DesafioSlide from "@/components/slides/DesafioSlide";
+import ObjetivoProjetoSlide from "@/components/slides/ObjetivoProjetoSlide";
 import SolucaoSlide from "@/components/slides/SolucaoSlide";
 import FerramentasSlide from "@/components/slides/FerramentasSlide";
 import GanhosSlide from "@/components/slides/GanhosSlide";
@@ -30,7 +30,6 @@ import ViabilidadeSlide from "@/components/slides/ViabilidadeSlide";
 import EntregaveisSlide from "@/components/slides/EntregaveisSlide";
 import InvestimentoSlide from "@/components/slides/InvestimentoSlide";
 import CronogramaSlide from "@/components/slides/CronogramaSlide";
-import ImpactoSlide from "@/components/slides/ImpactoSlide";
 import FAQSlide from "@/components/slides/FAQSlide";
 
 export default function Home() {
@@ -48,12 +47,23 @@ export default function Home() {
     setModal(null);
   }, []);
 
+  const TOTAL_SLIDES = 11;
+
+  const scrollToIndex = useCallback((index: number) => {
+    if (!containerRef.current) return;
+    const slideWidth = containerRef.current.offsetWidth;
+    const clampedIndex = Math.max(0, Math.min(TOTAL_SLIDES - 1, index));
+    containerRef.current.scrollTo({
+      left: slideWidth * clampedIndex,
+      behavior: "smooth",
+    });
+  }, []);
+
   const slides = useMemo(
     () => [
-      { id: "intro", label: "Início", element: <IntroSlide /> },
+      { id: "intro", label: "Início", element: <IntroSlide onEnter={() => scrollToIndex(1)} /> },
       { id: "diagnostico", label: "Diagnóstico", element: <DiagnosticoSlide /> },
-      { id: "desafio", label: "Desafio", element: <DesafioSlide /> },
-      { id: "impacto", label: "Impacto", element: <ImpactoSlide /> },
+      { id: "objetivo", label: "Objetivo", element: <ObjetivoProjetoSlide /> },
       {
         id: "solucao",
         label: "Solução",
@@ -79,18 +89,8 @@ export default function Home() {
       { id: "faq", label: "FAQ", element: <FAQSlide /> },
       { id: "cronograma", label: "Cronograma", element: <CronogramaSlide /> },
     ],
-    [handleOpenModal]
+    [handleOpenModal, scrollToIndex]
   );
-
-  const scrollToIndex = useCallback((index: number) => {
-    if (!containerRef.current) return;
-    const slideWidth = containerRef.current.offsetWidth;
-    const clampedIndex = Math.max(0, Math.min(slides.length - 1, index));
-    containerRef.current.scrollTo({
-      left: slideWidth * clampedIndex,
-      behavior: "smooth",
-    });
-  }, [slides.length]);
 
   const handleScroll = useCallback(() => {
     if (!containerRef.current) return;
@@ -196,51 +196,53 @@ export default function Home() {
       </div>
       <div className="absolute inset-0 z-[1] bg-[#02040A]/32 pointer-events-none" />
 
-      {/* Navigation */}
-      <div className="fixed bottom-8 left-0 right-0 z-40 flex items-center justify-center pointer-events-none">
-        <div className="flex items-center gap-3 bg-black/40 border border-white/10 backdrop-blur px-3 py-2 rounded-full pointer-events-auto max-w-[90vw] overflow-x-auto scrollbar-hide">
-          <button
-            type="button"
-            onClick={() => scrollToIndex(activeSlide - 1)}
-            className="w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition disabled:opacity-30 disabled:cursor-not-allowed"
-            aria-label="Slide anterior"
-            disabled={activeSlide === 0}
-          >
-            <ChevronLeft size={18} />
-          </button>
+      {/* Navigation - hidden on intro slide */}
+      {activeSlide > 0 && (
+        <div className="fixed bottom-8 left-0 right-0 z-40 flex items-center justify-center pointer-events-none">
+          <div className="flex items-center gap-3 bg-black/40 border border-white/10 backdrop-blur px-3 py-2 rounded-full pointer-events-auto max-w-[90vw] overflow-x-auto scrollbar-hide">
+            <button
+              type="button"
+              onClick={() => scrollToIndex(activeSlide - 1)}
+              className="w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition disabled:opacity-30 disabled:cursor-not-allowed"
+              aria-label="Slide anterior"
+              disabled={activeSlide === 0}
+            >
+              <ChevronLeft size={18} />
+            </button>
 
-          <div className="flex items-center gap-2">
-            {slides.map((slide, index) => (
-              <button
-                key={slide.id}
-                type="button"
-                onClick={() => scrollToIndex(index)}
-                className={`w-2.5 h-2.5 rounded-full transition ${
-                  activeSlide === index
-                    ? "bg-[#00FF94]"
-                    : "bg-white/30 hover:bg-white/60"
-                }`}
-                aria-label={`Ir para ${slide.label}`}
-                aria-current={activeSlide === index ? "true" : undefined}
-              />
-            ))}
+            <div className="flex items-center gap-2">
+              {slides.map((slide, index) => (
+                <button
+                  key={slide.id}
+                  type="button"
+                  onClick={() => scrollToIndex(index)}
+                  className={`w-2.5 h-2.5 rounded-full transition ${
+                    activeSlide === index
+                      ? "bg-[#00FF94]"
+                      : "bg-white/30 hover:bg-white/60"
+                  }`}
+                  aria-label={`Ir para ${slide.label}`}
+                  aria-current={activeSlide === index ? "true" : undefined}
+                />
+              ))}
+            </div>
+
+            <div className="text-xs uppercase tracking-[0.2em] text-white/60 hidden md:block whitespace-nowrap">
+              {activeSlide + 1}/{slides.length} - {slides[activeSlide]?.label}
+            </div>
+
+            <button
+              type="button"
+              onClick={() => scrollToIndex(activeSlide + 1)}
+              className="w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition disabled:opacity-30 disabled:cursor-not-allowed"
+              aria-label="Próximo slide"
+              disabled={activeSlide === slides.length - 1}
+            >
+              <ChevronRight size={18} />
+            </button>
           </div>
-
-          <div className="text-xs uppercase tracking-[0.2em] text-white/60 hidden md:block whitespace-nowrap">
-            {activeSlide + 1}/{slides.length} - {slides[activeSlide]?.label}
-          </div>
-
-          <button
-            type="button"
-            onClick={() => scrollToIndex(activeSlide + 1)}
-            className="w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center text-white/70 hover:text-white hover:bg-white/10 transition disabled:opacity-30 disabled:cursor-not-allowed"
-            aria-label="Próximo slide"
-            disabled={activeSlide === slides.length - 1}
-          >
-            <ChevronRight size={18} />
-          </button>
         </div>
-      </div>
+      )}
 
       {/* Horizontal Scroll Container */}
       <div
