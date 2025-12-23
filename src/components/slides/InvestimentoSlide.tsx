@@ -57,7 +57,7 @@ const fullPlan: Plan = {
   name: "Ecossistema Full",
   subtitle: "Os 3 agentes + CRM, Dashboard e integrações",
   setup: { current: "R$ 0", previous: "R$ 25.000" },
-  monthly: { current: "R$ 3.500/mês", previous: "R$ 4.000/mês" },
+  monthly: { current: "R$ 4.000/mês" },
   bullets: [
     "Três agentes orquestrados (SDR, Follow-up, Pós-vendas & NPS)",
     "CRM + Dashboard executivo prontos para uso",
@@ -222,14 +222,10 @@ export default function InvestimentoSlide() {
                 Mensalidade
               </p>
               <div className="flex items-baseline justify-center gap-2">
-                <span className="text-white/30 line-through text-sm">
-                  {fullPlan.monthly.previous}
-                </span>
                 <span className="text-4xl font-bold text-[#00FF94]">
                   {fullPlan.monthly.current}
                 </span>
               </div>
-              <p className="text-white/40 text-xs mt-1">economia de R$ 500/mês</p>
             </div>
 
             {/* CTA */}
