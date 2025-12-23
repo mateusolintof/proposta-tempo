@@ -15,33 +15,45 @@ import type { ModalKind } from "@/types/modal";
 const gains = [
   {
     icon: <Zap className="w-6 h-6" />,
-    title: "Resposta Otimizada",
-    desc: "Tempo de resposta reduzido por canal com atendimento 24/7",
+    title: "Retenção de Lead Frio",
+    desc: "O lead de tráfego frio exige velocidade. Ao responder em segundos e já apresentar o cálculo de economia, evitamos que ele continue pesquisando e vá para o concorrente.",
     color: "cyan",
   },
   {
     icon: <CalendarCheck className="w-6 h-6" />,
-    title: "Qualificação Elevada",
-    desc: "Conversão aumenta com qualificação e roteamento automatizados",
+    title: "Financeiro (OCR)",
+    desc: "A IA atua como uma barreira de qualidade: lê a fatura, valida o ticket mínimo e descarta curiosos automaticamente, protegendo a agenda dos vendedores.",
     color: "green",
   },
   {
     icon: <TrendingUp className="w-6 h-6" />,
-    title: "Abandono Reduzido",
-    desc: "Cadência automática e recuperação de conversões",
+    title: "Maturação de Oportunidades",
+    desc: "Leads que não fecham agora não são perdidos. O Agente mantém o follow-up ativo e nutre o CRM, reaquecendo contatos para vendas futuras.",
     color: "cyan",
   },
   {
     icon: <DollarSign className="w-6 h-6" />,
-    title: "Receita Previsível",
-    desc: "Maior previsibilidade com pipeline de vendas estruturado",
+    title: "Foco Exclusivo em Fechamento",
+    desc: "Inversão da lógica de trabalho: o humano para de prospectar e começa a negociar. Menos tempo operacional, mais tempo persuasivo.",
     color: "green",
   },
 ];
 
 const mainMetrics = [
-  { label: "Redução Abandono", value: "-60%", color: "#00FF94" },
-  { label: "Aumento Conversão", value: "+40%", color: "#00E5FF" },
+  {
+    label: "De Cobertura e Resposta",
+    value: "100%",
+    context:
+      "Eliminação total do gap de atendimento. Todo lead, seja domingo ou 3h da manhã, é respondido e engajado instantaneamente.",
+    color: "#00FF94",
+  },
+  {
+    label: "Triagem Manual de Faturas",
+    value: "Zero",
+    context:
+      "Seu time comercial deixa de gastar tempo analisando contas abaixo de R$ 250. Só recebem o lead validado.",
+    color: "#00E5FF",
+  },
 ];
 
 interface GanhosSlideProps {
@@ -60,11 +72,11 @@ export default function GanhosSlide({ onOpenModal }: GanhosSlideProps) {
       }
     >
       {/* Main Metrics */}
-      <div className="grid grid-cols-2 gap-6 w-full max-w-2xl mx-auto">
+      <div className="grid grid-cols-2 gap-4 w-full max-w-2xl mx-auto">
         {mainMetrics.map((metric, index) => (
           <motion.div
             key={metric.label}
-            className="relative overflow-hidden rounded-2xl p-8 text-center"
+            className="relative overflow-hidden rounded-2xl p-6 text-center"
             style={{
               background: `linear-gradient(135deg, ${metric.color}15, transparent)`,
               border: `1px solid ${metric.color}30`,
@@ -75,24 +87,27 @@ export default function GanhosSlide({ onOpenModal }: GanhosSlideProps) {
             transition={{ delay: index * 0.15 }}
           >
             <p
-              className="text-5xl md:text-6xl font-bold"
+              className="text-4xl md:text-5xl font-bold"
               style={{ color: metric.color }}
             >
               {metric.value}
             </p>
-            <p className="text-white/70 mt-3 text-body font-medium">
+            <p className="text-white/70 mt-2 text-body font-medium">
               {metric.label}
+            </p>
+            <p className="text-white/50 text-xs md:text-sm mt-2 leading-relaxed">
+              {metric.context}
             </p>
           </motion.div>
         ))}
       </div>
 
       {/* Gains Grid */}
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3 w-full">
         {gains.map((gain, index) => (
           <motion.div
             key={gain.title}
-            className="bg-white/5 border border-white/10 rounded-xl p-5 flex items-start gap-4"
+            className="bg-white/5 border border-white/10 rounded-xl p-4 flex items-start gap-3"
             initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
@@ -111,7 +126,9 @@ export default function GanhosSlide({ onOpenModal }: GanhosSlideProps) {
               <h3 className="text-base font-semibold text-white">
                 {gain.title}
               </h3>
-              <p className="text-white/50 mt-1 text-body">{gain.desc}</p>
+              <p className="text-white/50 mt-1 text-[13px] leading-relaxed">
+                {gain.desc}
+              </p>
             </div>
           </motion.div>
         ))}
@@ -119,7 +136,7 @@ export default function GanhosSlide({ onOpenModal }: GanhosSlideProps) {
 
       {/* Action Buttons */}
       <motion.div
-        className="mt-10 flex flex-wrap justify-center gap-4"
+        className="mt-8 flex flex-wrap justify-center gap-4"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}

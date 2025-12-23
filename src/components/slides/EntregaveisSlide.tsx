@@ -13,21 +13,21 @@ import SlideShell from "@/components/ui/SlideShell";
 const deliverables = [
   {
     icon: <Bot className="w-7 h-7" />,
-    title: "4 Agentes Configurados",
+    title: "3 Agentes Personalizados",
     items: [
       "SDR & Qualificação",
-      "FAQ Inteligente",
       "Follow-up Automático",
-      "Pesquisa & NPS",
+      "Pós-vendas & NPS",
     ],
   },
   {
     icon: <Link2 className="w-7 h-7" />,
-    title: "Integração ERP",
+    title: "Ferramentas e Integrações",
     items: [
-      "Conexão com ERP atual (via API)",
-      "Sincronização de catálogo e status",
-      "Atualização automática",
+      "Leitura de imagens e faturas de energia",
+      "Cálculos matemáticos",
+      "Escalação para Humano",
+      "Notificação Inteligente para vendedor",
     ],
   },
   {
@@ -43,9 +43,9 @@ const deliverables = [
     icon: <GraduationCap className="w-7 h-7" />,
     title: "Treinamento & Suporte",
     items: [
-      "4h de treinamento",
-      "30 dias de acompanhamento",
-      "Documentação completa",
+      "Suporte contínuo",
+      "30 dias de testes contínuos até validação da equipe da Tempo",
+      "Banco de dados completo e Servidor Ativo 24/7",
     ],
   },
 ];
@@ -88,29 +88,6 @@ export default function EntregaveisSlide() {
         ))}
       </div>
 
-      {/* Support Stats */}
-      <div className="mt-8 grid grid-cols-2 gap-4 w-full max-w-md mx-auto">
-        <motion.div
-          className="bg-[#00FF94]/10 border border-[#00FF94]/30 rounded-xl p-4 text-center"
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-        >
-          <p className="text-2xl font-bold text-[#00FF94]">4h</p>
-          <p className="text-white/60 text-xs mt-1">Treinamento</p>
-        </motion.div>
-        <motion.div
-          className="bg-[#00E5FF]/10 border border-[#00E5FF]/30 rounded-xl p-4 text-center"
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
-        >
-          <p className="text-2xl font-bold text-[#00E5FF]">30 dias</p>
-          <p className="text-white/60 text-xs mt-1">Suporte dedicado</p>
-        </motion.div>
-      </div>
     </SlideShell>
   );
 }
