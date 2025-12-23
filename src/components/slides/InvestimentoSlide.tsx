@@ -5,7 +5,7 @@ import { Check, Sparkles, CreditCard } from "lucide-react";
 import SlideShell from "@/components/ui/SlideShell";
 
 const included = [
-  "Configuração dos 4 agentes com base de conhecimento",
+  "Configuração dos 3 agentes com base de conhecimento",
   "Integração com ERP e canais de atendimento (via API)",
   "CRM e Dashboard configurados",
   "Treinamento + 30 dias de acompanhamento",
