@@ -8,7 +8,7 @@ import {
   Zap,
   Clock,
   HelpCircle,
-  Lock,
+  DollarSign,
   RefreshCw,
 } from "lucide-react";
 import SlideShell from "@/components/ui/SlideShell";
@@ -21,41 +21,42 @@ interface FAQItem {
 
 const faqItems: FAQItem[] = [
   {
+    icon: <DollarSign className="w-5 h-5" />,
+    question:
+      "O que está incluso no valor mensal? Tenho custos adicionais com infraestrutura?",
+    answer:
+      "O valor mensal cobre: hospedagem dos agentes, banco de dados (armazenamento de conversas e leads), tokens de IA (GPT/Claude), integrações com WhatsApp e APIs externas, além de suporte técnico contínuo. Não há custos surpresa: estimamos o consumo de tokens e infra no kick-off e, se o volume crescer muito acima do previsto, alinhamos antecipadamente qualquer ajuste.",
+  },
+  {
     icon: <Shield className="w-5 h-5" />,
     question:
       "Os dados dos clientes estão seguros? A solução é compatível com a LGPD?",
     answer:
-      "A solução é desenhada com boas práticas de segurança e privacidade, alinhadas à LGPD (ex.: criptografia em trânsito e em repouso, controle de acesso, trilhas de auditoria e políticas de retenção). No kick-off, alinhamos governança de dados (exportação, retenção e exclusão) e os termos de tratamento conforme o escopo definido.",
+      "A solução é desenhada com boas práticas de segurança e privacidade, alinhadas à LGPD (criptografia em trânsito e em repouso, controle de acesso, trilhas de auditoria e políticas de retenção). No kick-off, alinhamos governança de dados (exportação, retenção e exclusão) e os termos de tratamento conforme o escopo definido.",
   },
   {
     icon: <Zap className="w-5 h-5" />,
-    question: "Como funciona a integração com nosso ERP e canais atuais?",
+    question: "Como funciona a integração com nosso sistema atual?",
     answer:
-      "Desenvolvemos integrações sob medida para cada operação. Conectamos ao seu ERP/CRM e canais (ex.: WhatsApp) via API e/ou webhooks, sem necessidade de substituir o sistema atual. No kick-off, mapeamos os eventos e dados necessários (cadastro, catálogo, status do pedido, pagamentos etc.) e validamos juntos o fluxo ideal.",
+      "Desenvolvemos integrações sob medida para cada operação. Conectamos ao seu CRM, sistema de gestão e canais (WhatsApp, e-mail) via API e webhooks, sem necessidade de substituir sistemas existentes. No kick-off, mapeamos os eventos e dados necessários (cadastro de leads, status de proposta, análise de fatura etc.) e validamos juntos o fluxo ideal.",
   },
   {
     icon: <RefreshCw className="w-5 h-5" />,
     question: "E se os resultados não forem os esperados? Existe garantia?",
     answer:
-      "A fase de Validação (piloto) existe justamente para ajustar fluxos, mensagens e regras de handoff antes do Go-Live. Definimos metas e critérios no kick-off e acompanhamos os KPIs com a equipe. Se o cenário real exigir mudanças de escopo/integrações, replanejamos para manter o projeto viável e orientado a resultado.",
+      "A fase de Validação (piloto) existe justamente para ajustar fluxos, mensagens e regras de handoff antes do Go-Live. Definimos metas e critérios no kick-off e acompanhamos os KPIs com a equipe. Se o cenário real exigir mudanças de escopo ou integrações, replanejamos para manter o projeto viável e orientado a resultado.",
   },
   {
     icon: <Clock className="w-5 h-5" />,
     question: "Quanto tempo leva para implementar e ver resultados?",
     answer:
-      "Em geral, a implementação leva de 4 a 6 semanas, dependendo da complexidade das integrações. Os primeiros ganhos (tempo de resposta e captura de leads fora do horário) aparecem nas primeiras semanas. Ganhos consolidados de conversão e recuperação tendem a aparecer após o período de estabilização e ajustes do piloto.",
+      "Em geral, a implementação leva de 4 a 6 semanas, dependendo da complexidade das integrações. Os primeiros ganhos (tempo de resposta e captura de leads fora do horário) aparecem nas primeiras semanas. Ganhos consolidados de conversão e recuperação tendem a aparecer após o período de estabilização do piloto.",
   },
   {
     icon: <HelpCircle className="w-5 h-5" />,
     question: "Preciso de conhecimento técnico para operar o sistema?",
     answer:
       "Não! O sistema foi desenhado para ser gerenciado por qualquer pessoa da sua equipe. Oferecemos treinamento completo durante a implementação e suporte contínuo. Alterações nos fluxos, mensagens e configurações podem ser feitas através de uma interface amigável, sem necessidade de código.",
-  },
-  {
-    icon: <Lock className="w-5 h-5" />,
-    question: "Posso cancelar o contrato a qualquer momento?",
-    answer:
-      "Os termos comerciais (setup, mensalidade e prazo) são definidos na proposta e podem ser ajustados conforme o nível de integração e o esforço de implantação. O importante é garantir tempo suficiente para implementar, validar e estabilizar a operação — e manter transparência de condições desde o início.",
   },
 ];
 
@@ -71,7 +72,7 @@ export default function FAQSlide() {
       eyebrow="FAQ"
       eyebrowColor="default"
       title="Perguntas Frequentes"
-      subtitle="Transparência total sobre segurança, integrações, garantias e prazos."
+      subtitle="Transparência total sobre custos, segurança, integrações e prazos."
       align="center"
       size="compact"
     >

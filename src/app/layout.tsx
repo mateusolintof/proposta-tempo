@@ -3,9 +3,9 @@ import { Providers } from "./providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "CM Remédios — Agentes de IA para Atendimento Comercial",
+  title: "Tempo Energia — Agentes de IA para Vendas",
   description:
-    "Projeto CM Remédios com agentes de IA para atendimento comercial: qualificação de leads, FAQ inteligente, follow-up automático, CRM e painel executivo.",
+    "Proposta comercial Tempo Energia: agentes de IA para qualificação de leads, follow-up automático, pós-vendas, CRM e dashboard executivo.",
   icons: { icon: "/favicon.ico" },
 };
 

@@ -26,11 +26,11 @@ import ObjetivoProjetoSlide from "@/components/slides/ObjetivoProjetoSlide";
 import SolucaoSlide from "@/components/slides/SolucaoSlide";
 import FerramentasSlide from "@/components/slides/FerramentasSlide";
 import GanhosSlide from "@/components/slides/GanhosSlide";
-import ViabilidadeSlide from "@/components/slides/ViabilidadeSlide";
 import EntregaveisSlide from "@/components/slides/EntregaveisSlide";
 import InvestimentoSlide from "@/components/slides/InvestimentoSlide";
 import CronogramaSlide from "@/components/slides/CronogramaSlide";
 import FAQSlide from "@/components/slides/FAQSlide";
+import ComparativoSlide from "@/components/slides/ComparativoSlide";
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -69,6 +69,7 @@ export default function Home() {
         label: "Solução",
         element: <SolucaoSlide onOpenModal={handleOpenModal} />,
       },
+      { id: "comparativo", label: "Comparativo", element: <ComparativoSlide /> },
       {
         id: "ferramentas",
         label: "Ferramentas",
@@ -78,11 +79,6 @@ export default function Home() {
         id: "ganhos",
         label: "Ganhos",
         element: <GanhosSlide onOpenModal={handleOpenModal} />,
-      },
-      {
-        id: "viabilidade",
-        label: "Viabilidade",
-        element: <ViabilidadeSlide onOpenModal={handleOpenModal} />,
       },
       { id: "entregaveis", label: "Entregáveis", element: <EntregaveisSlide /> },
       { id: "investimento", label: "Investimento", element: <InvestimentoSlide /> },

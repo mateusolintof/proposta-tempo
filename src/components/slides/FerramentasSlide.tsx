@@ -36,10 +36,6 @@ const tools = [
   },
 ];
 
-const metrics = [
-  { label: "Aumento de Conversão", value: "+40%" },
-  { label: "Tempo de Resposta", value: "Imediato" },
-];
 
 interface FerramentasSlideProps {
   onOpenModal?: (modal: ModalKind) => void;
@@ -108,24 +104,6 @@ export default function FerramentasSlide({ onOpenModal }: FerramentasSlideProps)
         ))}
       </div>
 
-      {/* Metrics */}
-      <div className="mt-8 grid grid-cols-2 gap-6 w-full max-w-lg mx-auto">
-        {metrics.map((metric, index) => (
-          <motion.div
-            key={metric.label}
-            className="bg-gradient-to-br from-[#00E5FF]/10 to-[#00FF94]/10 border border-[#00E5FF]/20 rounded-2xl p-6 text-center"
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4 + index * 0.1 }}
-          >
-            <p className="text-3xl md:text-4xl font-bold text-[#00E5FF]">
-              {metric.value}
-            </p>
-            <p className="text-white/60 mt-2 text-body">{metric.label}</p>
-          </motion.div>
-        ))}
-      </div>
     </SlideShell>
   );
 }
