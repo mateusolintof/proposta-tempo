@@ -1,10 +1,10 @@
-# CM Remedios — Guia de Desenvolvimento
+# Tempo Energia — Guia de Desenvolvimento
 
 ## Visao Geral
 
-Apresentacao horizontal interativa para proposta comercial da CM Remedios, focada em Agentes de IA para Atendimento Comercial.
+Apresentacao horizontal interativa para proposta comercial da Tempo Energia, focada em Agentes de IA para Atendimento Comercial no setor de energia.
 
-**Cliente:** CM Remedios
+**Cliente:** Tempo Energia
 **Documento de negocio:** `public/docs/arquitetura.md`
 **Porta de desenvolvimento:** 3001
 
@@ -34,6 +34,13 @@ npm run build:turbo     # producao (turbopack, rede requerida)
 npm start -p 3001       # Servir build final
 ```
 
+## Rotas
+
+| Rota | Tipo | Descricao |
+|------|------|-----------|
+| `/` | Horizontal scroll | Apresentacao interativa (11 slides) |
+| `/proposta` | Vertical scroll | Proposta tecnica SPA |
+
 ## Arquitetura de Componentes
 
 ### Container Principal (`src/app/page.tsx`)
@@ -44,22 +51,35 @@ npm start -p 3001       # Servir build final
 - Conversao de mouse wheel para scroll horizontal
 - Progress bar animada com Framer Motion
 
-### Slides (12 total)
+### Slides (11 total)
 
 ```
 src/components/slides/
-├── IntroSlide.tsx         # Hero com logo CM Remedios
-├── DiagnosticoSlide.tsx   # Metricas: 61% sem cobertura, ~500 leads/mes
+├── IntroSlide.tsx         # Hero com logo Tempo Energia
+├── DiagnosticoSlide.tsx   # Metricas de cobertura
 ├── DesafioSlide.tsx       # 50-70% abandono fora do horario
 ├── ImpactoSlide.tsx       # Custo da inacao, oportunidades perdidas
-├── SolucaoSlide.tsx       # 4 agentes IA (abre AgentModal)
+├── SolucaoSlide.tsx       # 3 agentes IA (abre AgentModal)
+├── ComparativoSlide.tsx   # IA vs Atendimento Humano (lightbox)
 ├── FerramentasSlide.tsx   # CRM + Dashboard (abre modais de preview)
-├── GanhosSlide.tsx        # -60% abandono, +40% conversao
-├── ViabilidadeSlide.tsx   # ROI +300%, payback 3-4 meses
-├── EntregaveisSlide.tsx   # 4 agentes + ERP + CRM + treinamento
-├── InvestimentoSlide.tsx  # R$25k setup + R$2.5k/mes
-├── FAQSlide.tsx           # 6 perguntas frequentes (accordion)
+├── GanhosSlide.tsx        # ROI +300%, payback 3-4 meses (inclui viabilidade)
+├── EntregaveisSlide.tsx   # 3 agentes + CRM + Dashboard + treinamento
+├── InvestimentoSlide.tsx  # Pacotes individuais + Ecossistema Full
 └── CronogramaSlide.tsx    # 4 fases: Kick-off, Dev, Validacao, Go-Live
+```
+
+### Pagina /proposta
+
+```
+src/components/proposta/
+├── PropostaNav.tsx        # Navegacao sticky com scroll spy
+├── PropostaPage.tsx       # Container principal
+├── SectionWrapper.tsx     # Wrapper padronizado para secoes
+└── sections/
+    ├── SolucoesSection.tsx      # 3 agentes detalhados
+    ├── InvestimentoSection.tsx  # Pacotes + entregaveis + incluso
+    ├── ProcessoSection.tsx      # Timeline 4 fases
+    └── FAQSection.tsx           # 6 perguntas (accordion)
 ```
 
 ### SlideShell Props
@@ -77,12 +97,26 @@ interface SlideShellProps {
 }
 ```
 
+### SectionWrapper Props (Proposta)
+
+```tsx
+interface SectionWrapperProps {
+  id: string;              // ID para scroll spy
+  eyebrow?: string;        // Label superior
+  eyebrowColor?: "default" | "success" | "warning" | "danger";
+  title: string;           // Titulo da secao
+  subtitle?: string;       // Subtitulo
+  children: ReactNode;     // Conteudo
+  className?: string;      // Classes adicionais
+}
+```
+
 ### Sistema de Modais
 
 #### Tipos (`src/types/modal.ts`)
 
 ```typescript
-export type AgentType = "sdr" | "faq" | "noshow" | "nps";
+export type AgentType = "sdr" | "followup" | "nps";
 
 export type ModalKind =
   | { type: "agent"; agent: AgentType }
@@ -99,13 +133,11 @@ export type ModalKind =
 
 | Modal | Arquivo | Aberto por | Descricao |
 |-------|---------|------------|-----------|
-| AgentModal | `AgentModal.tsx` | SolucaoSlide | Detalhes dos 4 agentes IA |
+| AgentModal | `AgentModal.tsx` | SolucaoSlide | Detalhes dos 3 agentes IA |
 | CRMPreviewModal | `CRMPreviewModal.tsx` | FerramentasSlide | Preview interativo do CRM |
 | DashboardPreviewModal | `DashboardPreviewModal.tsx` | FerramentasSlide | Preview do Dashboard |
-| ROICalculatorModal | `ROICalculatorModal.tsx` | ViabilidadeSlide | Calculadora interativa |
-| CostReductionModal | `CostReductionModal.tsx` | ViabilidadeSlide | Simulador de economia |
-| GainsModal | `GainsModal.tsx` | GanhosSlide | Ganhos operacionais |
-| IntelligenceModal | `IntelligenceModal.tsx` | GanhosSlide | Inteligencia de dados |
+| ROICalculatorModal | `ROICalculatorModal.tsx` | GanhosSlide | Calculadora interativa |
+| CostReductionModal | `CostReductionModal.tsx` | GanhosSlide | Simulador de economia |
 
 #### Sub-componentes de Modais
 
@@ -127,14 +159,13 @@ src/components/modals/
     └── DashInsightsView.tsx      # Insights e recomendacoes
 ```
 
-### Agentes IA
+### Agentes IA (3 tipos)
 
 | ID | Nome | Funcao | Cor |
 |----|------|--------|-----|
-| sdr | SDR & Qualificacao | Qualificacao e conversao 24/7 | Cyan |
-| faq | FAQ Inteligente | Respostas automaticas a duvidas | Verde |
-| noshow | Follow-up Automatico | Cadencia e recuperacao de conversoes | Cyan |
-| nps | Pesquisa & NPS | Coleta de feedback pos-compra | Verde |
+| sdr | SDR & Qualificacao | Qualificacao 24/7, leitura de faturas (OCR), handoff | Cyan |
+| followup | Follow-up Automatico | Cadencia multicanal, recuperacao de oportunidades | Verde |
+| nps | Pos-vendas & NPS | Pesquisa NPS, reativacao, expansao de carteira | Dourado |
 
 Cada agente no AgentModal exibe:
 - Diagrama radial de capacidades (customizado por tipo)
@@ -149,6 +180,7 @@ Cada agente no AgentModal exibe:
 --background: #02040A      /* Fundo escuro */
 --accent-tech: #00E5FF     /* Cyan tecnologico */
 --accent-success: #00FF94  /* Verde sucesso */
+--accent-gold: #FFD700     /* Dourado destaque */
 
 /* Opacidades padrao */
 bg-white/5                 /* Cards e containers */
@@ -219,29 +251,48 @@ const [activeView, setActiveView] = useState<ViewType>("dashboard");
 </button>
 ```
 
+## Investimento
+
+### Pacotes Individuais
+
+| Agente | Setup | Mensal |
+|--------|-------|--------|
+| SDR & Qualificacao | R$ 15.000 | R$ 2.000/mes |
+| Follow-up Automatico | R$ 5.000 | R$ 1.000/mes |
+| Pos-vendas & NPS | R$ 5.000 | R$ 1.000/mes |
+
+### Ecossistema Full
+
+| Item | Valor |
+|------|-------|
+| Setup | ~~R$ 25.000~~ **R$ 0** |
+| Mensal | R$ 4.000/mes |
+| Economia | 100% OFF no setup |
+
+**Incluso no mensal:**
+- Tokens de IA (Claude, GPT)
+- Banco de dados
+- Infraestrutura 24/7
+- Manutencao
+- Melhorias continuas
+- Suporte tecnico
+
 ## Checklist do Projeto
 
-- [x] 12 slides criados e funcionando
+- [x] 11 slides criados e funcionando
+- [x] ComparativoSlide com lightbox de imagens
+- [x] GanhosSlide integrado com Viabilidade (ROI)
 - [x] Background 3D integrado
 - [x] Navegacao horizontal com snap
-- [x] 7 modais interativos
+- [x] 5+ modais interativos
 - [x] AgentModal com diagrama radial e fluxograma
 - [x] CRM Preview com 4 abas
 - [x] Dashboard Preview com 4 abas
 - [x] Calculadoras de ROI e economia
-- [x] GainsModal e IntelligenceModal com graficos
-- [x] FAQSlide com accordion
+- [x] FAQSlide com perguntas relevantes
 - [x] Animacoes Framer Motion
 - [x] Responsivo mobile/desktop
 - [x] Paleta de cores aplicada
-
-## Conteudo de Negocio
-
-Ver `public/docs/arquitetura.md` para detalhes sobre:
-
-1. **Diagnostico:** 6 gargalos operacionais
-2. **Solucoes:** 4 agentes IA especializados
-3. **Ferramentas:** CRM + Dashboard executivo
-4. **Metricas:** KPIs e metas esperadas
-5. **Investimento:** R$25k setup + R$2.5k/mes
-6. **Cronograma:** 4 fases de implementacao
+- [x] Pagina /proposta (SPA vertical)
+- [x] PropostaNav com scroll spy
+- [x] 4 secoes na proposta (Solucoes, Investimento, Processo, FAQ)

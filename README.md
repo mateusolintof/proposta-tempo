@@ -1,6 +1,6 @@
-# CM Remedios — Proposta de Agentes IA
+# Tempo Energia — Proposta de Agentes IA
 
-Apresentacao interativa horizontal para proposta comercial da CM Remedios, com background 3D sutil, modais interativos e animacoes profissionais.
+Apresentacao interativa horizontal para proposta comercial da Tempo Energia, com background 3D sutil, modais interativos e animacoes profissionais.
 
 ## Stack
 
@@ -35,6 +35,8 @@ src/
 ├── app/
 │   ├── layout.tsx          # Fontes, metadata, providers
 │   ├── page.tsx            # Container principal com scroll horizontal
+│   ├── proposta/
+│   │   └── page.tsx        # Pagina SPA da proposta (scroll vertical)
 │   ├── providers.tsx       # HeroUI providers
 │   ├── globals.css         # Tokens de tema e utilitarios
 │   └── favicon.ico
@@ -47,14 +49,23 @@ src/
 │   │   ├── DiagnosticoSlide.tsx   # Metricas de cobertura
 │   │   ├── DesafioSlide.tsx       # Abandono e impacto
 │   │   ├── ImpactoSlide.tsx       # Custo da inacao
-│   │   ├── SolucaoSlide.tsx       # 4 agentes com arquitetura
+│   │   ├── SolucaoSlide.tsx       # 3 agentes com arquitetura
+│   │   ├── ComparativoSlide.tsx   # Comparativo IA vs Humano
 │   │   ├── FerramentasSlide.tsx   # CRM e Dashboard
-│   │   ├── GanhosSlide.tsx        # Resultados esperados
-│   │   ├── ViabilidadeSlide.tsx   # ROI e economia
+│   │   ├── GanhosSlide.tsx        # Resultados + Viabilidade (ROI)
 │   │   ├── EntregaveisSlide.tsx   # Setup e suporte
 │   │   ├── InvestimentoSlide.tsx  # Precos e pacotes
 │   │   ├── FAQSlide.tsx           # Perguntas frequentes
 │   │   └── CronogramaSlide.tsx    # 4 fases de implementacao
+│   ├── proposta/
+│   │   ├── PropostaNav.tsx        # Navegacao sticky da proposta
+│   │   ├── PropostaPage.tsx       # Pagina principal da proposta
+│   │   ├── SectionWrapper.tsx     # Wrapper de secoes
+│   │   └── sections/
+│   │       ├── SolucoesSection.tsx      # 3 agentes detalhados
+│   │       ├── InvestimentoSection.tsx  # Pacotes e precos
+│   │       ├── ProcessoSection.tsx      # Cronograma 4 fases
+│   │       └── FAQSection.tsx           # 6 perguntas frequentes
 │   ├── modals/
 │   │   ├── ModalWrapper.tsx       # Wrapper base para modais
 │   │   ├── AgentModal.tsx         # Detalhes dos agentes IA
@@ -88,10 +99,12 @@ src/
 
 public/
 ├── branding/
-│   ├── cmremedios-logo.png
+│   ├── logo-principal-white.svg
 │   ├── logo.svg
-│   ├── logo-badge-white.svg
-│   └── logo-placeholder.svg
+│   └── ...
+├── images/
+│   ├── ia-conversation.png        # Imagem comparativo IA
+│   └── human-conversation.png     # Imagem comparativo Humano
 └── docs/
     └── arquitetura.md             # Documento de negocio detalhado
 ```
@@ -103,9 +116,17 @@ public/
 | Background | `#02040A` | Fundo principal |
 | Tech Cyan | `#00E5FF` | Destaques tecnologicos |
 | Success Green | `#00FF94` | Metricas positivas, CTAs |
+| Gold | `#FFD700` | Alertas, destaques |
 | White | `#FFFFFF` / `rgba` | Textos e bordas |
 
-## Slides (12 secoes)
+## Rotas
+
+| Rota | Descricao |
+|------|-----------|
+| `/` | Apresentacao horizontal (11 slides) |
+| `/proposta` | Proposta tecnica SPA (scroll vertical) |
+
+## Slides (11 secoes)
 
 | # | Slide | Descricao | Modais |
 |---|-------|-----------|--------|
@@ -113,69 +134,63 @@ public/
 | 2 | Diagnostico | Metricas de cobertura e pain points | - |
 | 3 | Desafio | 50-70% abandono, impacto na reputacao | - |
 | 4 | Impacto | Custo da inacao, oportunidades perdidas | - |
-| 5 | Solucao | 4 agentes IA com arquitetura | AgentModal (4 tipos) |
-| 6 | Ferramentas | CRM, Dashboard, historico | CRMPreviewModal, DashboardPreviewModal |
-| 7 | Ganhos | -60% abandono, +40% conversao | GainsModal, IntelligenceModal |
-| 8 | Viabilidade | ROI projetado, payback | ROICalculatorModal, CostReductionModal |
+| 5 | Solucao | 3 agentes IA com arquitetura | AgentModal (3 tipos) |
+| 6 | Comparativo | IA vs Atendimento Humano | - |
+| 7 | Ferramentas | CRM, Dashboard, historico | CRMPreviewModal, DashboardPreviewModal |
+| 8 | Ganhos + Viabilidade | ROI +300%, payback 3-4 meses | ROICalculatorModal, CostReductionModal |
 | 9 | Entregaveis | Setup + treinamento + suporte | - |
-| 10 | Investimento | R$25k setup + R$2.5k/mes | - |
-| 11 | FAQ | Perguntas frequentes (accordion) | - |
-| 12 | Cronograma | 4 fases ate Go-Live | - |
+| 10 | Investimento | Pacotes individuais e Ecossistema Full | - |
+| 11 | Cronograma | 4 fases ate Go-Live | - |
 
-## Sistema de Modais
-
-### Tipos de Modal
-
-```typescript
-type ModalKind =
-  | { type: "agent"; agent: "sdr" | "faq" | "noshow" | "nps" }
-  | { type: "crm" }
-  | { type: "dashboard" }
-  | { type: "roi" }
-  | { type: "costs" }
-  | { type: "gains" }
-  | { type: "intelligence" }
-  | null;
-```
-
-### Agentes IA (4 tipos)
+## Agentes IA (3 tipos)
 
 | Agente | Nome Completo | Funcao |
 |--------|---------------|--------|
-| SDR | SDR & Qualificacao | Qualificacao e conversao 24/7 |
-| FAQ | FAQ Inteligente | Respostas automaticas a duvidas |
-| NoShow | Follow-up Automatico | Cadencia e recuperacao de conversoes |
-| NPS | Pesquisa & NPS | Coleta de feedback pos-compra |
+| SDR | SDR & Qualificacao | Qualificacao, leitura de faturas (OCR), handoff para vendas |
+| Follow-up | Follow-up Automatico | Cadencia multicanal e recuperacao de oportunidades |
+| NPS | Pos-vendas & NPS | Pesquisa NPS, reativacao e expansao da carteira |
 
-Cada agente possui:
-- Diagrama radial de capacidades (RadialCapabilityDiagram)
-- Fluxograma interativo (AgentFlowDiagram com XYFlow)
-- Metricas e beneficios especificos
+## Pagina /proposta
 
-### CRM Preview
+Proposta tecnica em formato SPA com scroll vertical:
 
-Navegacao por abas:
-- Dashboard (visao geral)
-- Contatos (lista de leads)
-- Pipeline (funil de vendas)
-- Inbox (mensagens)
+- **Header:** Titulo, cliente, versao
+- **Navegacao:** Sticky nav com scroll spy
+- **Secoes:**
+  - Solucoes (3 agentes detalhados)
+  - Investimento (pacotes individuais + Ecossistema Full)
+  - Processo (cronograma 4 fases)
+  - FAQ (6 perguntas frequentes)
+- **Footer:** CTA e assinatura Convert A.I
 
-### Dashboard Preview
+## Investimento
 
-Navegacao por abas:
-- Visao Geral (KPIs principais)
-- Gestao IA (metricas dos agentes)
-- Clientes (base de clientes)
-- Insights (recomendacoes)
+### Pacotes Individuais
+
+| Agente | Setup | Mensal |
+|--------|-------|--------|
+| SDR & Qualificacao | R$ 15.000 | R$ 2.000/mes |
+| Follow-up Automatico | R$ 5.000 | R$ 1.000/mes |
+| Pos-vendas & NPS | R$ 5.000 | R$ 1.000/mes |
+
+### Ecossistema Full
+
+| Item | Valor |
+|------|-------|
+| Setup | ~~R$ 25.000~~ **R$ 0** |
+| Mensal | R$ 4.000/mes |
+| Economia | 100% OFF no setup |
+
+Inclui: 3 agentes + CRM + Dashboard + integrações + suporte continuo
 
 ## Navegacao
 
-- **Scroll horizontal** com CSS snap
+- **Scroll horizontal** com CSS snap (pagina principal)
+- **Scroll vertical** com smooth scroll (pagina /proposta)
 - **Setas** `←` `→` e **Space** para navegar
 - **Home** / **End** para inicio/fim
 - **Mouse wheel** convertido para scroll horizontal
 - **Dots** clicaveis na barra inferior
-- **Barra de progresso** animada no rodape
 
 ## Background 3D
 
@@ -185,13 +200,3 @@ O background usa React Three Fiber com:
 - Post-processing: Bloom + Vignette
 - Opacity 30% para sutileza
 - Dynamic import para evitar SSR
-
-## Documento de Negocio
-
-Ver `public/docs/arquitetura.md` para:
-- Analise de gargalos (6 problemas identificados)
-- Detalhamento das 4 solucoes
-- Fluxos operacionais
-- Metricas e KPIs esperados
-- Plano de implementacao
-- Breakdown de investimento
